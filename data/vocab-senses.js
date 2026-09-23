@@ -8,6 +8,28 @@
    例文を足しても水増しになるので入れていない。
    ============================================================ */
 const VOCAB_SENSES = {
+/* ---- 2枚組にしたので意味を分けた語（続き） ---- */
+date: [['日付', 'What is the date today?', '今日は何日?'],
+  ['会う約束', 'They went on their first date.', '二人は初めてのデートに行った。']],
+word: [['単語', 'I do not know this word.', 'この単語は知らない。'],
+  ['ひとこと', 'Can I have a word with you?', 'ちょっと話せますか?']],
+article: [['記事', 'She wrote an article about the election.', '彼女は選挙についての記事を書いた。'],
+  ['品物', 'Every article in the store is on sale.', '店のどの品も値引き中だ。']],
+start: [['動き出す', 'The meeting starts at nine.', '会議は9時に始まる。'],
+  ['機械をかける', 'The car would not start this morning.', '今朝は車がかからなかった。']],
+race: [['競争', 'He won the race by two seconds.', '彼は2秒差でレースに勝った。'],
+  ['人種', 'The law applies to people of every race.', 'その法はすべての人種に等しく及ぶ。']],
+image: [['画像', 'The image on the screen was blurry.', '画面の画像がぼやけていた。'],
+  ['頭に浮かぶ像', 'I still have a clear image of that day.', 'あの日のことは今も鮮明に浮かぶ。']],
+stage: [['段階', 'The project is still at an early stage.', '計画はまだ初期の段階だ。'],
+  ['舞台', 'She walked onto the stage and bowed.', '彼女は舞台に出て一礼した。']],
+paint: [['塗る', 'We painted the kitchen white.', '台所を白く塗った。'],
+  ['絵の具', 'He got paint on his sleeve.', '袖に絵の具がついた。']],
+health: [['健康', 'Walking every day is good for your health.', '毎日歩くのは健康にいい。'],
+  ['保健・医療', 'The country spends little on health.', 'その国は医療への支出が少ない。']],
+drug: [['薬', 'The doctor gave her a new drug.', '医者は新しい薬を出した。'],
+  ['麻薬', 'He was arrested for selling drugs.', '彼は麻薬を売って逮捕された。']],
+
 /* ---- 2枚組の図に合わせて意味を分けた語（続き） ---- */
 oil: [['油', 'Add a little oil to the pan.', 'フライパンに油を少し足して。'],
   ['石油', 'The country exports oil to Asia.', 'その国はアジアへ石油を輸出している。']],

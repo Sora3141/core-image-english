@@ -1441,5 +1441,468 @@ link: A(`
   <circle cx="98" cy="66" r="26" fill="none" stroke="var(--accent)" stroke-width="9"/>
   <circle cx="142" cy="66" r="26" fill="none" stroke="var(--accent)" stroke-width="9" opacity=".65"/>
   <path d="M116 44 a26 26 0 0 0 0 44" fill="none" stroke="var(--accent)" stroke-width="9"/>
-  ${LB(120,126,'つなぐ・つながり')}`)
+  ${LB(120,126,'つなぐ・つながり')}`),
+/* ---------- 人（役割は持ち物と位置で描き分ける） ---------- */
+police: A(`
+  <circle cx="120" cy="46" r="17" fill="var(--accent)"/>
+  <path d="M100 32 h40 l-4 -8 h-32 z" fill="var(--accent)"/>
+  <path d="M104 68 q16 8 32 0 l8 36 h-48 z" fill="var(--accent)"/>
+  <path d="M120 78 l5 8 -5 8 -5 -8 z" fill="var(--bg)"/>
+  ${LB(120,126,'警察（取り締まる側）')}`),
+doctor: A(`
+  <circle cx="120" cy="42" r="16" fill="var(--accent)"/>
+  <path d="M104 62 q16 8 32 0 l7 40 h-46 z" fill="var(--accent)" opacity=".85"/>
+  <rect x="114" y="72" width="12" height="26" rx="2" fill="var(--bg)"/>
+  <rect x="107" y="79" width="26" height="12" rx="2" fill="var(--bg)"/>
+  <path d="M100 66 q-12 20 4 26 a7 7 0 1 0 8 4" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  ${LB(120,126,'医者')}`),
+teacher: A(`
+  <rect x="122" y="26" width="86" height="56" rx="4" fill="var(--accent)" opacity=".3"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M136 44 h44 M136 58 h56 M136 70 h34" stroke="var(--accent)" stroke-width="2.5" opacity=".7"/>
+  <circle cx="68" cy="42" r="15" fill="var(--accent)"/>
+  <path d="M54 62 q14 8 28 0 l6 38 h-40 z" fill="var(--accent)"/>
+  <path d="M84 70 l28 -12" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  ${LB(120,124,'教える側')}`),
+student: A(`
+  <circle cx="120" cy="40" r="15" fill="var(--accent)"/>
+  <path d="M96 30 h48 l-24 -12 z" fill="var(--accent)"/>
+  <path d="M144 26 v14" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M106 60 q14 8 28 0 l6 30 h-40 z" fill="var(--accent)"/>
+  <rect x="86" y="72" width="28" height="22" rx="3" fill="var(--accent)" opacity=".5"/>
+  ${LB(120,120,'学ぶ側')}`),
+worker: A(`
+  <circle cx="120" cy="46" r="15" fill="var(--accent)"/>
+  <path d="M102 38 a18 18 0 0 1 36 0 z" fill="var(--accent)"/>
+  <path d="M96 36 h48" stroke="var(--accent)" stroke-width="3"/>
+  <rect x="107" y="64" width="26" height="34" rx="6" fill="var(--accent)"/>
+  <path d="M133 70 l22 14" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+  <rect x="150" y="80" width="22" height="9" rx="3" fill="var(--accent)" opacity=".7"/>
+  ${LB(120,124,'働く人')}`),
+leader: A(`
+  <circle cx="66" cy="50" r="16" fill="var(--accent)"/>
+  <rect x="53" y="70" width="26" height="34" rx="7" fill="var(--accent)"/>
+  <rect x="86" y="26" width="4" height="60" fill="var(--accent)"/>
+  <path d="M90 28 h30 l-8 11 8 11 h-30 z" fill="var(--accent)"/>
+  <path d="M79 76 l8 -4" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  ${[[136,58],[168,62],[198,58]].map(([x,y],i)=>`
+    <circle cx="${x}" cy="${y}" r="11" fill="var(--accent)" opacity="${0.42-i*0.08}"/>
+    <rect x="${x-9}" y="${y+16}" width="18" height="22" rx="5" fill="var(--accent)" opacity="${0.42-i*0.08}"/>`).join('')}
+  ${LB(120,126,'先頭に立つ人')}`),
+president: A(`
+  <circle cx="120" cy="34" r="15" fill="var(--accent)"/>
+  <path d="M106 54 q14 8 28 0 l6 24 h-40 z" fill="var(--accent)"/>
+  <path d="M84 78 h72 l10 26 h-92 z" fill="var(--accent)" opacity=".55"/>
+  <path d="M120 84 l4 7 -4 7 -4 -7 z" fill="var(--bg)"/>
+  <path d="M46 104 h148" stroke="var(--accent)" stroke-width="3"/>
+  ${[60,180].map(x=>`<circle cx="${x}" cy="92" r="9" fill="var(--accent)" opacity=".3"/>`).join('')}
+  ${LB(120,128,'いちばん上に立つ人')}`),
+officer: A(`
+  <circle cx="120" cy="48" r="16" fill="var(--accent)"/>
+  <path d="M100 34 h40 l-4 -8 h-32 z" fill="var(--accent)"/>
+  <path d="M104 70 q16 8 32 0 l7 34 h-46 z" fill="var(--accent)" opacity=".85"/>
+  ${[0,1,2].map(i=>`<path d="M${138} ${76+i*8} h10" stroke="var(--bg)" stroke-width="2.5"/>`).join('')}
+  ${LB(120,128,'役目を負った人')}`),
+manager: A(`
+  <circle cx="120" cy="34" r="14" fill="var(--accent)"/>
+  <rect x="108" y="52" width="24" height="26" rx="6" fill="var(--accent)"/>
+  <path d="M120 82 v10 M60 92 v14 M120 92 h-60 M120 92 h60 M180 92 v14" fill="none"
+    stroke="var(--accent)" stroke-width="2.5" opacity=".6"/>
+  ${[60,120,180].map(x=>`<rect x="${x-13}" y="106" width="26" height="14" rx="4"
+    fill="var(--accent)" opacity=".4"/>`).join('')}
+  ${LB(120,134,'下をまとめる人')}`),
+customer: A(`
+  <rect x="128" y="44" width="84" height="54" rx="4" fill="var(--accent)" opacity=".5"/>
+  <path d="M122 44 h96 l-10 -16 h-76 z" fill="var(--accent)" opacity=".8"/>
+  <circle cx="66" cy="44" r="15" fill="var(--accent)"/>
+  <path d="M52 64 q14 8 28 0 l6 34 h-40 z" fill="var(--accent)"/>
+  <path d="M90 74 h26" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M126 74 l-12 6 v-12 z" fill="var(--accent)"/>
+  ${LB(120,124,'買いに来る人')}`),
+member: A(`
+  <circle cx="120" cy="64" r="44" fill="none" stroke="var(--accent)" stroke-width="3" stroke-dasharray="7 5"/>
+  ${[[98,50],[142,50],[98,80],[142,80]].map(([x,y])=>
+    `<circle cx="${x}" cy="${y}" r="11" fill="var(--accent)" opacity=".5"/>`).join('')}
+  <circle cx="120" cy="64" r="12" fill="var(--accent)"/>
+  ${LB(120,126,'輪の内側にいる一人')}`),
+staff: A(`
+  ${[54,94,134,174].map((x,i)=>`
+    <circle cx="${x}" cy="46" r="13" fill="var(--accent)" opacity="${0.5+i*0.12}"/>
+    <rect x="${x-11}" y="64" width="22" height="28" rx="6" fill="var(--accent)" opacity="${0.5+i*0.12}"/>`).join('')}
+  <path d="M34 102 h172" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,126,'その場を動かす人たち')}`),
+employee: A(`
+  <rect x="132" y="30" width="80" height="56" rx="4" fill="var(--accent)" opacity=".25"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  ${[0,1].map(r=>[0,1,2].map(c=>`<rect x="${144+c*22}" y="${42+r*22}" width="14" height="14"
+    rx="2" fill="var(--accent)" opacity=".5"/>`).join('')).join('')}
+  <circle cx="66" cy="44" r="15" fill="var(--accent)"/>
+  <rect x="53" y="64" width="26" height="32" rx="7" fill="var(--accent)"/>
+  <path d="M90 60 h32" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M132 60 l-12 6 v-12 z" fill="var(--accent)"/>
+  ${LB(120,122,'雇われて働く人')}`),
+author: A(`
+  <rect x="58" y="34" width="64" height="76" rx="4" fill="var(--accent)" opacity=".3"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  ${[50,62,74,86].map(y=>`<path d="M70 ${y} h40" stroke="var(--accent)" stroke-width="2" opacity=".5"/>`).join('')}
+  <circle cx="172" cy="44" r="15" fill="var(--accent)"/>
+  <path d="M158 64 q14 8 28 0 l6 34 h-40 z" fill="var(--accent)"/>
+  <path d="M158 70 l-28 -8" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  ${LB(120,130,'書いた本人')}`),
+judge: A(`
+  <path d="M120 24 v16" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M60 42 h120" stroke="var(--accent)" stroke-width="4"/>
+  <path d="M60 42 v12 M180 42 v12" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M42 54 h36 l-18 20 z" fill="var(--accent)" opacity=".7"/>
+  <path d="M162 54 h36 l-18 20 z" fill="var(--accent)" opacity=".7"/>
+  <path d="M120 40 v46 M102 94 h36" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,120,'どちらか決める人')}`),
+agent: A(`
+  <circle cx="52" cy="62" r="14" fill="var(--accent)" opacity=".45"/>
+  <circle cx="120" cy="62" r="16" fill="var(--accent)"/>
+  <circle cx="188" cy="62" r="14" fill="var(--accent)" opacity=".45"/>
+  <path d="M70 62 h28 M142 62 h28" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M104 62 l-10 5 v-10 z M170 62 l-10 5 v-10 z" fill="var(--accent)"/>
+  ${LB(120,120,'あいだに立って代わりに動く人')}`),
+
+/* ---------- 場所 ---------- */
+hotel: A(`
+  <rect x="76" y="24" width="88" height="80" rx="4" fill="var(--accent)" opacity=".8"/>
+  ${[0,1,2,3].map(r=>[0,1,2].map(c=>`<rect x="${88+c*24}" y="${34+r*16}" width="16" height="10"
+    rx="2" fill="var(--bg)" opacity=".8"/>`).join('')).join('')}
+  <rect x="108" y="86" width="24" height="18" rx="2" fill="var(--bg)" opacity=".85"/>
+  <path d="M60 104 h120" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,128,'泊まる所')}`),
+church: A(`
+  <rect x="86" y="54" width="68" height="50" rx="3" fill="var(--accent)" opacity=".8"/>
+  <path d="M80 54 l40 -26 40 26 z" fill="var(--accent)"/>
+  <path d="M120 26 v-14 M112 18 h16" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M112 104 v-22 a8 8 0 0 1 16 0 v22 z" fill="var(--bg)" opacity=".85"/>
+  <path d="M62 104 h116" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,128,'教会')}`),
+college: A(`
+  <path d="M40 46 L120 20 200 46 120 72 z" fill="var(--accent)"/>
+  <path d="M120 72 v24" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M176 54 v22 q0 12 -14 12 h-4" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="78" y="88" width="84" height="16" rx="3" fill="var(--accent)" opacity=".45"/>
+  ${LB(120,128,'学び舎')}`),
+university: A(`
+  <path d="M40 40 L120 16 200 40 120 62 z" fill="var(--accent)"/>
+  <rect x="62" y="70" width="116" height="34" rx="3" fill="var(--accent)" opacity=".45"/>
+  ${[74,98,122,146].map(x=>`<rect x="${x}" y="70" width="10" height="34" fill="var(--accent)" opacity=".55"/>`).join('')}
+  <path d="M52 104 h136" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,128,'総合大学')}`),
+restaurant: A(`
+  <path d="M74 30 v34 M64 30 v18 q0 8 10 8 M84 30 v18 q0 8 -10 8" stroke="var(--accent)"
+    stroke-width="2.5" fill="none"/>
+  <path d="M74 64 v36" stroke="var(--accent)" stroke-width="3"/>
+  <circle cx="120" cy="66" r="24" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <circle cx="120" cy="66" r="13" fill="var(--accent)" opacity=".5"/>
+  <path d="M170 30 q10 6 10 20 q0 8 -10 8 v42" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,124,'食べに行く店')}`),
+market: A(`
+  ${[[62,48],[120,42],[178,48]].map(([x,y])=>`
+    <path d="M${x-26} ${y} h52 l-6 -14 h-40 z" fill="var(--accent)"/>
+    <rect x="${x-24}" y="${y}" width="48" height="30" rx="3" fill="var(--accent)" opacity=".35"/>`).join('')}
+  ${[[62,92],[120,86],[178,92]].map(([x,y])=>
+    `<circle cx="${x}" cy="${y}" r="7" fill="var(--accent)" opacity=".6"/>`).join('')}
+  ${LB(120,124,'売り買いが集まる場')}`),
+office: A(`
+  <rect x="76" y="22" width="88" height="82" rx="4" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  ${[0,1,2,3].map(r=>[0,1].map(c=>`<rect x="${90+c*38}" y="${34+r*18}" width="26" height="12"
+    rx="2" fill="var(--accent)" opacity="${r===1&&c===0?1:0.4}"/>`).join('')).join('')}
+  <path d="M56 104 h128" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,128,'仕事をする建物・部屋')}`),
+site: A(`
+  <path d="M44 88 L120 62 196 88 120 106 z" fill="var(--accent)" opacity=".25"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M120 62 v-18" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M120 22 a13 13 0 0 1 13 13 q0 11 -13 27 q-13 -16 -13 -27 a13 13 0 0 1 13 -13 z"
+    fill="var(--accent)"/>
+  <circle cx="120" cy="35" r="5" fill="var(--bg)"/>
+  ${LB(120,128,'そこと決まった一区画')}`),
+region: A(`
+  <path d="M34 40 q40 -14 80 2 q40 16 92 -6 v58 q-52 22 -92 6 q-40 -16 -80 -2 z"
+    fill="var(--accent)" opacity=".25" stroke="var(--accent)" stroke-width="2.5"/>
+  ${[[70,66],[120,72],[170,62]].map(([x,y])=>
+    `<circle cx="${x}" cy="${y}" r="7" fill="var(--accent)" opacity=".7"/>`).join('')}
+  ${LB(120,126,'ひとまとまりの土地')}`),
+country: A(SP2 + `
+  <path d="M24 46 q20 -10 38 -2 q20 8 36 -4 v42 q-18 14 -36 4 q-18 -10 -38 0 z"
+    fill="var(--accent)" opacity=".35" stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="56" y="30" width="4" height="26" fill="var(--accent)"/>
+  <path d="M60 30 h20 v12 h-20 z" fill="var(--accent)"/>
+  ${LB(61,124,'国')}
+  ${[[150,58],[178,50],[206,60]].map(([x,y])=>`
+    <path d="M${x} 82 v-${82-y}" stroke="var(--accent)" stroke-width="2.5"/>
+    <circle cx="${x}" cy="${y}" r="8" fill="var(--accent)" opacity=".6"/>`).join('')}
+  <path d="M138 90 q42 -10 78 0" fill="none" stroke="var(--accent)" stroke-width="2.5" opacity=".5"/>
+  ${LB(180,124,'田舎（都会でない所）')}`),
+land: A(SP2 + `
+  <path d="M24 72 q20 -8 38 0 q20 8 36 -2 v28 h-74 z" fill="var(--accent)" opacity=".5"/>
+  <path d="M24 72 q20 -8 38 0 q20 8 36 -2" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  ${LB(61,124,'陸・土地')}
+  <path d="M146 40 L206 26 L186 48 L200 52 z" fill="var(--accent)" opacity=".6"/>
+  <path d="M180 60 v22" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <path d="M180 88 l-6 -10 h12 z" fill="var(--accent)"/>
+  <path d="M146 96 h68" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(180,124,'地に降りる→着陸する')}`),
+/* ---------- もの ---------- */
+dress: A(`
+  <circle cx="120" cy="22" r="10" fill="var(--accent)" opacity=".5"/>
+  <path d="M104 36 h32 l14 14 -12 10 -2 -6 14 44 h-60 l14 -44 -2 6 -12 -10 z"
+    fill="var(--accent)" opacity=".85"/>
+  <path d="M106 76 h28" stroke="var(--bg)" stroke-width="2" opacity=".5"/>
+  ${LB(120,126,'ワンピース・服を着る')}`),
+oil: A(SP2 + `
+  <path d="M61 30 q22 30 22 44 a22 22 0 0 1 -44 0 q0 -14 22 -44 z" fill="var(--accent)" opacity=".75"/>
+  ${LB(61,124,'油（ねばる液）')}
+  <rect x="146" y="60" width="70" height="40" rx="3" fill="var(--accent)" opacity=".35"/>
+  <path d="M158 60 v-22 M180 60 v-30 M202 60 v-18" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M180 26 l-6 8 h12 z" fill="var(--accent)"/>
+  ${LB(180,124,'石油（掘って採る）')}`),
+plant: A(SP2 + `
+  <path d="M61 96 v-34" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M61 74 q-18 -6 -22 -22 q20 2 22 22 z" fill="var(--accent)" opacity=".75"/>
+  <path d="M61 66 q18 -8 22 -26 q-20 4 -22 26 z" fill="var(--accent)"/>
+  <path d="M38 96 h46" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(61,124,'植物')}
+  <rect x="146" y="58" width="70" height="38" rx="3" fill="var(--accent)" opacity=".7"/>
+  <path d="M160 58 v-20 q0 -6 6 -6 q6 0 6 6 v20" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M166 28 q4 -8 0 -14" fill="none" stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+  <path d="M138 96 h86" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(180,124,'工場')}`),
+bar: A(SP2 + `
+  <rect x="22" y="60" width="78" height="14" rx="5" fill="var(--accent)"/>
+  ${LB(61,124,'棒・横木')}
+  <rect x="140" y="62" width="82" height="12" rx="3" fill="var(--accent)" opacity=".7"/>
+  <rect x="146" y="74" width="70" height="26" rx="3" fill="var(--accent)" opacity=".3"/>
+  <path d="M160 62 v-22 M182 62 v-30 M204 62 v-18" stroke="var(--accent)" stroke-width="2.5" opacity=".6"/>
+  ${LB(180,124,'カウンターのある店')}`),
+file: A(`
+  <path d="M62 34 h40 l10 12 h66 v58 a4 4 0 0 1 -4 4 h-108 a4 4 0 0 1 -4 -4 z"
+    fill="var(--accent)" opacity=".75"/>
+  <path d="M62 52 h116" stroke="var(--bg)" stroke-width="2" opacity=".5"/>
+  ${[66,78,90].map(y=>`<path d="M80 ${y} h56" stroke="var(--bg)" stroke-width="2" opacity=".4"/>`).join('')}
+  ${LB(120,128,'まとめて綴じたもの')}`),
+document: A(`
+  <path d="M74 22 h70 l24 24 v72 h-94 z" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M144 22 v24 h24" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  ${[62,74,86,98].map(y=>`<path d="M86 ${y} h68" stroke="var(--accent)" stroke-width="2" opacity=".55"/>`).join('')}
+  ${LB(120,134,'書きつけたもの')}`),
+bill: A(SP2 + `
+  <rect x="22" y="38" width="78" height="62" rx="3" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  ${[52,64,76].map(y=>`<path d="M32 ${y} h34 M78 ${y} h12" stroke="var(--accent)" stroke-width="2" opacity=".5"/>`).join('')}
+  <path d="M32 90 h58" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(61,124,'請求書')}
+  <rect x="138" y="46" width="84" height="48" rx="3" fill="var(--accent)" opacity=".28"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="146" y="54" width="68" height="32" rx="2" fill="none" stroke="var(--accent)"
+    stroke-width="1.5" opacity=".5"/>
+  <circle cx="180" cy="70" r="11" fill="var(--accent)" opacity=".55"/>
+  ${[[152,60],[208,60],[152,80],[208,80]].map(([x,y])=>
+    `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="9" fill="var(--accent)"
+      font-family="-apple-system,sans-serif">5</text>`).join('')}
+  ${LB(180,124,'紙幣')}`),
+watch: A(SP2 + `
+  <path d="M44 66 q18 -18 36 0 q-18 18 -36 0 z" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <circle cx="62" cy="66" r="7" fill="var(--accent)"/>
+  <path d="M88 66 h16" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="4 4"/>
+  ${LB(61,124,'じっと見る')}
+  <circle cx="180" cy="62" r="24" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M180 62 v-14 M180 62 l10 6" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="170" y="24" width="20" height="14" rx="3" fill="var(--accent)" opacity=".5"/>
+  <rect x="170" y="86" width="20" height="14" rx="3" fill="var(--accent)" opacity=".5"/>
+  ${LB(180,124,'腕時計')}`),
+
+/* ---------- 動作 ---------- */
+cross: A(SP2 + `
+  <rect x="22" y="52" width="78" height="26" rx="3" fill="var(--accent)" opacity=".2"/>
+  <path d="M22 52 h78 M22 78 h78" stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+  <path d="M61 96 v-44" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M61 36 l-7 12 h14 z" fill="var(--accent)"/>
+  ${LB(61,124,'横切って渡る')}
+  <path d="M180 34 v56 M152 62 h56" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/>
+  ${LB(180,124,'十字')}`),
+enter: A(`
+  <rect x="124" y="26" width="86" height="80" rx="5" fill="var(--accent)" opacity=".2"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="124" y="42" width="14" height="50" rx="3" fill="var(--accent)" opacity=".6"/>
+  <circle cx="44" cy="66" r="13" fill="var(--accent)"/>
+  <path d="M62 66 h92" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M170 66 l-16 8 v-16 z" fill="var(--accent)"/>
+  ${LB(120,126,'外から中へ入る')}`),
+arrive: A(`
+  <circle cx="40" cy="66" r="11" fill="var(--accent)" opacity=".4"/>
+  <path d="M56 66 h96" stroke="var(--accent)" stroke-width="3" stroke-dasharray="7 5" opacity=".5"/>
+  <path d="M168 66 l-16 8 v-16 z" fill="var(--accent)"/>
+  <rect x="176" y="34" width="10" height="64" rx="3" fill="var(--accent)"/>
+  <circle cx="160" cy="66" r="11" fill="var(--accent)"/>
+  ${LB(120,124,'目的地に着く')}`),
+wait: A(`
+  <circle cx="82" cy="62" r="30" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M82 62 v-20 M82 62 l14 8" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="166" cy="48" r="13" fill="var(--accent)"/>
+  <rect x="155" y="66" width="22" height="30" rx="6" fill="var(--accent)"/>
+  <path d="M136 100 h60" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 4" opacity=".5"/>
+  ${LB(120,126,'時が来るまで動かない')}`),
+listen: A(`
+  <path d="M148 40 q22 -6 22 22 q0 28 -22 22 q-8 -22 0 -44 z" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <circle cx="156" cy="62" r="6" fill="var(--accent)"/>
+  ${[30,46,62].map((d,i)=>`<path d="M${104-i*20} ${62-d*0.6} q-${d*0.5} ${d*0.6} 0 ${d*1.2}"
+    fill="none" stroke="var(--accent)" stroke-width="3" opacity="${0.85-i*0.22}"/>`).join('')}
+  ${LB(120,126,'耳を向けて聞く')}`),
+search: A(`
+  <circle cx="104" cy="56" r="30" fill="none" stroke="var(--accent)" stroke-width="5"/>
+  <path d="M126 78 l30 30" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"/>
+  ${[[92,48],[114,46],[100,66]].map(([x,y])=>
+    `<circle cx="${x}" cy="${y}" r="5" fill="var(--accent)" opacity=".45"/>`).join('')}
+  ${LB(120,130,'見て回って探す')}`),
+pick: A(`
+  ${[[62,80],[100,80],[176,80]].map(([x,y])=>
+    `<circle cx="${x}" cy="${y}" r="12" fill="var(--muted)" opacity=".4"/>`).join('')}
+  <circle cx="138" cy="46" r="13" fill="var(--accent)"/>
+  <circle cx="138" cy="80" r="13" fill="none" stroke="var(--accent)" stroke-width="2"
+    stroke-dasharray="4 4" opacity=".6"/>
+  <path d="M138 64 v-4" stroke="var(--accent)" stroke-width="2.5"/>
+  ${LB(120,126,'そこから1つつまむ')}`),
+fix: A(`
+  <path d="M150 34 a20 20 0 0 0 -26 26 l-46 46 a10 10 0 0 0 14 14 l46 -46 a20 20 0 0 0 26 -26
+    l-16 16 -14 -14 z" fill="var(--accent)" opacity=".85"/>
+  <path d="M60 60 a26 26 0 0 1 26 -26" fill="none" stroke="var(--accent)" stroke-width="2.5"
+    stroke-dasharray="4 4" opacity=".4"/>
+  ${LB(120,130,'直して動くようにする')}`),
+save: A(SP2 + `
+  <path d="M61 34 a22 22 0 0 1 22 22 q0 20 -22 40 q-22 -20 -22 -40 a22 22 0 0 1 22 -22 z"
+    fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M50 60 l8 9 16 -18" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round"/>
+  ${LB(61,124,'危険から救う')}
+  <path d="M152 40 q0 -8 8 -8 h40 q8 0 8 8 v52 q0 8 -8 8 h-40 q-8 0 -8 -8 z"
+    fill="var(--accent)" opacity=".25" stroke="var(--accent)" stroke-width="2.5"/>
+  ${[[172,54],[192,54],[172,74],[192,74]].map(([x,y])=>
+    `<circle cx="${x}" cy="${y}" r="6" fill="var(--accent)" opacity=".7"/>`).join('')}
+  ${LB(180,124,'とっておく→貯める')}`),
+protect: A(`
+  <path d="M120 24 l38 14 v34 q0 30 -38 44 q-38 -14 -38 -44 v-34 z"
+    fill="var(--accent)" opacity=".3" stroke="var(--accent)" stroke-width="3"/>
+  <circle cx="120" cy="66" r="13" fill="var(--accent)"/>
+  <path d="M34 50 h28 M34 82 h28" stroke="var(--accent)" stroke-width="2.5" opacity=".5"/>
+  <path d="M74 50 l-10 5 v-10 z M74 82 l-10 5 v-10 z" fill="var(--accent)" opacity=".5"/>
+  ${LB(120,130,'覆って守る')}`),
+attack: A(`
+  <rect x="150" y="30" width="56" height="72" rx="5" fill="var(--accent)" opacity=".25"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  ${[44,66,88].map((y,i)=>`
+    <path d="M${30+i*6} ${y} h${72-i*6}" stroke="var(--accent)" stroke-width="3"/>
+    <path d="M${118} ${y} l-16 8 v-16 z" fill="var(--accent)"/>`).join('')}
+  ${LB(120,126,'こちらから仕掛ける')}`),
+kill: A(`
+  <circle cx="86" cy="62" r="26" fill="var(--accent)" opacity=".2"
+    stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 4"/>
+  <path d="M70 46 l32 32 M102 46 l-32 32" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M140 62 h30" stroke="var(--accent)" stroke-width="2.5" opacity=".4"/>
+  <circle cx="190" cy="62" r="18" fill="var(--muted)" opacity=".35"/>
+  ${LB(120,120,'生きているものを終わらせる')}`),
+marry: A(`
+  <circle cx="98" cy="64" r="26" fill="none" stroke="var(--accent)" stroke-width="6"/>
+  <circle cx="142" cy="64" r="26" fill="none" stroke="var(--accent)" stroke-width="6" opacity=".7"/>
+  <path d="M120 22 l6 10 -6 8 -6 -8 z" fill="var(--accent)"/>
+  ${LB(120,126,'二人が一組になる')}`),
+press: A(SP2 + `
+  <rect x="26" y="70" width="70" height="26" rx="4" fill="var(--accent)" opacity=".55"/>
+  <path d="M61 26 v34" stroke="var(--accent)" stroke-width="4"/>
+  <path d="M61 66 l-8 -12 h16 z" fill="var(--accent)"/>
+  <path d="M34 100 h54" stroke="var(--accent)" stroke-width="2" opacity=".4"/>
+  ${LB(61,124,'押す')}
+  <rect x="144" y="34" width="74" height="62" rx="3" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="152" y="42" width="58" height="12" rx="2" fill="var(--accent)"/>
+  ${[62,72,82].map(y=>`<path d="M152 ${y} h26 M186 ${y} h24" stroke="var(--accent)"
+    stroke-width="2" opacity=".5"/>`).join('')}
+  ${LB(180,124,'印刷機→報道機関')}`),
+hit: A(`
+  <circle cx="176" cy="62" r="20" fill="var(--accent)" opacity=".3"
+    stroke="var(--accent)" stroke-width="2.5"/>
+  <circle cx="176" cy="62" r="8" fill="var(--accent)"/>
+  <rect x="44" y="52" width="46" height="22" rx="8" fill="var(--accent)"/>
+  <path d="M96 62 h34" stroke="var(--accent)" stroke-width="4"/>
+  <path d="M146 62 l-16 8 v-16 z" fill="var(--accent)"/>
+  ${[[150,34],[160,28],[172,26]].map(([x,y],i)=>
+    `<path d="M${x} ${y} l${4-i} ${6+i}" stroke="var(--accent)" stroke-width="2.5" opacity=".6"/>`).join('')}
+  ${LB(120,120,'当てる・命中する')}`),
+
+/* ---------- 抽象 ---------- */
+step: A(SP2 + `
+  <circle cx="38" cy="38" r="9" fill="var(--accent)" opacity=".4"/>
+  <circle cx="61" cy="62" r="10" fill="var(--accent)" opacity=".7"/>
+  <circle cx="84" cy="88" r="11" fill="var(--accent)"/>
+  ${LB(61,124,'ひと足ぶん')}
+  ${[0,1,2].map(i=>`<rect x="${144+i*24}" y="${88-i*22}" width="24" height="${22+i*22}"
+    fill="var(--accent)" opacity="${0.45+i*0.2}"/>`).join('')}
+  ${LB(180,124,'段階')}`),
+track: A(SP2 + `
+  ${[[30,92],[48,76],[66,60],[84,44]].map(([x,y],i)=>
+    `<ellipse cx="${x}" cy="${y}" rx="7" ry="10" fill="var(--accent)" opacity="${0.3+i*0.2}"
+      transform="rotate(${i%2?14:-14} ${x} ${y})"/>`).join('')}
+  ${LB(61,124,'あとを追う')}
+  <path d="M146 100 L172 30 M214 100 L188 30" stroke="var(--accent)" stroke-width="3"/>
+  ${[0,1,2,3,4].map(i=>{const t=i/4, y=100-t*70, w=34-t*22;
+    return `<path d="M${180-w} ${y} h${w*2}" stroke="var(--accent)" stroke-width="${2.6-t}" opacity=".5"/>`}).join('')}
+  ${LB(180,124,'線路・走路')}`),
+target: A(`
+  <circle cx="132" cy="62" r="38" fill="none" stroke="var(--accent)" stroke-width="2.5" opacity=".35"/>
+  <circle cx="132" cy="62" r="25" fill="none" stroke="var(--accent)" stroke-width="2.5" opacity=".6"/>
+  <circle cx="132" cy="62" r="12" fill="var(--accent)" opacity=".8"/>
+  <path d="M26 100 L124 66" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M134 62 l-16 2 6 -10 z" fill="var(--accent)"/>
+  ${LB(120,130,'狙う先')}`),
+pressure: A(`
+  <path d="M60 24 h120 v18 h-120 z" fill="var(--accent)" opacity=".7"/>
+  ${[76,104,132,160].map(x=>`
+    <path d="M${x} 46 v22" stroke="var(--accent)" stroke-width="3"/>
+    <path d="M${x} 74 l-6 -10 h12 z" fill="var(--accent)"/>`).join('')}
+  <rect x="68" y="80" width="104" height="22" rx="4" fill="var(--accent)" opacity=".35"/>
+  <path d="M52 102 h136" stroke="var(--accent)" stroke-width="3"/>
+  ${LB(120,128,'上から押さえつける力')}`),
+growth: A(`
+  ${[0,1,2,3].map(i=>`
+    <rect x="${52+i*38}" y="${96-18-i*20}" width="20" height="${18+i*20}" rx="3"
+      fill="var(--accent)" opacity="${0.35+i*0.2}"/>`).join('')}
+  <path d="M40 96 h168" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M52 76 L190 22" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4" opacity=".6"/>
+  <path d="M198 20 l-16 2 6 10 z" fill="var(--accent)" opacity=".6"/>
+  ${LB(120,124,'増えていく')}`),
+limit: A(`
+  <path d="M158 22 v82" stroke="var(--accent)" stroke-width="4"/>
+  <rect x="42" y="52" width="100" height="26" rx="4" fill="var(--accent)" opacity=".55"/>
+  <path d="M142 65 h10" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M174 54 l22 22 M196 54 l-22 22" stroke="var(--accent)" stroke-width="3"
+    stroke-linecap="round" opacity=".45"/>
+  ${LB(120,126,'ここから先は無い')}`),
+range: A(`
+  <path d="M40 66 h160" stroke="var(--accent)" stroke-width="2" opacity=".3"/>
+  <path d="M70 66 h100" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/>
+  <path d="M70 44 v44 M170 44 v44" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M70 100 h100" stroke="var(--accent)" stroke-width="2"/>
+  <path d="M70 100 l10 -5 v10 z M170 100 l-10 -5 v10 z" fill="var(--accent)"/>
+  ${LB(120,126,'端から端までの幅')}`),
+unit: A(`
+  <rect x="28" y="52" width="26" height="26" rx="4" fill="var(--accent)"/>
+  <path d="M66 65 h16" stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+  ${[0,1,2,3].map(r=>[0,1,2,3].map(c=>`<rect x="${96+c*28}" y="${30+r*20}" width="22" height="15"
+    rx="3" fill="var(--accent)" opacity=".4"/>`).join('')).join('')}
+  ${LB(120,128,'数える時のひとかたまり')}`),
+total: A(`
+  ${[0,1,2].map(i=>`<rect x="${40+i*30}" y="${56+i*6}" width="24" height="${34-i*6}"
+    rx="3" fill="var(--accent)" opacity=".45"/>`).join('')}
+  <path d="M136 72 h18" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M145 63 v18" stroke="var(--accent)" stroke-width="3"/>
+  <rect x="168" y="34" width="34" height="62" rx="4" fill="var(--accent)"/>
+  <path d="M120 100 h100" stroke="var(--accent)" stroke-width="2.5"/>
+  ${LB(120,126,'全部を足したもの')}`),
+average: A(`
+  ${[[44,40],[80,86],[116,52],[152,78],[188,60]].map(([x,y])=>
+    `<rect x="${x-11}" y="${y}" width="22" height="${96-y}" rx="3" fill="var(--accent)" opacity=".4"/>`).join('')}
+  <path d="M30 63 h180" stroke="var(--accent)" stroke-width="3" stroke-dasharray="7 4"/>
+  <path d="M26 96 h188" stroke="var(--accent)" stroke-width="2"/>
+  ${LB(120,124,'ならして真ん中')}`)
 };

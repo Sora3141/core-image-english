@@ -633,7 +633,7 @@ vLet: SVG(`
   <line x1="36" y1="62" x2="228" y2="62" stroke="var(--accent)" stroke-width="3"/>
   <path d="M242 62 l-16 7 v-14 z" fill="var(--accent)"/>
   <circle cx="48" cy="62" r="11" fill="var(--accent)"/>
-  <text x="145" y="8" text-anchor="middle" font-size="10.5" fill="var(--muted)">門は開いたまま</text>
+  <text x="145" y="10" text-anchor="middle" font-size="10.5" fill="var(--muted)">門は開いたまま</text>
   <text x="190" y="100" text-anchor="middle" font-size="11.5" fill="var(--accent)">止めないでおく</text>`)
   + CAP('make は力を加える、let は何もしない'),
 

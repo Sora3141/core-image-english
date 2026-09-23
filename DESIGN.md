@@ -223,6 +223,50 @@ on のページは実測 3,391px ＝ スマホ4画面分。初回に読む分に
 足りないが、読み進めるためのスクロールであって、
 先へ進むための操作は常に画面内にある。
 
+### イメージ図を261語まで増やした／コア図107枚を点検した
+
+単語のイメージ図を201語から261語へ。1000語の4語に1語になった。
+
+**役割の語**（police doctor teacher student worker leader president
+officer manager customer member staff employee author judge agent）
+どれも「人」の絵になってしまうので、**どこに立っているか**で描き分けた。
+leader は旗を持って先頭、manager は組織図の上、member は輪の内側、
+agent は二者のあいだ、customer は店へ向かう側、teacher は黒板の前。
+訳語を並べるより、位置のほうが役割を伝える。
+
+**場所の語**（hotel church college university restaurant market
+office site region country land）
+
+**抽象の語**（step track target pressure growth limit range unit
+total average）は、訳語が同じでも図にすると別物になる。
+limit は壁とその先の✕、range は端から端までの幅、
+pressure は上から押さえる矢印、average は棒グラフを横切る破線。
+
+そのほか動作15語、もの8語。
+
+2枚組が67語になったので、図と例文の対応をまた取り直した。
+oil bar cross press の4語に例文を足し、
+図の左右がつながっている理由が面白い6語（press plant bar country
+office cross）に豆知識を書いた。
+
+描き直しは8点。
+leader は星が頭にかぶって塊に見えた。president は演台が頭上のひさしに見えた。
+dress はシャツに見えた。track の枕木がゆがんでレンズ状になった。
+fix の火花、attack の矢じり脇の線、limit の「く」の字は、
+どれも意味のない線として残っていた。bill の紙幣はコインに見えた。
+
+#### コア図107枚の点検
+
+単語の図を見直したついでに、教科書のコア図も同じ物差しで測った。
+こちらは作って以来、絵として見直していなかった。
+
+- 107ページすべてに図があり、使われていない図もない
+- viewBox からのはみ出しは1枚（vLet のラベルが上に2px）。直した
+- ラベル同士の重なりは0件
+- `var(--text)` を使う図が5枚あったが、すべて `<text>` の文字色で、
+  これは正しい使い方。単語図の dark にあったような
+  「暗い色のつもりで --text を塗る」バグは無かった
+
 ### イメージ図を201語まで増やした
 
 129語から72語足して201語。1000語の5語に1語に絵がついた。

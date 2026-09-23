@@ -223,6 +223,44 @@ on のページは実測 3,391px ＝ スマホ4画面分。初回に読む分に
 足りないが、読み進めるためのスクロールであって、
 先へ進むための操作は常に画面内にある。
 
+### イメージ図を201語まで増やした
+
+129語から72語足して201語。1000語の5語に1語に絵がついた。
+
+足したのは、**絵にしにくそうで、絵にする値打ちがある語**を優先した。
+
+**位置の語**（middle side center above below behind across along toward beyond ahead）
+訳語の「〜の方へ」を読むより、基準と矢印を見るほうが速い。
+toward には〈着くとは限らない〉、beyond には〈仕切りの向こう側〉と添えた。
+above と below は、線に触れていないことが要点なので破線で示す。
+
+**時間の語**（minute hour month season summer evening afternoon tomorrow yesterday weekend）
+yesterday と tomorrow は同じ時間軸に3日を並べ、どれを指すかだけを塗り分ける。
+2語を別々に描くより、同じ図の塗り分けにしたほうが関係が見える。
+minute と hour は長針と短針で描き分けた。
+
+**家族の語**（father mother son daughter brother sister wife husband）
+誰から見た誰なのかを、線と矢印と濃淡で示す。
+son と daughter は「親から子へ」の矢印、brother と sister は上の括弧で同じ親を示す。
+訳語だけだと向きが分からない。
+
+このほか動作20語（sit stand sleep eat drink laugh smile sing dance fly
+drop draw wear read write buy sell pay reach touch）と、
+もの8語、抽象7語。
+laugh と smile は〈声を出す／出さない〉、buy と sell は同じ図の矢印を逆にした。
+
+語源が面白い9語に豆知識も足した。
+month と moon、husband の中の「家」、wife と woman、friend と free、
+write の「引っかく」、read の「解き明かす」、draw が全部「引く」であること。
+
+描き直したのは11点。
+ring は石を輪の中に描いてしまい顔のように見えた。
+link は2つの輪が重なってプレッツェルになった。
+fly は飛行機の形が崩れて読めず、紙飛行機にした。
+draw は鉛筆だけで、肝心の描かれた線が無かった。
+rock はテントに見えた。sit は人が座って見えなかった。
+huge・behind・child には意味のない線や点が残っていた。
+
 ### イメージ図を129語まで増やした
 
 最初は65語。描いて意味があるものを足していって129語になった。

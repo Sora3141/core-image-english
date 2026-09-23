@@ -152,7 +152,7 @@ arrive・reach・get to / hard・hardly（-lyで変わる語） / some・any
 ```
 index.html          アプリ本体
 manifest.webmanifest  PWA の設定（名前・アイコン・表示モード）
-sw.js               Service Worker（オフライン用。更新時は CACHE の日付を上げる）
+sw.js               Service Worker（オフライン用。更新は自動で反映される）
 icons/              アプリアイコン一式
 style.css           スマホ縦持ち・片手前提のスタイル
 app.js              画面遷移・採点・SRS・マトリクス

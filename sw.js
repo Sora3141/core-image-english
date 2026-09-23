@@ -8,9 +8,16 @@
    まずキャッシュから即座に返し、裏で取り直してキャッシュを更新する。
    だから表示は常に速く、更新は次回の起動で反映される。
 
-   ※ 内容を更新したら CACHE の日付部分を上げること
+   更新のために手で何かする必要はない。
+   ファイルを差し替えて push すれば、次にアプリを開いたときに裏で取り直され、
+   その次の起動から新しい内容になる。
+
+   CACHE の名前は、キャッシュを入れておく箱の名前。
+   古い箱を捨てるためだけに使っている。
+   名前を変えると全ファイルを取り直すので、
+   「どうも古いままだ」というときの最終手段として日付を上げてもよい。
    ============================================================ */
-const CACHE = 'core-image-english-2026-09-23';
+const CACHE = 'core-image-english-v1';
 
 const ASSETS = [
   './',
@@ -56,16 +63,21 @@ self.addEventListener('fetch', e => {
   if(req.method !== 'GET') return;
   if(new URL(req.url).origin !== self.location.origin) return;
 
+  /* 裏の取り直しを待つ約束をブラウザにさせる。
+     これがないと、応答を返した直後に Service Worker が止められ、
+     取り直しが途中で捨てられて更新が届かないことがある */
+  const network = caches.open(CACHE).then(cache =>
+    fetch(req).then(res => {
+      if(res && res.ok) cache.put(req, res.clone());
+      return res;
+    }).catch(() => null));
+  e.waitUntil(network);
+
   e.respondWith((async () => {
     const cache  = await caches.open(CACHE);
     const cached = await cache.match(req, { ignoreSearch: true });
 
-    const network = fetch(req).then(res => {
-      if(res && res.ok) cache.put(req, res.clone());
-      return res;
-    }).catch(() => null);
-
-    /* キャッシュがあれば即返し、裏で更新する */
+    /* キャッシュがあれば即返す。更新は裏で進んでいる */
     if(cached) return cached;
 
     const res = await network;

@@ -358,21 +358,34 @@ function viewMatrix(){
 
     <p class="pv-head"><b>${esc(verb)}</b> ── ${esc(page.core)}　・　${rows.length}個</p>
     <div class="pv-grid">${cards}</div>
-    ${detail}`;
+    ${detail}
+
+    <button class="btn primary" data-quizphrasal style="margin-top:18px">
+      句動詞${PHRASALS.length}個を演習する</button>
+    <p class="sub" style="margin-top:8px">
+      不変化詞を選ぶ・意味を選ぶ・動詞を選ぶの3つの形で出ます。
+      誤答は同じ動詞か同じ不変化詞から引くので、消去法では解けません。</p>`;
 }
 
 /* ============================================================
    演習
    ============================================================ */
-const KIND_LABEL = { core:'コア適用', fill:'用法穴埋め', meaning:'意味選択', spell:'スペル入力' };
+const KIND_LABEL = { core:'コア適用', fill:'用法穴埋め', meaning:'意味選択',
+                     phrasal:'句動詞', spell:'スペル入力' };
 
 /* どのページに属する問題かで絞れるようにする。
    「文法だけ集中的に」といった回し方ができると、学習の効率が変わる */
 const PAGE_TYPE = new Map(TEXTBOOK.map(p => [p.id, p.type]));
 const SCOPES = [{id:'all',label:'すべて'},{id:'particle',label:'不変化詞'},
-                {id:'verb',label:'基本動詞'},{id:'grammar',label:'文法'},
-                {id:'word',label:'紛らわしい語'}];
-const inScope = e => state.scope === 'all' || PAGE_TYPE.get(e.ref) === state.scope;
+                {id:'verb',label:'基本動詞'},{id:'phrasal',label:'句動詞'},
+                {id:'grammar',label:'文法'},{id:'word',label:'紛らわしい語'}];
+
+/* 句動詞の問題は、解説の飛び先として不変化詞・動詞のページを ref に持つ。
+   絞り込みでは「句動詞」だけに属させる。両方に出すと、
+   不変化詞を選んだつもりが句動詞ばかり出てくることになる */
+const inScope = e => state.scope === 'all'
+  || (state.scope === 'phrasal' ? e.kind === 'phrasal'
+                                : e.kind !== 'phrasal' && PAGE_TYPE.get(e.ref) === state.scope);
 
 function buildQueue(onlyWrong){
   const now = Date.now();
@@ -390,10 +403,10 @@ function startQuiz(ref, onlyWrong){
   state.quiz.i = 0; state.quiz.sel = null; state.quiz.right = 0;
 }
 
+/* 空欄は種類ではなく、文の中に ___ があるかで決める。
+   句動詞の問題も穴埋めを使うので、kind で分けると取りこぼす */
 function renderSentence(e){
-  if(e.kind === 'fill')
-    return esc(e.prompt).replace('___', '<span class="blank">____</span>');
-  return esc(e.prompt);
+  return esc(e.prompt).replace('___', '<span class="blank">____</span>');
 }
 
 function viewQuiz(){
@@ -404,7 +417,9 @@ function viewQuiz(){
   const e = q.list[q.i];
   const answered = q.sel !== null;
   const ok = answered && q.sel === e.answer;
-  const mono = e.kind === 'fill' ? ' mono' : '';
+  const isEn = c => /^[A-Za-z][A-Za-z '’-]*$/.test(c);
+  const mono = e.kind === 'fill' || (e.kind === 'phrasal' && e.choices.every(isEn))
+    ? ' mono' : '';
 
   return `
     <div class="progress"><i style="width:${(q.i / q.list.length) * 100}%"></i></div>
@@ -432,8 +447,8 @@ function viewQuiz(){
           data-sense="${(e.jumpTo || e.ref + '/' + e.refSense).split('/')[1]}">
           📖 ${e.jumpTo ? esc(e.jumpTo.split('/')[0]) + ' のコアで確認' : '教科書で確認'}</button>
       </div>
-      <button class="btn primary" data-next style="margin-top:12px">
-        ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button>` : ''}`;
+      <div class="sticky-next"><button class="btn primary" data-next>
+        ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button></div>` : ''}`;
 }
 
 function viewQuizStart(){
@@ -1025,6 +1040,7 @@ document.addEventListener('compositionend', ev => {
 document.addEventListener('click', ev => {
   const t = ev.target.closest('[data-tab],[data-open],[data-back],[data-pick],[data-next],' +
     '[data-start],[data-startover],[data-startwrong],[data-goto],[data-quizref],[data-jump],'+
+    '[data-quizphrasal],'+
     '[data-cell],[data-verb],[data-vband],[data-vmode],[data-vstart],[data-vpick],'+
     '[data-vcheck],[data-vnext],[data-vstartwrong],[data-install],'+
     '[data-panel],[data-close],[data-set],[data-reset],[data-reset-yes],[data-clearq],'+
@@ -1068,6 +1084,8 @@ document.addEventListener('click', ev => {
   else if(d.open)         { state.page = d.open; state.cell = null; state.qFocus = false; }
   else if(d.back !== undefined){ state.page = null; }
   else if(d.quizref)      { state.tab = 'quiz'; state.page = null; startQuiz(d.quizref); }
+  else if(d.quizphrasal !== undefined){
+    state.tab = 'quiz'; state.page = null; state.scope = 'phrasal'; startQuiz(null, false); }
   else if(d.start !== undefined || d.startover !== undefined){ startQuiz(null, false); }
   else if(d.startwrong !== undefined){ startQuiz(null, true); }
   else if(d.goto)         { state.tab = 'book'; state.page = d.goto; state.focusSense = d.sense || null; }

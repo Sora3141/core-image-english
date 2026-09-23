@@ -97,6 +97,11 @@ function viewBookList(){
       <div class="stat"><b>${doneEx}<span style="font-size:14px;color:var(--muted)">/${totalEx}</span></b><span>演習</span></div>
       <div class="stat"><b>${TEXTBOOK.reduce((n,p)=>n+p.senses.length,0)}</b><span>派生</span></div>
     </div>
+    ${window.__installPrompt ? `<button class="btn install" data-install>
+      <span class="ic">📲</span>
+      <span><b>アプリとして追加</b>
+      <span>ホーム画面から開けて、電波がなくても使えます</span></span>
+    </button>` : ''}
     <button class="mx-entry" data-open="${MATRIX_ID}">
       <span class="ic">▦</span>
       <span>
@@ -586,11 +591,17 @@ document.addEventListener('click', ev => {
   const t = ev.target.closest('[data-tab],[data-open],[data-back],[data-pick],[data-next],' +
     '[data-start],[data-startover],[data-startwrong],[data-goto],[data-quizref],[data-jump],'+
     '[data-cell],[data-verb],[data-vband],[data-vmode],[data-vstart],[data-vpick],'+
-    '[data-vcheck],[data-vnext],[data-vstartwrong]');
+    '[data-vcheck],[data-vnext],[data-vstartwrong],[data-install]');
   if(!t) return;
   const d = t.dataset;
 
   if(d.jump){ jumpTo(d.jump); return; }   // 再描画するとスクロール位置が飛ぶ
+
+  if(d.install !== undefined){
+    const p = window.__installPrompt;
+    if(p){ window.__installPrompt = null; p.prompt(); }
+    render(); return;
+  }
 
   if(d.tab !== undefined){ state.tab = d.tab; state.page = null;
                            if(d.tab === 'vocab') state.vocab = null; }

@@ -342,3 +342,12 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .v-ex .ja{font-family:inherit; font-size:13px; color:var(--muted); margin-top:5px}
 .v-ex b{color:var(--accent)}
 .v-blank{color:var(--accent); letter-spacing:.1em}
+
+/* ---------- アプリとして追加 ---------- */
+.btn.install{
+  display:flex; align-items:center; gap:14px; margin-bottom:12px;
+  background:var(--surface2); border-color:var(--line);
+}
+.btn.install .ic{font-size:24px; flex:0 0 auto}
+.btn.install b{display:block; font-size:15px}
+.btn.install span span{font-size:12.5px; color:var(--muted)}

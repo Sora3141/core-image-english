@@ -3,8 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#b4531f">
 <title>コアイメージ英語</title>
+
+<!-- アプリとしてインストールするための設定 -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16151a" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="コア英語">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,5 +36,21 @@
 <script src="data/vocab.js"></script>
 <script src="data/exercises.js"></script>
 <script src="app.js"></script>
+<script>
+/* オフラインでも学習を続けられるように Service Worker を登録する */
+if('serviceWorker' in navigator){
+  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+/* Chrome がインストール可能と判断したら、教科書タブに追加ボタンを出す */
+addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  window.__installPrompt = e;
+  if(typeof render === 'function' && state.tab === 'book' && !state.page) render();
+});
+addEventListener('appinstalled', () => {
+  window.__installPrompt = null;
+  if(typeof render === 'function') render();
+});
+</script>
 </body>
 </html>

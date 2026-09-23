@@ -4,7 +4,12 @@
 
 ### ▶ https://sora3141.github.io/core-image-english/
 
-スマホのブラウザでそのまま使えます。インストール不要、進捗は端末内に保存されます。
+スマホのブラウザでそのまま使えます。進捗は端末内に保存されます。
+
+**アプリとしてインストールできます。** Chrome なら画面内の「📲 アプリとして追加」か、
+アドレスバーのインストールアイコンから。iPhone の Safari なら 共有 → ホーム画面に追加。
+インストールすると、**電波がなくても全ページ・全問題が使えます**（Service Worker が
+全データをキャッシュするため。通学中の学習を想定しています）。
 
 ローカルで動かす場合も `index.html` を開くだけ。ビルドも依存関係もありません。
 
@@ -146,6 +151,9 @@ arrive・reach・get to / hard・hardly（-lyで変わる語） / some・any
 
 ```
 index.html          アプリ本体
+manifest.webmanifest  PWA の設定（名前・アイコン・表示モード）
+sw.js               Service Worker（オフライン用。更新時は CACHE の日付を上げる）
+icons/              アプリアイコン一式
 style.css           スマホ縦持ち・片手前提のスタイル
 app.js              画面遷移・採点・SRS・マトリクス
 diagrams.js         コア図28点（CSS変数を参照するのでテーマ追従）

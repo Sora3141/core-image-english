@@ -1,0 +1,254 @@
+/* ============================================================
+   コアイメージ英語 — スマホ縦持ち・片手操作前提
+   ============================================================ */
+:root{
+  --bg:#f6f5f2; --surface:#fff; --surface2:#f0eee9;
+  --text:#1c1b19; --muted:#6b6862; --line:#e0ddd6;
+  --accent:#b4531f; --accent-soft:#fbeee4;
+  --ok:#2f7d4f; --ok-soft:#e6f3ea;
+  --ng:#b3352c; --ng-soft:#fceceb;
+  --spark:#8a6d1f; --spark-soft:#fbf3dc;
+  --tab-h:58px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#16151a; --surface:#1f1e24; --surface2:#26252c;
+    --text:#eceaf2; --muted:#9a96a5; --line:#33313b;
+    --accent:#ff9a5c; --accent-soft:#33241a;
+    --ok:#6fd398; --ok-soft:#1b2d22;
+    --ng:#ff8078; --ng-soft:#2e1d1c;
+    --spark:#e4c55f; --spark-soft:#2b2617;
+  }
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  font-size:16px; line-height:1.7;
+  -webkit-text-size-adjust:100%;
+}
+#view{
+  max-width:600px; margin:0 auto;
+  padding:16px 16px calc(var(--tab-h) + env(safe-area-inset-bottom) + 24px);
+}
+
+/* ---------- 下部タブ（親指が届く位置） ---------- */
+#tabs{
+  position:fixed; left:0; right:0; bottom:0; z-index:20;
+  display:flex; background:var(--surface);
+  border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+  backdrop-filter:saturate(180%) blur(12px);
+}
+#tabs button{
+  flex:1; height:var(--tab-h); border:0; background:none; cursor:pointer;
+  color:var(--muted); font:inherit; font-size:11px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+}
+#tabs button .ic{font-size:20px;line-height:1}
+#tabs button[aria-selected="true"]{color:var(--accent); font-weight:700}
+#tabs .badge{
+  position:absolute; transform:translate(14px,-12px);
+  background:var(--ng); color:#fff; font-size:10px; font-weight:700;
+  min-width:17px; height:17px; border-radius:9px; padding:0 4px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ---------- 共通 ---------- */
+h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
+.sub{color:var(--muted); font-size:13px; margin:-8px 0 18px}
+.card{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; padding:16px; margin-bottom:12px;
+}
+.btn{
+  display:block; width:100%; padding:15px; border-radius:12px;
+  border:1px solid var(--line); background:var(--surface);
+  color:var(--text); font:inherit; font-size:15px; cursor:pointer;
+  text-align:left;
+}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff;
+  text-align:center; font-weight:700}
+.btn:active{transform:scale(.99)}
+
+/* ---------- 教科書：目次 ---------- */
+.toc-item{display:flex; align-items:center; gap:14px; margin-bottom:10px}
+.toc-glyph{
+  flex:0 0 52px; height:52px; border-radius:13px;
+  background:var(--accent-soft); color:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; font-weight:700; font-family:Georgia,serif;
+}
+.toc-body{flex:1; min-width:0}
+.toc-body b{display:block; font-size:16px}
+.toc-body span{color:var(--muted); font-size:13px}
+
+/* ---------- 教科書：ページ ---------- */
+.hero{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:16px; padding:22px 18px; margin-bottom:14px; text-align:center;
+}
+.hero .word{font-family:Georgia,serif; font-size:46px; line-height:1; letter-spacing:.01em}
+.hero .corelabel{
+  display:inline-block; margin-top:12px; padding:5px 16px; border-radius:999px;
+  background:var(--accent); color:#fff; font-size:15px; font-weight:700;
+}
+.hero .corenote{
+  margin:14px 0 0; font-size:14px; color:var(--muted); text-align:left; line-height:1.75;
+}
+.diagram{margin:18px auto 4px; display:block; max-width:100%}
+
+.sec-label{
+  font-size:12px; font-weight:700; color:var(--muted);
+  letter-spacing:.16em; margin:24px 0 10px;
+}
+.chips{
+  position:sticky; top:0; z-index:10;
+  display:flex; gap:7px; overflow-x:auto; scrollbar-width:none;
+  margin:0 -16px; padding:9px 16px;
+  background:var(--bg); border-bottom:1px solid transparent;
+}
+.chips::-webkit-scrollbar{display:none}
+.chips.stuck{border-bottom-color:var(--line)}
+.chip{
+  flex:0 0 auto; padding:6px 13px; border-radius:999px;
+  border:1px solid var(--line); background:var(--surface);
+  color:var(--muted); font:inherit; font-size:13px; cursor:pointer; white-space:nowrap;
+}
+.chip[aria-current="true"]{
+  background:var(--accent); border-color:var(--accent); color:#fff; font-weight:700;
+}
+
+.sense{
+  border-left:3px solid var(--accent); padding-left:13px; margin-bottom:18px;
+  scroll-margin-top:58px; border-radius:0 10px 10px 0;
+  transition:background .5s;
+}
+.sense.focus{background:var(--accent-soft); padding:10px 13px; margin-left:0}
+.sense h3{margin:0; font-size:15.5px; font-weight:700}
+.sense .gloss{margin:2px 0 10px; font-size:13px; color:var(--muted)}
+.ex{margin-bottom:9px}
+.ex .en{font-family:Georgia,serif; font-size:16px}
+.ex .en em{font-style:normal; color:var(--accent); font-weight:700}
+.ex .ja{font-size:13px; color:var(--muted)}
+.ex .note{font-size:12.5px; color:var(--accent); opacity:.85}
+
+.trivia{
+  background:var(--spark-soft); border:1px solid transparent;
+  border-radius:14px; padding:15px 16px; margin-bottom:11px;
+}
+.trivia h4{margin:0 0 7px; font-size:14.5px; color:var(--spark)}
+.trivia p{margin:0; font-size:14px; white-space:pre-line; line-height:1.8}
+
+/* ---------- 演習 ---------- */
+.q-meta{display:flex; justify-content:space-between; align-items:center;
+  font-size:12px; color:var(--muted); margin-bottom:10px}
+.q-kind{background:var(--surface2); padding:3px 10px; border-radius:999px}
+.q-prompt{
+  background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:24px 18px; text-align:center; margin-bottom:12px;
+}
+.q-prompt .sent{font-family:Georgia,serif; font-size:21px; line-height:1.55}
+.q-prompt .sent .blank{color:var(--accent); font-weight:700; letter-spacing:.08em}
+.q-ask{font-size:14px; color:var(--muted); margin-bottom:12px; text-align:center}
+
+.choice{margin-bottom:9px; display:flex; gap:11px; align-items:flex-start}
+.choice .num{
+  flex:0 0 25px; height:25px; border-radius:7px; background:var(--surface2);
+  color:var(--muted); font-size:12.5px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; margin-top:1px;
+}
+.choice.mono .txt{font-family:Georgia,serif; font-size:17px}
+.choice.correct{border-color:var(--ok); background:var(--ok-soft)}
+.choice.correct .num{background:var(--ok); color:#fff}
+.choice.wrong{border-color:var(--ng); background:var(--ng-soft)}
+.choice.wrong .num{background:var(--ng); color:#fff}
+.choice[disabled]{opacity:.55}
+.choice.correct[disabled],.choice.wrong[disabled]{opacity:1}
+
+.verdict{font-size:16px; font-weight:700; margin-bottom:8px}
+.verdict.ok{color:var(--ok)} .verdict.ng{color:var(--ng)}
+.explain{font-size:14.5px; line-height:1.8; margin:0 0 14px}
+.linkto{
+  display:inline-flex; align-items:center; gap:7px;
+  color:var(--accent); font-size:13.5px; font-weight:700;
+  text-decoration:none; border:1px solid var(--accent); border-radius:999px;
+  padding:7px 15px; background:none; font-family:inherit; cursor:pointer;
+}
+
+.progress{height:4px; background:var(--surface2); border-radius:2px; margin-bottom:16px}
+.progress i{display:block; height:100%; background:var(--accent); border-radius:2px;
+  transition:width .25s}
+
+/* ---------- 結果 / 空状態 ---------- */
+.big{font-size:44px; text-align:center; margin:22px 0 6px}
+.center{text-align:center}
+.empty{text-align:center; color:var(--muted); padding:56px 20px; font-size:14px}
+.empty .ic{font-size:40px; display:block; margin-bottom:12px; opacity:.5}
+
+.stat-row{display:flex; gap:10px; margin-bottom:14px}
+.stat{flex:1; background:var(--surface); border:1px solid var(--line);
+  border-radius:12px; padding:13px 10px; text-align:center}
+.stat b{display:block; font-size:24px; line-height:1.2}
+.stat span{font-size:11.5px; color:var(--muted)}
+
+.backlink{
+  background:none; border:0; color:var(--accent); font:inherit; font-size:14px;
+  padding:6px 0; margin-bottom:6px; cursor:pointer;
+}
+
+/* 図のキャプション */
+.dia-cap{font-size:12.5px; color:var(--muted); margin:2px 0 0}
+
+/* 目次の進捗バー */
+.toc-bar{display:block; height:3px; background:var(--surface2); border-radius:2px; margin-top:6px}
+.toc-bar i{display:block; height:100%; background:var(--accent); border-radius:2px}
+
+/* ---------- 句動詞マトリクス ---------- */
+.mx-entry{
+  display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+  padding:16px; border-radius:14px; margin-bottom:12px; cursor:pointer; font:inherit;
+  background:var(--accent-soft); border:1px solid var(--accent); color:var(--text);
+}
+.mx-entry .ic{font-size:26px; flex:0 0 auto}
+.mx-entry b{display:block; font-size:16px}
+.mx-entry span{font-size:12.5px; color:var(--muted)}
+
+.mx-wrap{overflow-x:auto; margin:0 -16px; padding:0 16px 6px; scrollbar-width:none}
+.mx-wrap::-webkit-scrollbar{display:none}
+.mx{display:grid; grid-template-columns:52px repeat(10, 50px); gap:3px; width:max-content}
+.mx-h, .mx-v{
+  font-size:13px; font-family:Georgia,serif; color:var(--accent);
+  display:flex; align-items:center; justify-content:center; height:40px;
+}
+.mx-v{position:sticky; left:0; z-index:2; background:var(--bg); height:46px; font-size:12.5px}
+.mx-corner{position:sticky; left:0; z-index:3; background:var(--bg)}
+.mx-cell{
+  height:46px; border-radius:7px; border:1px solid var(--line); background:var(--surface);
+  color:var(--text); font:inherit; font-size:10.5px; line-height:1.15; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; text-align:center; padding:2px;
+}
+.mx-cell.hidden{color:var(--muted); font-size:15px; background:var(--surface2); border-style:dashed}
+.mx-cell.none{background:none; border-color:transparent; cursor:default}
+.mx-cell.done{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:700}
+.mx-cell.sel{outline:2px solid var(--accent); outline-offset:1px}
+
+.mx-detail{margin-top:14px}
+.mx-detail .formula{
+  font-family:Georgia,serif; font-size:17px; text-align:center; margin-bottom:4px;
+}
+.mx-detail .formula b{color:var(--accent)}
+.mx-detail .cores{font-size:12px; color:var(--muted); text-align:center; margin-bottom:14px}
+.mx-detail .mean{font-size:19px; font-weight:700; text-align:center; margin-bottom:6px}
+.mx-detail .note{font-size:13px; color:var(--accent); text-align:center; margin-bottom:14px}
+.mx-detail .sample{
+  font-family:Georgia,serif; font-size:16px; text-align:center;
+  padding:12px; background:var(--surface2); border-radius:10px; margin-bottom:14px;
+}
+.mx-links{display:flex; gap:9px}
+.mx-links button{flex:1; font-size:13px; padding:10px; justify-content:center}
+
+/* 文法ページ：見出し語が長いので少し小さく、日本語名を添える */
+.hero .word{overflow-wrap:anywhere}
+.hero .wordname{font-size:14px; color:var(--muted); margin-top:6px; letter-spacing:.04em}

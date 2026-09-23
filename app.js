@@ -74,7 +74,7 @@ function grade(id, ok){
 }
 
 const state = { tab:'book', page:null, focusSense:null, quiz:null, cell:null, mxVerb:'get',
-                vocab:null, vBand:1, vMode:'ja', panel:null, q:'', scope:'all' };
+                vocab:null, vBand:1, vMode:'ja', panel:null, q:'', scope:'all', cat:'particle' };
 const MATRIX_ID = '__matrix';
 const $ = s => document.querySelector(s);
 
@@ -149,10 +149,10 @@ function searchPages(q){
 }
 
 const TYPE_SECTION = [
-  { type:'particle', label:'不変化詞のコア', note:'前置詞・副詞。ここが全体の土台' },
-  { type:'verb',     label:'基本動詞のコア', note:'不変化詞と掛け算される側' },
-  { type:'grammar',  label:'文法のコア',     note:'なぜそうなるかを原理から' },
-  { type:'word',     label:'紛らわしい語',   note:'日本語では同じ訳なのに、英語では別物' }
+  { type:'particle', tab:'不変化詞',   label:'不変化詞のコア', note:'前置詞・副詞。ここが全体の土台' },
+  { type:'verb',     tab:'基本動詞',   label:'基本動詞のコア', note:'不変化詞と掛け算される側' },
+  { type:'grammar',  tab:'文法',       label:'文法のコア',     note:'なぜそうなるかを原理から' },
+  { type:'word',     tab:'紛らわしい語', label:'紛らわしい語',  note:'日本語では同じ訳なのに、英語では別物' }
 ];
 
 function tocItem(p, hint){
@@ -180,29 +180,21 @@ function viewBookList(){
       ${hits.length ? '' : `<div class="empty"><span class="ic">🔍</span>
         見出し語・コア・派生・例文・豆知識のどこにも見あたりませんでした。</div>`}`;
   }
-  const sections = TYPE_SECTION.map(sec => {
-    const pages = TEXTBOOK.filter(p => p.type === sec.type);
-    if(!pages.length) return '';
-    return `<div class="sec-label">${sec.label}　<span style="font-weight:400;letter-spacing:0">${
-      esc(sec.note)}</span></div>` + pages.map(p => tocItem(p, '')).join('');
-  }).join('');
+
+  const sec   = TYPE_SECTION.find(s => s.type === state.cat) || TYPE_SECTION[0];
+  const pages = TEXTBOOK.filter(p => p.type === sec.type);
+
+  /* このジャンルの演習がどこまで進んだか */
+  const ex   = EXERCISES.filter(e => PAGE_TYPE.get(e.ref) === sec.type);
+  const done = ex.filter(e => (store.rec[e.id]||{}).r > 0).length;
+  const pct  = ex.length ? Math.round(done / ex.length * 100) : 0;
 
   const revealed = Object.keys(store.cells).length;
-  const totalEx = EXERCISES.length;
-  const doneEx  = EXERCISES.filter(e => (store.rec[e.id]||{}).r > 0).length;
+
   return `
     ${headRow('教科書')}
     ${searchBox()}
-    <div class="stat-row">
-      <div class="stat"><b>${TEXTBOOK.length}</b><span>ページ</span></div>
-      <div class="stat"><b>${doneEx}<span style="font-size:14px;color:var(--muted)">/${totalEx}</span></b><span>演習</span></div>
-      <div class="stat"><b>${TEXTBOOK.reduce((n,p)=>n+p.senses.length,0)}</b><span>派生</span></div>
-    </div>
-    ${window.__installPrompt ? `<button class="btn install" data-install>
-      <span class="ic">📲</span>
-      <span><b>アプリとして追加</b>
-      <span>ホーム画面から開けて、電波がなくても使えます</span></span>
-    </button>` : ''}
+
     <button class="mx-entry" data-open="${MATRIX_ID}">
       <span class="ic">▦</span>
       <span>
@@ -210,7 +202,31 @@ function viewBookList(){
         <span>動詞 × 不変化詞 の交点 ── ${revealed}/${PHRASALS.length} マス</span>
       </span>
     </button>
-    ${sections}`;
+
+    <div class="seg scroll cats">${TYPE_SECTION.map(s => {
+      const n = TEXTBOOK.filter(p => p.type === s.type).length;
+      return `<button data-cat="${s.type}" aria-current="${s.type === state.cat}">
+        ${s.tab}<small>${n}</small></button>`;
+    }).join('')}</div>
+
+    <p class="sub" style="margin:2px 0 10px">${esc(sec.note)}</p>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <p class="sub" style="margin:-10px 0 14px">${pages.length}ページ　・　演習 ${done} / ${ex.length}</p>
+
+    ${groupedList(sec.type, pages)}`;
+}
+
+/* 小見出しの定義があればそれに沿って並べ、なければそのまま並べる */
+function groupedList(type, pages){
+  const groups = type === 'grammar' && typeof GRAMMAR_GROUPS !== 'undefined' ? GRAMMAR_GROUPS : null;
+  if(!groups) return pages.map(p => tocItem(p, '')).join('');
+  const byId = new Map(pages.map(p => [p.id, p]));
+  return groups.map(g => {
+    const items = g.ids.map(id => byId.get(id)).filter(Boolean);
+    if(!items.length) return '';
+    return `<div class="sec-label">${esc(g.label)}　<span style="font-weight:400;letter-spacing:0">${
+      items.length}項目</span></div>` + items.map(p => tocItem(p, '')).join('');
+  }).join('');
 }
 
 function viewBookPage(id){
@@ -778,7 +794,7 @@ function watchSenses(){
 /* 次に開いたとき、前に見ていたところから始められるようにする。
    演習や単語の途中の1問までは覚えない（途中再開はかえって迷う） */
 function rememberPlace(){
-  const l = { tab: state.tab, page: state.page };
+  const l = { tab: state.tab, page: state.page, cat: state.cat };
   if(JSON.stringify(l) !== JSON.stringify(store.last)){ store.last = l; save(); }
 }
 
@@ -800,6 +816,14 @@ function render(){
   $('#view').scrollTop = 0;
   const vin = document.getElementById('vin');
   if(vin && !vin.disabled) vin.focus();
+
+  /* ジャンルのタブが上に貼りついたら、下に境界線を出して浮いていることを示す */
+  const cats = $('.seg.cats'), view = $('#view');
+  if(cats && view){
+    const onScroll = () => cats.classList.toggle('stuck', view.scrollTop > 0);
+    view.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+  }
 
   /* 検索欄は描き直すと中身ごと作り直されるので、入力位置を戻しておく */
   const q = document.getElementById('q');
@@ -829,7 +853,7 @@ document.addEventListener('click', ev => {
     '[data-cell],[data-verb],[data-vband],[data-vmode],[data-vstart],[data-vpick],'+
     '[data-vcheck],[data-vnext],[data-vstartwrong],[data-install],'+
     '[data-panel],[data-close],[data-set],[data-reset],[data-reset-yes],[data-clearq],'+
-    '[data-scope]');
+    '[data-scope],[data-cat]');
   if(!t) return;
   const d = t.dataset;
 
@@ -884,6 +908,7 @@ document.addEventListener('click', ev => {
   else if(d.cell)         { state.cell = d.cell; store.cells[d.cell] = 1; save(); }
   else if(d.verb)         { state.mxVerb = d.verb; state.cell = null; }
   else if(d.scope)        { state.scope = d.scope; state.quiz = null; }
+  else if(d.cat)          { state.cat = d.cat; }
   else if(d.vband)        { state.vBand = +d.vband; state.vocab = null; }
   else if(d.vmode)        { state.vMode = d.vmode;  state.vocab = null; }
   else if(d.vstart !== undefined || d.vstartwrong !== undefined){
@@ -925,5 +950,6 @@ if(store.last){
   const { tab, page } = store.last;
   if(['book','quiz','vocab','review'].includes(tab)) state.tab = tab;
   if(page && (page === MATRIX_ID || TEXTBOOK.some(p => p.id === page))) state.page = page;
+  if(store.last.cat && TYPE_SECTION.some(s => s.type === store.last.cat)) state.cat = store.last.cat;
 }
 render();

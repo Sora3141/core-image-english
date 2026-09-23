@@ -1610,3 +1610,16 @@ const GRAMMAR = [
 
 
 ];
+
+/* 40ページは一続きだと探しにくいので、意味のまとまりで小見出しを入れる。
+   並び順もこの通りにする */
+const GRAMMAR_GROUPS = [
+  { label:'時制',       ids:['g-present','g-prog','g-past','g-pastprog','g-perfect','g-pastperf',
+                             'g-future','g-modalperf'] },
+  { label:'文型と語順', ids:['g-order','g-svoo','g-svoc','g-there','g-imp'] },
+  { label:'動詞の後ろ', ids:['g-inf','g-ing','g-causative','g-percept','g-wh','g-that','g-passive'] },
+  { label:'比較',       ids:['g-comp','g-super','g-as','g-compadv'] },
+  { label:'つなぐ',     ids:['g-and','g-when','g-rel','g-reladv','g-part','g-partcon'] },
+  { label:'その他',     ids:['g-article','g-plural','g-modal','g-do','g-if','g-it','g-pron',
+                             'g-quant','g-tag','g-adj'] }
+];

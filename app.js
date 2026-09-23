@@ -5,7 +5,8 @@
 const TEXTBOOK = [].concat(
   typeof PARTICLES !== 'undefined' ? PARTICLES : [],
   typeof VERBS     !== 'undefined' ? VERBS     : [],
-  typeof GRAMMAR   !== 'undefined' ? GRAMMAR   : []
+  typeof GRAMMAR   !== 'undefined' ? GRAMMAR   : [],
+  typeof WORDSETS  !== 'undefined' ? WORDSETS  : []
 );
 
 const KEY = 'coreEn.v1';
@@ -31,7 +32,8 @@ function grade(id, ok){
   save();
 }
 
-const state = { tab:'book', page:null, focusSense:null, quiz:null, cell:null, mxVerb:'get' };
+const state = { tab:'book', page:null, focusSense:null, quiz:null, cell:null, mxVerb:'get',
+                vocab:null, vBand:1, vMode:'ja' };
 const MATRIX_ID = '__matrix';
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -60,7 +62,8 @@ const pageName  = p => p.title || p.headword;
 const TYPE_SECTION = [
   { type:'particle', label:'不変化詞のコア', note:'前置詞・副詞。ここが全体の土台' },
   { type:'verb',     label:'基本動詞のコア', note:'不変化詞と掛け算される側' },
-  { type:'grammar',  label:'文法のコア',     note:'なぜそうなるかを原理から' }
+  { type:'grammar',  label:'文法のコア',     note:'なぜそうなるかを原理から' },
+  { type:'word',     label:'紛らわしい語',   note:'日本語では同じ訳なのに、英語では別物' }
 ];
 
 function viewBookList(){
@@ -333,31 +336,196 @@ function viewQuizDone(){
 }
 
 /* ============================================================
+   単語 ── NGSL 上位1000語
+   コアページを持つ語は、暗記ではなくそのページへ誘導する
+   ============================================================ */
+const BANDS = [
+  { id:1, label:'1〜333位',    note:'最頻出' },
+  { id:2, label:'334〜666位',  note:'頻出'   },
+  { id:3, label:'667〜1000位', note:'基礎'   }
+];
+const V_MODES = [
+  { id:'ja',    label:'英 → 日', note:'4択' },
+  { id:'en',    label:'日 → 英', note:'4択' },
+  { id:'spell', label:'スペル',  note:'入力' }
+];
+const bandOf = w => w[2] <= 333 ? 1 : w[2] <= 666 ? 2 : 3;
+const vKey   = w => 'w:' + w[0];
+
+function buildVocabQueue(onlyWrong){
+  const now = Date.now();
+  const pool = VOCAB.filter(w => {
+    const t = store.rec[vKey(w)];
+    if(onlyWrong) return t && t.w > 0 && t.due <= now;   // 復習タブから：帯をまたいで誤答だけ
+    return bandOf(w) === state.vBand && (!t || t.due <= now);
+  });
+  return { list: shuffle(pool).slice(0, SESSION_SIZE), i:0, sel:null, right:0, typed:'', judged:false };
+}
+
+/* 4択の誤答は同じ帯から引く（難易度をそろえるため） */
+function vocabChoices(w){
+  const same = VOCAB.filter(x => bandOf(x) === bandOf(w) && x[0] !== w[0] && x[1] !== w[1]);
+  const wrong = shuffle(same).slice(0, 3);
+  return shuffle([w, ...wrong]);
+}
+
+function viewVocabStart(){
+  const now = Date.now();
+  const band = VOCAB.filter(w => bandOf(w) === state.vBand);
+  const due  = band.filter(w => { const t = store.rec[vKey(w)]; return !t || t.due <= now; }).length;
+  const learned = VOCAB.filter(w => (store.rec[vKey(w)]||{}).r > 0).length;
+  const withPage = band.filter(w => w[6]).length;
+  return `
+    <h1>単語</h1>
+    <p class="sub">NGSL 頻度順の上位1000語</p>
+    <div class="stat-row">
+      <div class="stat"><b>${learned}<span style="font-size:14px;color:var(--muted)">/1000</span></b><span>正解済み</span></div>
+      <div class="stat"><b>${due}</b><span>出題できる</span></div>
+      <div class="stat"><b>${withPage}</b><span>コアページあり</span></div>
+    </div>
+
+    <div class="sec-label">どの帯を</div>
+    <div class="seg">${BANDS.map(b => `<button data-vband="${b.id}" aria-current="${b.id === state.vBand}">
+      ${b.label}<small>${b.note}</small></button>`).join('')}</div>
+
+    <div class="sec-label">出題のしかた</div>
+    <div class="seg">${V_MODES.map(m => `<button data-vmode="${m.id}" aria-current="${m.id === state.vMode}">
+      ${m.label}<small>${m.note}</small></button>`).join('')}</div>
+
+    ${due ? `<button class="btn primary" data-vstart style="margin-top:6px">${
+        Math.min(due, SESSION_SIZE)}語はじめる</button>`
+          : `<div class="empty"><span class="ic">✓</span>
+               この帯でいま出題できる語はありません。<br>別の帯を選ぶか、間隔があくのを待ちます。</div>`}
+
+    <div class="card" style="margin-top:16px;color:var(--muted);font-size:13px;line-height:1.85">
+      この1000語のうち<b style="color:var(--text)">66語</b>は、教科書にコアページを持っています。
+      その語が出たときは暗記せず、<b style="color:var(--text)">コアから入る</b>ようにしてください。
+      答え合わせの画面からそのページへ飛べます。
+    </div>`;
+}
+
+function viewVocabDone(){
+  const q = state.vocab, n = q.list.length;
+  const pct = Math.round(q.right / n * 100);
+  return `
+    <div class="big">${pct === 100 ? '🎉' : pct >= 70 ? '👍' : '🔤'}</div>
+    <h1 class="center">${q.right} / ${n} 正解</h1>
+    <p class="sub center">間違えた語は復習に回りました</p>
+    <button class="btn primary" data-vstart style="margin-top:20px">続ける</button>
+    <button class="btn" data-tab="vocab" style="margin-top:10px">単語トップへ</button>`;
+}
+
+function viewVocab(){
+  const q = state.vocab;
+  if(!q) return viewVocabStart();
+  if(q.i >= q.list.length) return viewVocabDone();
+
+  const w = q.list[q.i];
+  const mode = state.vMode;
+  const answered = q.judged;
+  const ok = answered && (mode === 'spell'
+    ? q.typed.trim().toLowerCase() === w[0].toLowerCase()
+    : q.sel === w[0]);
+
+  /* 問題文 */
+  let prompt, body;
+  if(mode === 'ja'){
+    prompt = `<div class="v-word">${esc(w[0])}</div><div class="v-ipa">${esc(w[5])}</div>`;
+    body = q.choices.map(c => {
+      let cls = 'btn choice';
+      if(answered && c[0] === w[0]) cls += ' correct';
+      else if(answered && c[0] === q.sel) cls += ' wrong';
+      return `<button class="${cls}" data-vpick="${esc(c[0])}" ${answered ? 'disabled' : ''}>
+        <span class="txt">${esc(c[1])}</span></button>`;
+    }).join('');
+  } else if(mode === 'en'){
+    prompt = `<div class="v-ja">${esc(w[1])}</div>`;
+    body = q.choices.map(c => {
+      let cls = 'btn choice mono';
+      if(answered && c[0] === w[0]) cls += ' correct';
+      else if(answered && c[0] === q.sel) cls += ' wrong';
+      return `<button class="${cls}" data-vpick="${esc(c[0])}" ${answered ? 'disabled' : ''}>
+        <span class="txt">${esc(c[0])}</span></button>`;
+    }).join('');
+  } else {
+    const blank = '_'.repeat(Math.max(3, w[0].length));
+    const masked = esc(w[3]).replace(new RegExp('\\b' + w[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b','ig'),
+                                     `<span class="v-blank">${blank}</span>`);
+    prompt = `<div class="v-ja">${esc(w[1])}</div>
+      <div class="v-ex">${masked}<div class="ja">${esc(w[4])}</div></div>`;
+    body = `<input class="v-input ${answered ? (ok ? 'ok' : 'ng') : ''}" id="vin"
+       type="text" inputmode="latin" autocapitalize="off" autocorrect="off" spellcheck="false"
+       value="${esc(q.typed)}" placeholder="英語を入力" ${answered ? 'disabled' : ''}>
+      ${answered ? '' : '<button class="btn primary" data-vcheck style="margin-top:10px">答え合わせ</button>'}`;
+  }
+
+  return `
+    <div class="progress"><i style="width:${(q.i / q.list.length) * 100}%"></i></div>
+    <div class="q-meta">
+      <span class="q-kind">${V_MODES.find(m => m.id === mode).label}</span>
+      <span>${q.i + 1} / ${q.list.length}　・　${w[2]}位</span>
+    </div>
+    <div class="q-prompt">${prompt}</div>
+    ${body}
+
+    ${answered ? `
+      <div class="card" style="margin-top:14px">
+        <div class="verdict ${ok ? 'ok' : 'ng'}">${ok ? '◎ 正解' : '✗ 不正解'}</div>
+        <div class="v-word" style="font-size:26px">${esc(w[0])}</div>
+        <div class="v-ipa">${esc(w[5])}</div>
+        <div class="v-ja" style="font-size:18px;margin-top:8px">${esc(w[1])}</div>
+        <div class="v-ex">${esc(w[3])}<div class="ja">${esc(w[4])}</div></div>
+        ${w[6] ? `<button class="linkto" data-goto="${w[6]}" data-sense=""
+            style="margin-top:12px">📖 この語はコアページがあります</button>` : ''}
+      </div>
+      <button class="btn primary" data-vnext style="margin-top:12px">
+        ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button>` : ''}`;
+}
+
+/* ============================================================
    復習
    ============================================================ */
 function viewReview(){
   const now = Date.now();
-  const wrong = EXERCISES.filter(e => (store.rec[e.id]||{}).w > 0);
-  const dueNow = wrong.filter(e => store.rec[e.id].due <= now);
-  if(!wrong.length) return `
+  const wrongEx = EXERCISES.filter(e => (store.rec[e.id]||{}).w > 0);
+  const wrongV  = VOCAB.filter(w => (store.rec[vKey(w)]||{}).w > 0);
+  const dueEx   = wrongEx.filter(e => store.rec[e.id].due <= now);
+  const dueV    = wrongV.filter(w => store.rec[vKey(w)].due <= now);
+
+  if(!wrongEx.length && !wrongV.length) return `
     <h1>復習</h1>
     <div class="empty"><span class="ic">🔁</span>
-      間違えた問題がここに溜まります。<br>正解するたびに次回の間隔が延びます。</div>`;
+      間違えた問題と単語がここに溜まります。<br>正解するたびに次回の間隔が延びます。</div>`;
+
+  const row = (title, sub, t) => {
+    const left = Math.max(0, Math.ceil((t.due - now) / DAY));
+    return `<div class="card" style="padding:12px 15px">
+      <div style="font-family:Georgia,serif;font-size:15px">${title}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">
+        ${sub} ・ 誤 ${t.w} / 正 ${t.r} ・
+        ${left ? `あと ${left} 日` : '<span style="color:var(--accent)">出題できます</span>'}
+      </div></div>`;
+  };
+
   return `
     <h1>復習</h1>
     <p class="sub">間隔反復：0日 → 1 → 3 → 7 → 21 → 60日</p>
-    ${dueNow.length ? `<button class="btn primary" data-startwrong style="margin-bottom:16px">
-      ${dueNow.length}問を復習する</button>` : ''}
-    ${wrong.map(e => {
-      const t = store.rec[e.id];
-      const left = Math.max(0, Math.ceil((t.due - now) / DAY));
-      return `<div class="card" style="padding:13px 15px">
-        <div style="font-family:Georgia,serif;font-size:15px">${renderSentence(e)}</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">
-          ${KIND_LABEL[e.kind]} ・ 誤 ${t.w} / 正 ${t.r} ・
-          ${left ? `あと ${left} 日` : '<span style="color:var(--accent)">出題できます</span>'}
-        </div></div>`;
-    }).join('')}`;
+    <div class="stat-row">
+      <div class="stat"><b>${wrongEx.length}</b><span>演習</span></div>
+      <div class="stat"><b>${wrongV.length}</b><span>単語</span></div>
+      <div class="stat"><b>${dueEx.length + dueV.length}</b><span>いま出せる</span></div>
+    </div>
+    ${dueEx.length ? `<button class="btn primary" data-startwrong style="margin-bottom:8px">
+      演習を ${Math.min(dueEx.length, SESSION_SIZE)}問 復習する</button>` : ''}
+    ${dueV.length ? `<button class="btn primary" data-vstartwrong style="margin-bottom:16px">
+      単語を ${Math.min(dueV.length, SESSION_SIZE)}語 復習する</button>` : ''}
+
+    ${wrongEx.length ? `<div class="sec-label">演習</div>` : ''}
+    ${wrongEx.map(e => row(renderSentence(e), KIND_LABEL[e.kind], store.rec[e.id])).join('')}
+
+    ${wrongV.length ? `<div class="sec-label">単語</div>` : ''}
+    ${wrongV.map(w => row(esc(w[0]) + ' <span style="font-family:inherit;font-size:13px;color:var(--muted)">'
+        + esc(w[1]) + '</span>', w[2] + '位', store.rec[vKey(w)])).join('')}`;
 }
 
 /* ============================================================
@@ -398,6 +566,7 @@ function render(){
   if(state.tab === 'book')        html = state.page === MATRIX_ID ? viewMatrix()
                                        : state.page ? viewBookPage(state.page) : viewBookList();
   else if(state.tab === 'quiz')   html = viewQuiz();
+  else if(state.tab === 'vocab')  html = viewVocab();
   else                            html = viewReview();
   $('#view').innerHTML = html;
 
@@ -405,6 +574,8 @@ function render(){
     b.setAttribute('aria-selected', b.dataset.tab === state.tab));
 
   window.scrollTo(0, 0);
+  const vin = document.getElementById('vin');
+  if(vin && !vin.disabled) vin.focus();
   if(state.tab === 'book' && state.page && state.page !== MATRIX_ID){
     watchSenses();
     if(state.focusSense){ jumpTo(state.focusSense); state.focusSense = null; }
@@ -414,13 +585,15 @@ function render(){
 document.addEventListener('click', ev => {
   const t = ev.target.closest('[data-tab],[data-open],[data-back],[data-pick],[data-next],' +
     '[data-start],[data-startover],[data-startwrong],[data-goto],[data-quizref],[data-jump],'+
-    '[data-cell],[data-verb]');
+    '[data-cell],[data-verb],[data-vband],[data-vmode],[data-vstart],[data-vpick],'+
+    '[data-vcheck],[data-vnext],[data-vstartwrong]');
   if(!t) return;
   const d = t.dataset;
 
   if(d.jump){ jumpTo(d.jump); return; }   // 再描画するとスクロール位置が飛ぶ
 
-  if(d.tab !== undefined){ state.tab = d.tab; state.page = null; }
+  if(d.tab !== undefined){ state.tab = d.tab; state.page = null;
+                           if(d.tab === 'vocab') state.vocab = null; }
   else if(d.open)         { state.page = d.open; state.cell = null; }
   else if(d.back !== undefined){ state.page = null; }
   else if(d.quizref)      { state.tab = 'quiz'; state.page = null; startQuiz(d.quizref); }
@@ -438,6 +611,36 @@ document.addEventListener('click', ev => {
   else if(d.next !== undefined){ state.quiz.i++; state.quiz.sel = null; }
   else if(d.cell)         { state.cell = d.cell; store.cells[d.cell] = 1; save(); }
   else if(d.verb)         { state.mxVerb = d.verb; state.cell = null; }
+  else if(d.vband)        { state.vBand = +d.vband; state.vocab = null; }
+  else if(d.vmode)        { state.vMode = d.vmode;  state.vocab = null; }
+  else if(d.vstart !== undefined || d.vstartwrong !== undefined){
+    const onlyWrong = d.vstartwrong !== undefined;
+    state.vocab = buildVocabQueue(onlyWrong);
+    if(onlyWrong) state.tab = 'vocab';
+    if(state.vocab.list.length) state.vocab.choices = vocabChoices(state.vocab.list[0]);
+  }
+  else if(d.vpick){
+    const q = state.vocab; if(q.judged) return;
+    q.sel = d.vpick; q.judged = true;
+    const w = q.list[q.i], ok = q.sel === w[0];
+    if(ok) q.right++;
+    grade(vKey(w), ok);
+  }
+  else if(d.vcheck !== undefined){
+    const q = state.vocab; if(q.judged) return;
+    const el = document.getElementById('vin');
+    q.typed = el ? el.value : '';
+    q.judged = true;
+    const w = q.list[q.i];
+    const ok = q.typed.trim().toLowerCase() === w[0].toLowerCase();
+    if(ok) q.right++;
+    grade(vKey(w), ok);
+  }
+  else if(d.vnext !== undefined){
+    const q = state.vocab;
+    q.i++; q.sel = null; q.typed = ''; q.judged = false;
+    if(q.i < q.list.length) q.choices = vocabChoices(q.list[q.i]);
+  }
 
   render();
 });

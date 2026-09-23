@@ -1,0 +1,22 @@
+コアイメージ英語 ── 第三者データの表示
+
+本リポジトリのコード、および本プロジェクトが書いたテキスト（教科書ページ・演習・
+句動詞・日本語訳・例文）は MIT License（LICENSE を参照）で提供されます。
+
+これに加えて、data/vocab.js には以下の第三者データが含まれます。
+
+1. 単語リストと頻度順位
+   New General Service List (NGSL)
+   Browne, C., Culligan, B. & Phillips, J.
+   https://www.newgeneralservicelist.com/
+   Licensed under Creative Commons Attribution 3.0 (CC BY 3.0)
+   https://creativecommons.org/licenses/by/3.0/
+
+   本プロジェクトでは NGSL 2801語のうち、頻度順の上位1000語を抜き出して
+   使用しています。日本語訳と例文は本プロジェクトで付与したものであり、
+   NGSL の原著作者によるものではありません。
+
+2. 発音記号（IPA）
+   open-dict-data/ipa-dict
+   https://github.com/open-dict-data/ipa-dict
+   Licensed under the MIT License

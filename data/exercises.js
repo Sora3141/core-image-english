@@ -1584,5 +1584,125 @@ const EXERCISES = [
 {id:'pik-q5',kind:'fill',ref:'pick',refSense:'pik-choose',prompt:'Pick ___ the one you like best.',question:'空欄に入るのは?',choices:['up','out','on','at'],answer:1,explain:'つまんで外へ出す＝選び出す。'},
 {id:'pik-q6',kind:'fill',ref:'pick',refSense:'pik-lift',prompt:'Could you pick ___ that pen for me?',question:'空欄に入るのは?',choices:['up','out','on','off'],answer:0,explain:'つまんで上げる＝拾い上げる。'},
 {id:'pik-q7',kind:'fill',ref:'pick',refSense:'pik-choose',prompt:'She just picked ___ her food.',question:'空欄に入るのは?',choices:['up','out','at','on'],answer:2,explain:'at は【狙いの一点】。少しずつつつくだけで食が進まない様子。'},
-{id:'pik-q8',kind:'core',ref:'pick',refSense:'pik-lift',prompt:'She picked up Spanish while living there.',question:'この pick up はどのイメージ?',choices:['意識せず自然に拾い上げた','スペイン語を選んだ','教わった','買った'],answer:0,explain:'落ちているものを拾うように、いつのまにか身についた。'}
+{id:'pik-q8',kind:'core',ref:'pick',refSense:'pik-lift',prompt:'She picked up Spanish while living there.',question:'この pick up はどのイメージ?',choices:['意識せず自然に拾い上げた','スペイン語を選んだ','教わった','買った'],answer:0,explain:'落ちているものを拾うように、いつのまにか身についた。'},
+
+/* ============================ 言う ============================ */
+{id:'wsay-q1',kind:'core',ref:'w-say',refSense:'wsay-tell',prompt:'×say me が言えず ○tell me が言える理由は?',question:'いちばん近い説明は?',choices:['say は言葉の中身を見ているので、相手を入れるには前置詞が要る','tell の方が新しい語だから','say は自動詞だから','慣用で理由はない'],answer:0,explain:'tell は「届ける」ので受け手が目的語になれる。say to me なら言える。'},
+{id:'wsay-q2',kind:'core',ref:'w-say',refSense:'wsay-speak',prompt:'speak English とは言うが talk English とは言いません。',question:'その理由は?',choices:['speak は口から音を出す行為そのもので、言語を直接目的語にできるから','talk は他動詞でないから','English が固有名詞だから','speak の方が古いから'],answer:0,explain:'talk は双方向のやりとりなので言語を目的語に取れない。「英語で話す」なら talk in English。'},
+{id:'wsay-q3',kind:'core',ref:'w-say',refSense:'wsay-talk',prompt:'I talked with my boss.',question:'talk が表しているのは?',choices:['一方的に話した','双方向のやりとりをした','言葉の中身を伝えた','演説した'],answer:1,explain:'talk は双方向。with は【向かい合って一緒に】。'},
+{id:'wsay-q4',kind:'core',ref:'w-say',refSense:'wsay-say',prompt:'What did you say?',question:'この say が見ているのは?',choices:['言葉の中身','聞いた相手','声の大きさ','会話の流れ'],answer:0,explain:'say の目的語は言葉そのもの。何と言ったかを尋ねている。'},
+{id:'wsay-q5',kind:'fill',ref:'w-say',refSense:'wsay-tell',prompt:'Could you ___ me the truth?',question:'空欄に入るのは?',choices:['say','tell','speak','talk'],answer:1,explain:'受け手（me）が目的語なので tell。say なら say to me の形になる。'},
+{id:'wsay-q6',kind:'fill',ref:'w-say',refSense:'wsay-speak',prompt:'May I ___ to Ken, please?',question:'空欄に入るのは?（電話で）',choices:['say','tell','speak','talk'],answer:2,explain:'電話の定型。speak to 〜 でやや改まった言い方になる。'},
+{id:'wsay-q7',kind:'fill',ref:'w-say',refSense:'wsay-talk',prompt:'Let’s ___ about it over coffee.',question:'空欄に入るのは?',choices:['say','tell','speak','talk'],answer:3,explain:'くだけた双方向の会話なので talk about。'},
+{id:'wsay-q8',kind:'fill',ref:'w-say',refSense:'wsay-say',prompt:'He ___ hello and walked away.',question:'空欄に入るのは?',choices:['said','told','spoke','talked'],answer:0,explain:'hello という言葉の中身が目的語なので say。'},
+
+/* ======================== 見る・聞く ======================== */
+{id:'wsee-q1',kind:'core',ref:'w-see',refSense:'wsee-out',prompt:'look と listen にだけ前置詞が要る理由は?',question:'いちばん近い説明は?',choices:['こちらから向ける動作なので、向ける先が決まらないと成立しないから','自動詞だから','短い語だから','慣用で理由はない'],answer:0,explain:'see と hear は向こうから入ってくるので、前置詞なしで目的語を取れる。'},
+{id:'wsee-q2',kind:'core',ref:'w-see',refSense:'wsee-follow',prompt:'watch TV とは言うが watch a picture とは言いません。',question:'その理由は?',choices:['watch は動いているものを追い続ける語で、写真は動かないから','picture が不可算だから','TV が特別な語だから','watch は機械にしか使えないから'],answer:0,explain:'写真なら look at a picture。動くものだけが watch の対象になる。'},
+{id:'wsee-q3',kind:'core',ref:'w-see',refSense:'wsee-mean',prompt:'I see what you mean.',question:'なぜ「見る」が「わかる」になるのか?',choices:['頭の中に像が入ってくるから','see が多義語だから','目で確認するから','慣用で理由はない'],answer:0,explain:'see のコアは【向こうから入ってくる】。理解も入ってくるもの。'},
+{id:'wsee-q4',kind:'core',ref:'w-see',refSense:'wsee-in',prompt:'Can you hear me?',question:'この hear はどのイメージ?',choices:['耳を向けているか','声が耳に届いているか','注意して聞いているか','聞き返しているか'],answer:1,explain:'意図せず入ってくるのが hear。意識して向けるなら listen。'},
+{id:'wsee-q5',kind:'fill',ref:'w-see',refSense:'wsee-out',prompt:'___ at this photo!',question:'空欄に入るのは?',choices:['See','Look','Watch','Hear'],answer:1,explain:'こちらから視線を向けるので look at。'},
+{id:'wsee-q6',kind:'fill',ref:'w-see',refSense:'wsee-out',prompt:'Are you ___ to me?',question:'空欄に入るのは?',choices:['hearing','listening','sounding','seeing'],answer:1,explain:'意識して耳を向けているか、を聞いている。listen to。'},
+{id:'wsee-q7',kind:'fill',ref:'w-see',refSense:'wsee-in',prompt:'I ___ him at the station this morning.',question:'空欄に入るのは?（たまたま見かけた）',choices:['saw','looked','watched','listened'],answer:0,explain:'意図せず目に入ったので see。'},
+{id:'wsee-q8',kind:'fill',ref:'w-see',refSense:'wsee-follow',prompt:'We ___ the game until midnight.',question:'空欄に入るのは?',choices:['saw','looked','watched','heard'],answer:2,explain:'動いているものを時間をかけて追うので watch。'},
+
+/* ========================= 大きい ========================= */
+{id:'wbig-q1',kind:'core',ref:'w-big',refSense:'wbig-large',prompt:'a big problem とは言うが a large problem とは言いにくい。',question:'その理由は?',choices:['large は測れるサイズを言う語なので、問題の深刻さには合わないから','large が古い語だから','problem が可算名詞だから','big の方が短いから'],answer:0,explain:'big は主観的な大きさなので、深刻さや重要さにも伸びる。'},
+{id:'wbig-q2',kind:'core',ref:'w-big',refSense:'wbig-big',prompt:'a big brother',question:'この big が表しているのは?',choices:['体が大きい兄','年上であること','偉い兄','太った兄'],answer:1,explain:'big には「年上の」という使い方がある。a little sister（妹）も同じ。'},
+{id:'wbig-q3',kind:'core',ref:'w-big',refSense:'wbig-great',prompt:'a great success',question:'この great が表しているのは?',choices:['サイズが大きい','程度・レベルが高い','数が多い','珍しい'],answer:1,explain:'great は量や質のレベル。だから That’s great! というほめ言葉にもなる。'},
+{id:'wbig-q4',kind:'core',ref:'w-big',refSense:'wbig-large',prompt:'Tシャツのサイズ表記が L（large）である理由は?',question:'いちばん近い説明は?',choices:['測れるサイズを表す語だから','大きいものだから','英語では服に big を使わないから','慣用で理由はない'],answer:0,explain:'large は客観的に測れる大きさ。だからサイズ表記に使われる。'},
+{id:'wbig-q5',kind:'fill',ref:'w-big',refSense:'wbig-large',prompt:'We collected a ___ amount of data.',question:'空欄に入るのは?',choices:['big','large','great','tall'],answer:1,explain:'量を測っているので large。'},
+{id:'wbig-q6',kind:'fill',ref:'w-big',refSense:'wbig-huge',prompt:'There’s a ___ difference between them.',question:'空欄に入るのは?（とてつもない差）',choices:['large','huge','tall','wide'],answer:1,explain:'圧倒的な大きさを言うなら huge。'},
+{id:'wbig-q7',kind:'fill',ref:'w-big',refSense:'wbig-big',prompt:'That’s a ___ problem for us.',question:'空欄に入るのは?',choices:['large','big','wide','long'],answer:1,explain:'深刻さを言っているので big。'},
+{id:'wbig-q8',kind:'fill',ref:'w-big',refSense:'wbig-great',prompt:'Thanks, that’s ___!',question:'空欄に入るのは?（いいね!）',choices:['big','large','great','huge'],answer:2,explain:'程度が高い＝すばらしい。great はほめ言葉になる。'},
+
+/* ====================== 借りる・貸す ====================== */
+{id:'wbor-q1',kind:'core',ref:'w-borrow',refSense:'wbor-use',prompt:'×Can I borrow your bathroom? が変な理由は?',question:'いちばん近い説明は?',choices:['borrow は持ち出して使う語なので、トイレを持ち帰る絵になるから','bathroom が不可算だから','borrow が過去形でないから','疑問文だから'],answer:0,explain:'動かせないものは use。○Can I use your bathroom?'},
+{id:'wbor-q2',kind:'core',ref:'w-borrow',refSense:'wbor-rent',prompt:'They rent out rooms.',question:'out がつくと何が変わるか?',choices:['貸す側だとはっきりする','借りる側になる','無料になる','期間が短くなる'],answer:0,explain:'out は【内から外へ】。手元から外へ出す＝貸す側。'},
+{id:'wbor-q3',kind:'core',ref:'w-borrow',refSense:'wbor-borrow',prompt:'I borrowed a book from the library.',question:'この from はどのイメージ?',choices:['図書館という起点から離れて来た','図書館に向かった','図書館の中にいた','図書館に接触した'],answer:0,explain:'from は【起点】。そこから持ち出してきた。'},
+{id:'wbor-q4',kind:'core',ref:'w-borrow',refSense:'wbor-lend',prompt:'borrow と lend の関係は?',question:'いちばん近い説明は?',choices:['同じ動きを、借りる側から見るか貸す側から見るか','borrow は無料、lend は有料','lend は過去形','無関係な2語'],answer:0,explain:'give と take のように、向きが逆なだけ。'},
+{id:'wbor-q5',kind:'fill',ref:'w-borrow',refSense:'wbor-use',prompt:'Can I ___ your phone for a second?',question:'空欄に入るのは?（その場で使う）',choices:['borrow','lend','rent','use'],answer:3,explain:'その場で使わせてもらうなら use。持ち出すなら borrow でも言える。'},
+{id:'wbor-q6',kind:'fill',ref:'w-borrow',refSense:'wbor-lend',prompt:'Could you ___ me 500 yen?',question:'空欄に入るのは?',choices:['borrow','lend','rent','use'],answer:1,explain:'相手が貸す側なので lend。lend + 人 + 物。'},
+{id:'wbor-q7',kind:'fill',ref:'w-borrow',refSense:'wbor-rent',prompt:'We ___ a car for the weekend.',question:'空欄に入るのは?',choices:['borrowed','lent','rented','used'],answer:2,explain:'お金を払って借りるので rent。'},
+{id:'wbor-q8',kind:'fill',ref:'w-borrow',refSense:'wbor-borrow',prompt:'Can I ___ your pen?',question:'空欄に入るのは?',choices:['borrow','lend','rent','use'],answer:0,explain:'無料で持ち出して使うので borrow。'},
+
+/* ========================== 望む ========================== */
+{id:'whop-q1',kind:'core',ref:'w-hope',refSense:'whop-wish',jumpTo:'g-past/gpast-real',prompt:'I wish I were taller.',question:'なぜ過去形になるのか?',choices:['現実から離れていることを示すため','昔の話だから','wish が過去形を取ると決まっているから','丁寧にするため'],answer:0,explain:'過去形のコアは【距離】。wish は現実の外のことを望む語なので、距離を示す過去形とセットになる。'},
+{id:'whop-q2',kind:'core',ref:'w-hope',refSense:'whop-hope',prompt:'I hope you feel better soon.',question:'なぜ wish ではないのか?',choices:['よくなることは十分ありうるから','hope の方が丁寧だから','you が主語だから','soon があるから'],answer:0,explain:'hope はありうることを望む。ありえないことなら wish。'},
+{id:'whop-q3',kind:'core',ref:'w-hope',refSense:'whop-expect',prompt:'I expect he’ll be late.',question:'この expect が表しているのは?',choices:['遅れてほしいと望んでいる','遅れると予想している','遅れないよう願っている','遅れたことを知っている'],answer:1,explain:'expect は望みではなく予想。望ましくないことにも使える。'},
+{id:'whop-q4',kind:'core',ref:'w-hope',refSense:'whop-want',jumpTo:'g-past/gpast-polite',prompt:'I want a coffee. より I’d like a coffee. の方が丁寧なのはなぜ?',question:'いちばん近い説明は?',choices:['would は過去形＝距離なので、一歩引いた言い方になるから','like の方が上品な語だから','短いから','a coffee が付くから'],answer:0,explain:'過去形の距離が、そのまま丁寧さになる。Could you? が丁寧なのと同じ仕組み。'},
+{id:'whop-q5',kind:'fill',ref:'w-hope',refSense:'whop-wish',prompt:'I ___ I could come to your party.',question:'空欄に入るのは?（実際は行けない）',choices:['hope','wish','want','expect'],answer:1,explain:'現実にはそうでないことを望むので wish。'},
+{id:'whop-q6',kind:'fill',ref:'w-hope',refSense:'whop-hope',prompt:'I ___ to see you again soon.',question:'空欄に入るのは?',choices:['wish','hope','expect','want'],answer:1,explain:'ありうることなので hope。hope to do の形。'},
+{id:'whop-q7',kind:'fill',ref:'w-hope',refSense:'whop-wish',prompt:'I wish I ___ more free time.',question:'空欄に入るのは?',choices:['have','had','will have','am having'],answer:1,explain:'現実からの距離を示す過去形。実際には時間がない。'},
+{id:'whop-q8',kind:'fill',ref:'w-hope',refSense:'whop-expect',prompt:'We’re ___ a baby in June.',question:'空欄に入るのは?',choices:['hoping','wishing','expecting','wanting'],answer:2,explain:'起こると分かっていることなので expect。'},
+
+/* ========================= ほかの ========================= */
+{id:'woth-q1',kind:'core',ref:'w-other',refSense:'woth-theother',jumpTo:'g-article/gart-the',prompt:'on the other hand に the がつく理由は?',question:'いちばん近い説明は?',choices:['手は2本しかないので、もう一方は自動的に特定できるから','慣用表現だから','hand が可算名詞だから','other には必ず the がつくから'],answer:0,explain:'冠詞のコア（相手も特定できるか）がそのまま効いている。'},
+{id:'woth-q2',kind:'core',ref:'w-other',refSense:'woth-another',prompt:'another は元々2語がくっついたものです。',question:'その2語は?',choices:['an + other','a + nother','and + other','any + other'],answer:0,explain:'an が入っているので必ず「不特定の1つ」。だから複数形にできない。'},
+{id:'woth-q3',kind:'core',ref:'w-other',refSense:'woth-theothers',prompt:'Two left early; the others stayed.',question:'the others が指すのは?',choices:['残りのうちの一部','残り全部','別の2人','2人以外の誰か'],answer:1,explain:'the がつくと範囲が確定する＝残り全部。'},
+{id:'woth-q4',kind:'core',ref:'w-other',refSense:'woth-others',prompt:'Some like it, others don’t.',question:'この others が指すのは?',choices:['残り全部','不特定の、ほかの人たち','2人目','特定の集団'],answer:1,explain:'the がないので範囲は確定していない。残りの一部。'},
+{id:'woth-q5',kind:'fill',ref:'w-other',refSense:'woth-another',prompt:'Can I have ___ cup of coffee?',question:'空欄に入るのは?',choices:['other','another','the other','others'],answer:1,explain:'不特定の、別のもう1杯。an + other。'},
+{id:'woth-q6',kind:'fill',ref:'w-other',refSense:'woth-theother',prompt:'I have two pens. One is red and ___ is blue.',question:'空欄に入るのは?',choices:['another','other','the other','others'],answer:2,explain:'2つしかないので、残りは1つに確定する＝the other。'},
+{id:'woth-q7',kind:'fill',ref:'w-other',refSense:'woth-another',prompt:'Let’s try ___ way.',question:'空欄に入るのは?',choices:['another','the other','others','other'],answer:0,explain:'やり方はたくさんあるので、不特定の1つ＝another。'},
+{id:'woth-q8',kind:'fill',ref:'w-other',refSense:'woth-others',prompt:'Some people agree; ___ don’t.',question:'空欄に入るのは?',choices:['another','the other','others','other'],answer:2,explain:'不特定の複数の人。the がつくと「残り全員」になる。'},
+
+/* ==================== a のあるなし ==================== */
+{id:'wfew-q1',kind:'core',ref:'w-few',refSense:'wfew-few',prompt:'Few people came. と A few people came. の違いは?',question:'いちばん近い説明は?',choices:['前者は「ほとんど来なかった」、後者は「何人か来た」','前者の方が人数が多い','意味は同じ','前者は過去、後者は現在'],answer:0,explain:'a が1つ付くだけで、否定的から肯定的に逆転する。'},
+{id:'wfew-q2',kind:'core',ref:'w-few',refSense:'wfew-afew',jumpTo:'g-article/gart-a',prompt:'なぜ a が付くと「ある」側に寄るのか?',question:'いちばん近い説明は?',choices:['a は【輪郭のある1つ】で、存在が見えている印だから','a が肯定を表すから','a の方が新しい用法だから','偶然そうなった'],answer:0,explain:'輪郭が見えている＝存在が見えている、という感覚が意味を決めている。'},
+{id:'wfew-q3',kind:'core',ref:'w-few',refSense:'wfew-little',jumpTo:'g-article/gart-none',prompt:'few と little の使い分けは?',question:'いちばん近い説明は?',choices:['few は数えられるもの、little は数えられないもの','few は人、little は物','little の方が少ない','違いはない'],answer:0,explain:'冠詞ページの「輪郭があるか」が、ここでも境目になっている。'},
+{id:'wfew-q4',kind:'core',ref:'w-few',refSense:'wfew-alittle',prompt:'I speak a little Japanese.',question:'この a little が伝えているのは?',choices:['日本語がほとんど話せない','日本語が少し話せる','日本語が流暢だ','日本語を勉強中だ'],answer:1,explain:'a があるので肯定的。a のない little なら「ほとんど話せない」。'},
+{id:'wfew-q5',kind:'fill',ref:'w-few',refSense:'wfew-afew',prompt:'I have ___ questions, if that’s okay.',question:'空欄に入るのは?（いくつか質問がある）',choices:['few','a few','little','a little'],answer:1,explain:'数えられるものが少しある＝a few。'},
+{id:'wfew-q6',kind:'fill',ref:'w-few',refSense:'wfew-little',prompt:'Hurry — there’s ___ time left.',question:'空欄に入るのは?（もうほとんど時間がない）',choices:['few','a few','little','a little'],answer:2,explain:'time は数えられず、しかも「ない」側なので little。'},
+{id:'wfew-q7',kind:'fill',ref:'w-few',refSense:'wfew-few',prompt:'___ people showed up, so we canceled.',question:'空欄に入るのは?',choices:['A few','Few','A little','Little'],answer:1,explain:'中止したのだから「ほとんど来なかった」。a のない Few。'},
+{id:'wfew-q8',kind:'fill',ref:'w-few',refSense:'wfew-alittle',prompt:'Could you speak ___ more slowly?',question:'空欄に入るのは?',choices:['few','a few','little','a little'],answer:3,explain:'a little more で「もう少し」。量なので little 側。'},
+
+/* ====================== 覚える・思い出す ====================== */
+{id:'wrem-q1',kind:'core',ref:'w-remember',refSense:'wrem-remind',prompt:'You remind me of my brother.',question:'この of はどのイメージ?',choices:['君という存在から、兄の記憶が引き出されてくる','君が兄の代わりだ','君が兄に向かっている','君が兄と一緒にいる'],answer:0,explain:'of のコアは【分離】——そこから出てくる、という関係。'},
+{id:'wrem-q2',kind:'core',ref:'w-remember',refSense:'wrem-toing',jumpTo:'g-ing/ging-both',prompt:'Remember to lock と I remember locking の違いは?',question:'いちばん近い説明は?',choices:['to はこれからかける、-ing はすでにかけた','to の方が丁寧','-ing は進行中','違いはない'],answer:0,explain:'to不定詞と動名詞のコア（これから／すでにある）が、ここでも効いている。'},
+{id:'wrem-q3',kind:'core',ref:'w-remember',refSense:'wrem-remind',prompt:'remind に必ず相手が要る理由は?',question:'いちばん近い説明は?',choices:['「人に思い出させる」動詞だから','他動詞だから','re- が付いているから','慣用で理由はない'],answer:0,explain:'remember は自分の頭の中の話、remind は人に働きかける話。'},
+{id:'wrem-q4',kind:'core',ref:'w-remember',refSense:'wrem-remember',prompt:'Do you remember me?',question:'この remember が表しているのは?',choices:['私を思い出させて','私のことが頭に残っているか','私に教えて','私を覚えさせる'],answer:1,explain:'自分の頭の中に残っているかどうか。'},
+{id:'wrem-q5',kind:'fill',ref:'w-remember',refSense:'wrem-remind',prompt:'Please ___ me to call him tomorrow.',question:'空欄に入るのは?',choices:['remember','remind','recall','forget'],answer:1,explain:'相手に思い出させてもらうので remind + 人 + to do。'},
+{id:'wrem-q6',kind:'fill',ref:'w-remember',refSense:'wrem-toing',prompt:'Don’t forget ___ the door when you leave.',question:'空欄に入るのは?',choices:['locking','to lock','locked','lock'],answer:1,explain:'これからかけることを忘れないで＝to不定詞。'},
+{id:'wrem-q7',kind:'fill',ref:'w-remember',refSense:'wrem-toing',prompt:'I clearly remember ___ him last year.',question:'空欄に入るのは?（会ったのを覚えている）',choices:['to meet','meeting','met','meet'],answer:1,explain:'すでに起きた行為なので動名詞。'},
+{id:'wrem-q8',kind:'fill',ref:'w-remember',refSense:'wrem-remind',prompt:'This song reminds me ___ my school days.',question:'空欄に入るのは?',choices:['about','of','for','to'],answer:1,explain:'remind A of B。of は「そこから出てくる」関係。'},
+
+/* ======================= かかる・払う ======================= */
+{id:'wcos-q1',kind:'core',ref:'w-cost',refSense:'wcos-take',jumpTo:'take/take-cost',prompt:'It takes two hours. の take は何をしているのか?',question:'いちばん近い説明は?',choices:['その移動が、あなたから2時間を取り上げている','時間を持っていく','時間を測る','時間を選ぶ'],answer:0,explain:'take のコアは【自分の方へ取る】。だから It took me three days. と人を入れられる。'},
+{id:'wcos-q2',kind:'core',ref:'w-cost',refSense:'wcos-cost',prompt:'cost と spend の違いは?',question:'いちばん近い説明は?',choices:['cost は物が主語、spend は人が主語','cost は高額、spend は少額','cost は過去形がない','違いはない'],answer:0,explain:'It costs 500 yen.（物が主語）／I spent 500 yen.（人が主語）。'},
+{id:'wcos-q3',kind:'core',ref:'w-cost',refSense:'wcos-pay',jumpTo:'for/for-exchange',prompt:'I paid 3,000 yen for it. の for はどのイメージ?',question:'いちばん近い説明は?',choices:['それと引き換えに','それのために向かう','それに接触して','それの内側で'],answer:0,explain:'for は【交換】。お金と品物が向かい合っている。'},
+{id:'wcos-q4',kind:'core',ref:'w-cost',refSense:'wcos-spend',prompt:'spend が cost や take と違うところは?',question:'いちばん近い説明は?',choices:['人が主語で、時間にも金にも使える','物が主語になる','時間にしか使えない','金にしか使えない'],answer:0,explain:'I spent two hours / 3,000 yen. どちらも言える。'},
+{id:'wcos-q5',kind:'fill',ref:'w-cost',refSense:'wcos-cost',prompt:'How much does it ___?',question:'空欄に入るのは?',choices:['take','cost','spend','pay'],answer:1,explain:'物が主語で金額を聞くので cost。'},
+{id:'wcos-q6',kind:'fill',ref:'w-cost',refSense:'wcos-take',prompt:'It ___ about an hour by train.',question:'空欄に入るのは?',choices:['costs','takes','spends','pays'],answer:1,explain:'物や事が主語で時間がかかるので take。'},
+{id:'wcos-q7',kind:'fill',ref:'w-cost',refSense:'wcos-spend',prompt:'I ___ two hours on this report.',question:'空欄に入るのは?',choices:['cost','took','spent','paid'],answer:2,explain:'人が主語で時間を費やすので spend。'},
+{id:'wcos-q8',kind:'fill',ref:'w-cost',refSense:'wcos-pay',prompt:'I ___ 3,000 yen for these shoes.',question:'空欄に入るのは?',choices:['cost','took','spent','paid'],answer:3,explain:'人が主語でお金を渡すので pay。spent でも言えるが、for と組むのは pay が自然。'},
+
+/* ========================== 着く ========================== */
+{id:'warr-q1',kind:'core',ref:'w-arrive',refSense:'warr-reach',prompt:'reach に to をつけない理由は?',question:'いちばん近い説明は?',choices:['もともと「手を伸ばして届く」他動詞で、対象を直接つかむから','reach が古い語だから','to は場所に使えないから','慣用で理由はない'],answer:0,explain:'×reach to the station ／ ○reach the station。arrive は自動詞なので前置詞が要る。'},
+{id:'warr-q2',kind:'core',ref:'w-arrive',refSense:'warr-getto',prompt:'go to home が間違いな理由は?',question:'いちばん近い説明は?',choices:['home はもともと副詞で「家へ」の意味を自分で持っているから','home が不可算だから','go が自動詞だから','to が省略されただけ'],answer:0,explain:'there / here / home は到達の意味を自分で持つので、to を重ねない。'},
+{id:'warr-q3',kind:'core',ref:'w-arrive',refSense:'warr-arrive',jumpTo:'at/at-place',prompt:'arrive at the station と arrive in Tokyo の違いは?',question:'いちばん近い説明は?',choices:['at は地図上の一点、in は広がりのある場所','at は小さい建物専用','in の方が丁寧','違いはない'],answer:0,explain:'不変化詞のコア（at＝点、in＝囲まれた内側）がそのまま効いている。'},
+{id:'warr-q4',kind:'core',ref:'w-arrive',refSense:'warr-getto',jumpTo:'get/get-arrive',prompt:'get to のコアは?',question:'いちばん近い説明は?',choices:['「至る」の get に、到達点を示す to','get が「得る」','to が「〜へ向かう」だけ','慣用で理由はない'],answer:0,explain:'get は【その状態・場所に至る】。to は【到達する方向】。'},
+{id:'warr-q5',kind:'fill',ref:'w-arrive',refSense:'warr-reach',prompt:'We finally ___ the summit at noon.',question:'空欄に入るのは?（前置詞なし）',choices:['arrived','reached','got','came'],answer:1,explain:'reach は他動詞なので前置詞なしで目的地を置ける。'},
+{id:'warr-q6',kind:'fill',ref:'w-arrive',refSense:'warr-arrive',prompt:'She arrived ___ Tokyo last night.',question:'空欄に入るのは?',choices:['at','in','to','on'],answer:1,explain:'東京は広がりのある場所なので in。駅など一点なら at。'},
+{id:'warr-q7',kind:'fill',ref:'w-arrive',refSense:'warr-getto',prompt:'What time did you get ___ the office?',question:'空欄に入るのは?',choices:['at','to','in','on'],answer:1,explain:'get to で到達点を示す。'},
+{id:'warr-q8',kind:'fill',ref:'w-arrive',refSense:'warr-getto',prompt:'How do I get ___?',question:'空欄に入るのは?（そこへはどう行けば?）',choices:['to there','there','at there','in there'],answer:1,explain:'there は副詞なので to は不要。'},
+
+/* ==================== -ly で変わる語 ==================== */
+{id:'wly-q1',kind:'core',ref:'w-ly',refSense:'wly-hard',prompt:'He works hard. と He hardly works. の違いは?',question:'いちばん近い説明は?',choices:['前者は一生懸命働く、後者はほとんど働かない','後者の方が丁寧','意味は同じ','後者は過去のこと'],answer:0,explain:'-ly がついて意味がほぼ反対になる、数少ない例。'},
+{id:'wly-q2',kind:'core',ref:'w-ly',refSense:'wly-most',prompt:'×almost people と言えない理由は?',question:'いちばん近い説明は?',choices:['almost は程度を修飾する副詞で、名詞に直接つけないから','people が複数だから','almost が長いから','most の方が古いから'],answer:0,explain:'名詞につけるなら most people。almost all people なら言える（all を修飾）。'},
+{id:'wly-q3',kind:'core',ref:'w-ly',refSense:'wly-late',prompt:'I haven’t seen him lately.',question:'この lately が表しているのは?',choices:['遅く','最近','遅刻して','後で'],answer:1,explain:'late（遅く）と lately（最近）は別の意味になる。'},
+{id:'wly-q4',kind:'core',ref:'w-ly',refSense:'wly-near',prompt:'It’s nearly done.',question:'この nearly が表しているのは?',choices:['近くで','ほとんど','丁寧に','急いで'],answer:1,explain:'near は距離、nearly は程度。'},
+{id:'wly-q5',kind:'fill',ref:'w-ly',refSense:'wly-hard',prompt:'She studies very ___ every day.',question:'空欄に入るのは?（一生懸命）',choices:['hard','hardly','hardy','harder'],answer:0,explain:'「一生懸命に」の副詞は hard のまま。hardly だと逆の意味になる。'},
+{id:'wly-q6',kind:'fill',ref:'w-ly',refSense:'wly-hard',prompt:'I can ___ hear you — the line is bad.',question:'空欄に入るのは?（ほとんど聞こえない）',choices:['hard','hardly','nearly','lately'],answer:1,explain:'hardly ＝ ほとんど〜ない。否定語を別に置かない点に注意。'},
+{id:'wly-q7',kind:'fill',ref:'w-ly',refSense:'wly-most',prompt:'___ people prefer the new design.',question:'空欄に入るのは?',choices:['Almost','Most','Nearly','Mostly'],answer:1,explain:'名詞に直接つくのは most。'},
+{id:'wly-q8',kind:'fill',ref:'w-ly',refSense:'wly-late',prompt:'I stayed up ___ last night.',question:'空欄に入るのは?（夜更かしした）',choices:['lately','late','later','latest'],answer:1,explain:'時間が遅いのは late。lately なら「最近」。'},
+
+/* ====================== some と any ====================== */
+{id:'wsom-q1',kind:'core',ref:'w-some',refSense:'wsom-some',prompt:'Would you like some coffee? が疑問文なのに some な理由は?',question:'いちばん近い説明は?',choices:['コーヒーがあることは前提で、飲むかどうかを尋ねているから','勧誘文は例外だから','coffee が不可算だから','would があるから'],answer:0,explain:'規則ではなく、話し手が何を前提にしているかで決まる。'},
+{id:'wsom-q2',kind:'core',ref:'w-some',refSense:'wsom-anypos',prompt:'Come any time.',question:'この any が表しているのは?',choices:['どの時間でもいい','どの時間もだめ','特定の時間','時間が未定'],answer:0,explain:'any のコアは「どれか未定」。肯定文では「どれでもいい」になる。'},
+{id:'wsom-q3',kind:'core',ref:'w-some',refSense:'wsom-any',prompt:'I don’t have any money.',question:'この any が表しているのは?',choices:['少しある','まったくない','どれでもいい','未定だ'],answer:1,explain:'否定文では「どれも無い」＝ゼロ。'},
+{id:'wsom-q4',kind:'core',ref:'w-some',refSense:'wsom-any',prompt:'same コアなのに any が文の形で意味を変えるのはなぜ?',question:'いちばん近い説明は?',choices:['「どれか未定」が、否定なら「どれも無い」、肯定なら「どれでも」になるから','any に2つの意味があるから','文法規則だから','偶然そうなった'],answer:0,explain:'1つのコアが、文の形によって別の顔を見せているだけ。'},
+{id:'wsom-q5',kind:'fill',ref:'w-some',refSense:'wsom-any',prompt:'Do you have ___ questions?',question:'空欄に入るのは?（あるか無いか分からない）',choices:['some','any','a few','little'],answer:1,explain:'存在を前提にしていないので any。'},
+{id:'wsom-q6',kind:'fill',ref:'w-some',refSense:'wsom-some',prompt:'Would you like ___ more tea?',question:'空欄に入るのは?',choices:['any','some','few','little'],answer:1,explain:'お茶があることは前提で勧めているので some。'},
+{id:'wsom-q7',kind:'fill',ref:'w-some',refSense:'wsom-some',prompt:'I have ___ good news for you.',question:'空欄に入るのは?',choices:['any','some','a few','few'],answer:1,explain:'あることが分かっているので some。news は不可算なので a few は使えない。'},
+{id:'wsom-q8',kind:'fill',ref:'w-some',refSense:'wsom-anypos',prompt:'___ question is welcome.',question:'空欄に入るのは?（どんな質問でも）',choices:['Some','Any','Few','Little'],answer:1,explain:'肯定文の any は「どれでも」。'}
 ];

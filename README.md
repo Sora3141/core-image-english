@@ -87,6 +87,16 @@ It's on me.      負担が私に乗っている → おごり
   前置詞ではあっても、動詞にくっつく副詞辞にはならないからです。
   `have` の行がほぼ空なのも、「圏内にあるだけで動きがない」ため
 
+### 🔤 単語
+NGSL（New General Service List）頻度順の上位1000語。
+
+- **3モード** — 英→日の4択 ・ 日→英の4択 ・ スペル入力
+- 帯（1〜333位 / 334〜666位 / 667〜1000位）を選んで出題
+- 誤答の選択肢は**同じ帯から引く**ので、難易度がそろいます
+- **1000語のうち66語は教科書にコアページを持っています。**
+  その語が出たときは暗記せず、答え合わせの画面からコアページへ飛べます
+- 発音記号と例文つき。スペル入力では例文の該当語が空所になります
+
 ### 🔁 復習
 間隔反復（0 → 1 → 3 → 7 → 21 → 60日）。誤答で間隔がリセットされます。
 進捗は localStorage に保存されるので、サーバーは不要です。
@@ -96,13 +106,14 @@ It's on me.      負担が私に乗っている → おごり
 ## 収録内容
 
 ```
-65ページ    不変化詞25 ・ 基本動詞30 ・ 文法10
-266派生     各コアからの派生用法
-568例文     訳と「なぜそうなるか」のメモつき
-138本の⚡   豆知識
-269句動詞   30動詞 × 25不変化詞 = 750マスのうち実在する269
-522問       コア適用261 ・ 用法穴埋め231 ・ 意味選択30
-65コア図    全ページにSVGの模式図
+77ページ     不変化詞25 ・ 基本動詞30 ・ 文法10 ・ 紛らわしい語12
+312派生      各コアからの派生用法
+657例文      訳と「なぜそうなるか」のメモつき
+162本の⚡    豆知識
+269句動詞    30動詞 × 25不変化詞 = 750マスのうち実在する269
+618問        コア適用 ・ 用法穴埋め ・ 意味選択
+1000単語     NGSL 頻度順。うち66語はコアページへ繋がる
+77コア図     全ページにSVGの模式図
 ```
 
 **不変化詞（25）**
@@ -118,6 +129,12 @@ pull / push / carry / fall / catch / leave / pass / work / play / pick
 **文法（10）**
 過去形＝距離 / to と -ing / 冠詞 / 現在形 / 進行形 / 現在完了 / 助動詞 / 受動態 / 関係代名詞 / do
 
+**紛らわしい語（12）**
+say・tell・speak・talk / see・look・watch・hear・listen / big・large・great・huge /
+borrow・lend・rent・use / hope・wish・want・expect / another・the other・others /
+few・a few・little・a little / remember・remind・forget / cost・take・spend・pay /
+arrive・reach・get to / hard・hardly（-lyで変わる語） / some・any
+
 ---
 
 ## ファイル構成
@@ -127,23 +144,42 @@ index.html          アプリ本体
 style.css           スマホ縦持ち・片手前提のスタイル
 app.js              画面遷移・採点・SRS・マトリクス
 diagrams.js         コア図28点（CSS変数を参照するのでテーマ追従）
-data/particles.js   不変化詞10ページ
-data/verbs.js       基本動詞8ページ
+data/particles.js   不変化詞25ページ
+data/verbs.js       基本動詞30ページ
 data/grammar.js     文法10ページ
-data/phrasals.js    句動詞マトリクス
-data/exercises.js   演習226問
+data/words.js       紛らわしい語12ページ
+data/phrasals.js    句動詞マトリクス269
+data/vocab.js       単語1000（NGSL 上位1000語）
+data/exercises.js   演習618問
 DESIGN.md           設計メモ（決定事項・見送った案の記録）
 ```
 
 コンテンツはすべてデータファイルに分離してあるので、
 ページや問題の追加は `data/` を編集するだけで済みます。
 
+## データの出典
+
+このリポジトリは、コード以外に外部のデータを含みます。
+
+| 対象 | 出典 | ライセンス |
+|---|---|---|
+| 単語リストと頻度順（`data/vocab.js`） | [NGSL](https://www.newgeneralservicelist.com/) — Browne, C., Culligan, B. & Phillips, J. | CC BY 3.0 |
+| 発音記号（`data/vocab.js`） | [open-dict-data/ipa-dict](https://github.com/open-dict-data/ipa-dict) | MIT |
+| 日本語訳・例文（`data/vocab.js`） | 本プロジェクトで付与 | MIT |
+| 教科書・演習・句動詞の全テキスト | 本プロジェクトで作成 | MIT |
+
+`data/vocab.js` は NGSL の上位1000語を抜き出したものです。
+元データの並びには2つの癖があります（`the` が1位ではなく1000位に置かれ、`I` が収録されていない）。
+姉妹プロジェクト `ngsl-vocab-quiz` と同じ並びを保つため、ここでは直していません。
+`the` は冠詞ページで深く扱っています。
+
 ## 今後
 
 - 文法の残り30（比較 / 接続詞 / 使役 / 知覚動詞 / SVOO・SVOC / 分詞 / 仮定法 …）
-- 語彙1000（紛らわしい語のニュアンス差と、4択＋スペル入力）
 - 不変化詞 `after` / `behind`（`look after` / `leave behind` をマトリクスに載せるため）
 
 ## License
 
-MIT
+コードと、本プロジェクトが書いたテキスト（教科書・演習・句動詞・日本語訳・例文）は **MIT**。
+`data/vocab.js` に含まれる単語リストと頻度順は **CC BY 3.0**（NGSL）、
+発音記号は **MIT**（ipa-dict）です。上の表を参照してください。

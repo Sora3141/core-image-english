@@ -749,5 +749,194 @@ vPick: SVG(`
   <text x="140" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">指先で一つだけ選び取る</text>`)
   + CAP('choose は比べて選ぶ、pick はぱっとつまむ')
 
+,
+
+/* ---------- 紛らわしい語のコア図 ---------- */
+
+/* say / tell ── 言葉の中身か、届ける相手か */
+wSay: SVG(SPLIT + `
+  <circle cx="44" cy="62" r="13" fill="var(--accent)"/>
+  <path d="M68 44 h58 a6 6 0 0 1 6 6 v24 a6 6 0 0 1 -6 6 h-46 l-12 10 v-10 a6 6 0 0 1 -6 -6
+           v-24 a6 6 0 0 1 6 -6 z" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="99" y="68" text-anchor="middle" font-size="11" fill="var(--accent)">言葉</text>
+  <text x="80" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">say ＝ 中身</text>
+  <circle cx="196" cy="62" r="13" fill="var(--accent)"/>
+  <line x1="216" y1="62" x2="252" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M264 62 l-14 6 v-12 z" fill="var(--accent)"/>
+  <circle cx="284" cy="62" r="13" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".7"/>
+  <text x="240" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">tell ＝ 相手</text>`)
+  + CAP('×say me ／ ○tell me ／ ○say to me'),
+
+/* see / look ── 入ってくるか、向けるか */
+wSee: SVG(SPLIT + `
+  <path d="M28 62 q26 -20 52 0 q-26 20 -52 0 z" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <circle cx="54" cy="62" r="7" fill="var(--accent)"/>
+  <line x1="140" y1="62" x2="94" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M84 62 l14 6 v-12 z" fill="var(--accent)"/>
+  <text x="80" y="34" text-anchor="middle" font-size="11.5" fill="var(--accent)">入ってくる</text>
+  <text x="80" y="102" text-anchor="middle" font-size="11" fill="var(--muted)">see / hear</text>
+  <path d="M182 62 q26 -20 52 0 q-26 20 -52 0 z" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <circle cx="208" cy="62" r="7" fill="var(--accent)"/>
+  <line x1="248" y1="62" x2="286" y2="62" stroke="var(--accent)" stroke-width="3" stroke-dasharray="6 4"/>
+  <path d="M296 62 l-14 6 v-12 z" fill="var(--accent)"/>
+  <text x="238" y="34" text-anchor="middle" font-size="11.5" fill="var(--accent)">こちらから向ける</text>
+  <text x="238" y="102" text-anchor="middle" font-size="11" fill="var(--muted)">look at / listen to</text>`)
+  + CAP('向ける側にだけ、向ける先を示す前置詞が要る'),
+
+/* big / large / great / huge */
+wBig: SVG(`
+  ${[['big',44,26],['large',110,34],['great',180,42],['huge',256,54]].map(([t,x,r]) =>
+    `<rect x="${x-r/2}" y="${74-r}" width="${r}" height="${r}" rx="4" fill="var(--accent)"
+       opacity="${0.55+r/160}"/>
+     <text x="${x}" y="92" text-anchor="middle" font-size="11" font-family="Georgia,serif"
+       fill="var(--muted)">${t}</text>`).join('')}
+  <text x="44" y="108" text-anchor="middle" font-size="10" fill="var(--accent)">主観</text>
+  <text x="110" y="108" text-anchor="middle" font-size="10" fill="var(--accent)">測れる</text>
+  <text x="180" y="108" text-anchor="middle" font-size="10" fill="var(--accent)">程度</text>
+  <text x="256" y="108" text-anchor="middle" font-size="10" fill="var(--accent)">圧倒的</text>`)
+  + CAP('サイズの大小ではなく、どこを見ているかが違う'),
+
+/* borrow / use ── 持ち出すか、その場か */
+wBorrow: SVG(SPLIT + `
+  <rect x="26" y="40" width="46" height="44" rx="6" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" opacity=".55"/>
+  <line x1="82" y1="62" x2="118" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M130 62 l-14 6 v-12 z" fill="var(--accent)"/>
+  <rect x="136" y="48" width="28" height="28" rx="5" fill="var(--accent)"/>
+  <text x="80" y="30" text-anchor="middle" font-size="11.5" fill="var(--accent)">持ち出す</text>
+  <text x="90" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">borrow</text>
+  <rect x="198" y="40" width="76" height="44" rx="6" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" opacity=".55"/>
+  <rect x="222" y="48" width="28" height="28" rx="5" fill="var(--accent)"/>
+  <path d="M236 88 a16 16 0 1 0 0.1 0" fill="none" stroke="var(--accent)" stroke-width="2"
+        stroke-dasharray="3 3" opacity=".7"/>
+  <text x="236" y="30" text-anchor="middle" font-size="11.5" fill="var(--accent)">その場で使う</text>
+  <text x="236" y="118" text-anchor="middle" font-size="11" fill="var(--muted)">use</text>`)
+  + CAP('動かせるかどうかで borrow と use が割れる'),
+
+/* hope / wish ── 現実の内か外か */
+wHope: SVG(`
+  <line x1="160" y1="16" x2="160" y2="104" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <circle cx="86" cy="60" r="34" fill="var(--accent)" opacity=".18"/>
+  <text x="86" y="64" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">hope</text>
+  <text x="86" y="22" text-anchor="middle" font-size="11" fill="var(--muted)">ありうる</text>
+  <circle cx="238" cy="60" r="34" fill="none" stroke="var(--accent)" stroke-width="2.5"
+          stroke-dasharray="5 4"/>
+  <text x="238" y="64" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">wish</text>
+  <text x="238" y="22" text-anchor="middle" font-size="11" fill="var(--muted)">ありえない</text>
+  <text x="160" y="118" text-anchor="middle" font-size="11" fill="var(--muted)">現実の線</text>`)
+  + CAP('現実の外だから、wish の後ろは過去形になる'),
+
+/* another / the other / the others */
+wOther: SVG(`
+  <text x="52" y="22" text-anchor="middle" font-size="11" fill="var(--accent)">another</text>
+  ${[36,68,100].map((x,i)=>`<circle cx="${x}" cy="56" r="11" fill="var(--accent)"
+     opacity="${i===0?1:0.3}"/>`).join('')}
+  <text x="68" y="84" text-anchor="middle" font-size="10" fill="var(--muted)">不特定の1つ</text>
+  <line x1="130" y1="16" x2="130" y2="96" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 4"/>
+  <text x="176" y="22" text-anchor="middle" font-size="11" fill="var(--accent)">the other</text>
+  <circle cx="158" cy="56" r="11" fill="var(--muted)" opacity=".4"/>
+  <circle cx="194" cy="56" r="11" fill="var(--accent)"/>
+  <text x="176" y="84" text-anchor="middle" font-size="10" fill="var(--muted)">2つのうちの残り</text>
+  <line x1="222" y1="16" x2="222" y2="96" stroke="var(--line)" stroke-width="2" stroke-dasharray="3 4"/>
+  <text x="270" y="22" text-anchor="middle" font-size="11" fill="var(--accent)">the others</text>
+  <circle cx="242" cy="56" r="11" fill="var(--muted)" opacity=".4"/>
+  ${[268,294].map(x=>`<circle cx="${x}" cy="56" r="11" fill="var(--accent)"/>`).join('')}
+  <text x="272" y="84" text-anchor="middle" font-size="10" fill="var(--muted)">残り全部</text>`)
+  + CAP('the が付けば「あれ」と特定できる残り'),
+
+/* few / a few ── a があるかないか */
+wFew: SVG(SPLIT + `
+  <rect x="34" y="34" width="92" height="52" rx="7" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" opacity=".5"/>
+  <circle cx="58" cy="70" r="7" fill="var(--accent)" opacity=".4"/>
+  <text x="80" y="26" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--muted)">few</text>
+  <text x="80" y="104" text-anchor="middle" font-size="11" fill="var(--ng)">ほとんど「ない」</text>
+  <rect x="194" y="34" width="92" height="52" rx="7" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  ${[216,240,264].map(x=>`<circle cx="${x}" cy="70" r="7" fill="var(--accent)"/>`).join('')}
+  <text x="240" y="26" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)"><tspan font-weight="700">a</tspan> few</text>
+  <text x="240" y="104" text-anchor="middle" font-size="11" fill="var(--ok)">少し「ある」</text>`)
+  + CAP('a は【輪郭のある1つ】── 存在が見えている印'),
+
+/* remember / remind */
+wRemember: SVG(SPLIT + `
+  <circle cx="80" cy="62" r="24" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M80 44 a12 12 0 1 1 -0.1 0" fill="none" stroke="var(--accent)" stroke-width="2"
+        opacity=".6"/>
+  <text x="80" y="24" text-anchor="middle" font-size="11.5" fill="var(--accent)">自分の中で</text>
+  <text x="80" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">remember</text>
+  <circle cx="196" cy="62" r="16" fill="var(--accent)"/>
+  <line x1="218" y1="62" x2="254" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M266 62 l-14 6 v-12 z" fill="var(--accent)"/>
+  <circle cx="286" cy="62" r="16" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".7"/>
+  <text x="240" y="24" text-anchor="middle" font-size="11.5" fill="var(--accent)">人に思い出させる</text>
+  <text x="240" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">remind + 人</text>`)
+  + CAP('remind には必ず相手が要る'),
+
+/* cost / take / spend / pay ── 2つの軸 */
+wCost: SVG(`
+  <line x1="92" y1="18" x2="92" y2="104" stroke="var(--line)" stroke-width="2"/>
+  <line x1="24" y1="48" x2="300" y2="48" stroke="var(--line)" stroke-width="2"/>
+  <text x="168" y="34" text-anchor="middle" font-size="11" fill="var(--muted)">お金</text>
+  <text x="256" y="34" text-anchor="middle" font-size="11" fill="var(--muted)">時間</text>
+  <text x="56" y="72" text-anchor="middle" font-size="11" fill="var(--muted)">物が主語</text>
+  <text x="56" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">人が主語</text>
+  <text x="168" y="74" text-anchor="middle" font-size="14" font-family="Georgia,serif"
+        fill="var(--accent)">cost</text>
+  <text x="256" y="74" text-anchor="middle" font-size="14" font-family="Georgia,serif"
+        fill="var(--accent)">take</text>
+  <text x="168" y="100" text-anchor="middle" font-size="14" font-family="Georgia,serif"
+        fill="var(--accent)">pay</text>
+  <text x="256" y="100" text-anchor="middle" font-size="14" font-family="Georgia,serif"
+        fill="var(--accent)">spend</text>`)
+  + CAP('「何が主語か」を決めれば、使う語は自動で決まる'),
+
+/* arrive / reach / get to */
+wArrive: SVG(`
+  ${[['arrive',30,'at / in','var(--accent)'],['reach',58,'（なし）','var(--ok)'],
+     ['get',86,'to','var(--accent)']].map(([v,y,p,c]) =>
+    `<text x="26" y="${y+5}" font-size="14" font-family="Georgia,serif" fill="var(--text)">${v}</text>
+     <text x="112" y="${y+5}" font-size="12" font-family="Georgia,serif" fill="${c}">${p}</text>
+     <line x1="176" y1="${y}" x2="228" y2="${y}" stroke="var(--accent)" stroke-width="2.5"/>
+     <path d="M240 ${y} l-13 6 v-12 z" fill="var(--accent)"/>
+     <rect x="246" y="${y-11}" width="10" height="22" rx="3" fill="var(--accent)"/>`).join('')}
+  <text x="112" y="18" font-size="10.5" fill="var(--muted)">前置詞</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">reach だけが他動詞</text>`)
+  + CAP('意味はほぼ同じ。違うのは後ろの形だけ'),
+
+/* hard / hardly ── -ly で意味が変わる */
+wLy: SVG(`
+  <text x="70" y="42" text-anchor="middle" font-size="15" font-family="Georgia,serif"
+        fill="var(--accent)">hard</text>
+  <text x="70" y="62" text-anchor="middle" font-size="11" fill="var(--muted)">一生懸命</text>
+  <text x="160" y="46" text-anchor="middle" font-size="13" fill="var(--muted)">+ ly</text>
+  <line x1="106" y1="40" x2="196" y2="40" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <path d="M208 40 l-14 6 v-12 z" fill="var(--accent)"/>
+  <text x="256" y="42" text-anchor="middle" font-size="15" font-family="Georgia,serif"
+        fill="var(--accent)">hardly</text>
+  <text x="256" y="62" text-anchor="middle" font-size="11" fill="var(--muted)">ほとんど〜ない</text>
+  <text x="160" y="92" text-anchor="middle" font-size="11.5" fill="var(--ng)">意味がほぼ反対になる</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">late / lately ・ near / nearly も同じ</text>`)
+  + CAP('-ly は「副詞化」とは限らない'),
+
+/* some / any */
+wSome: SVG(SPLIT + `
+  <rect x="34" y="32" width="92" height="56" rx="7" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  ${[58,80,102].map(x=>`<circle cx="${x}" cy="62" r="9" fill="var(--accent)"/>`).join('')}
+  <text x="80" y="24" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">some</text>
+  <text x="80" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">あると思っている</text>
+  <rect x="194" y="32" width="92" height="56" rx="7" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" stroke-dasharray="5 4" opacity=".7"/>
+  <text x="240" y="70" text-anchor="middle" font-size="26" fill="var(--muted)" opacity=".6">?</text>
+  <text x="240" y="24" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--muted)">any</text>
+  <text x="240" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">あるかどうか未定</text>`)
+  + CAP('だから勧誘の疑問文には some が使える')
+
 
 };

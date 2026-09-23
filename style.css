@@ -306,3 +306,39 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .pv-card.done{background:var(--accent-soft); border-color:var(--accent)}
 .pv-card.done .m{color:var(--text)}
 .pv-card.sel{outline:2px solid var(--accent); outline-offset:1px}
+
+/* ---------- 単語 ---------- */
+.seg{display:flex; gap:6px; margin-bottom:12px}
+.seg button{
+  flex:1; padding:10px 6px; border-radius:10px; border:1px solid var(--line);
+  background:var(--surface); color:var(--muted); font:inherit; font-size:13px; cursor:pointer;
+  text-align:center; line-height:1.35;
+}
+.seg button[aria-current="true"]{background:var(--accent); border-color:var(--accent);
+  color:#fff; font-weight:700}
+.seg button small{display:block; font-size:10.5px; opacity:.75; font-weight:400}
+
+.v-word{
+  font-family:Georgia,serif; font-size:34px; text-align:center; line-height:1.2;
+  overflow-wrap:anywhere;
+}
+.v-ipa{font-size:13px; color:var(--muted); text-align:center; margin-top:4px}
+.v-rank{font-size:11px; color:var(--muted); text-align:center; margin-top:6px}
+.v-ja{font-size:24px; font-weight:700; text-align:center; line-height:1.35}
+
+.v-input{
+  width:100%; padding:14px; border-radius:12px; border:1px solid var(--line);
+  background:var(--surface); color:var(--text); font:inherit; font-size:20px;
+  font-family:Georgia,serif; text-align:center;
+}
+.v-input:focus{outline:2px solid var(--accent); outline-offset:-1px}
+.v-input.ok{border-color:var(--ok); background:var(--ok-soft)}
+.v-input.ng{border-color:var(--ng); background:var(--ng-soft)}
+
+.v-ex{
+  font-family:Georgia,serif; font-size:15.5px; line-height:1.6; text-align:center;
+  padding:12px; background:var(--surface2); border-radius:10px; margin-top:10px;
+}
+.v-ex .ja{font-family:inherit; font-size:13px; color:var(--muted); margin-top:5px}
+.v-ex b{color:var(--accent)}
+.v-blank{color:var(--accent); letter-spacing:.1em}

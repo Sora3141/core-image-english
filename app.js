@@ -74,7 +74,8 @@ function grade(id, ok){
 }
 
 const state = { tab:'book', page:null, focusSense:null, quiz:null, cell:null, mxVerb:'get',
-                vocab:null, vBand:1, vMode:'ja', panel:null, q:'', scope:'all', cat:'particle' };
+                vocab:null, vBand:1, vMode:'ja', panel:null, q:'', scope:'all', cat:'particle',
+                vTab:'test', vq:'', vFilter:'all', vOpen:null };
 const MATRIX_ID = '__matrix';
 const $ = s => document.querySelector(s);
 
@@ -518,6 +519,7 @@ function viewVocabStart(){
   const withPage = band.filter(w => w[6]).length;
   return `
     ${headRow('単語')}
+    ${vocabTabs()}
     <p class="sub">NGSL 頻度順の上位1000語</p>
     <div class="stat-row">
       <div class="stat"><b>${learned}<span style="font-size:14px;color:var(--muted)">/1000</span></b><span>正解済み</span></div>
@@ -624,12 +626,19 @@ function viewVocab(){
     ${result}
     ${answered ? `<div class="sticky-next"><button class="btn primary" data-vnext>
         ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button></div>` : ''}
-    ${answered ? vocabTrivia(w) : ''}`;
+    ${answered ? vocabExtras(w) : ''}`;
 }
 
 /* 豆知識は「次へ」の下に置く。
    先へ進むための操作は常に画面内にあり、読み物は読みたい人だけが下へ送る。
    スクロールの意味が「進むため」から「読むため」に変わる */
+/* 「次へ」の下に置く読み物。絵と豆知識。
+   先へ進む操作は画面内に残し、見たい人だけが下へ送る */
+function vocabExtras(w){
+  const art = hasArt(w[0]) ? `<div class="wb-figure v-figure">${VOCAB_ART[w[0]]}</div>` : '';
+  return art + vocabTrivia(w);
+}
+
 function vocabTrivia(w){
   const t = typeof VOCAB_TRIVIA !== 'undefined' ? VOCAB_TRIVIA[w[0]] : null;
   if(!t) return '';
@@ -652,6 +661,97 @@ function vocabSenses(w){
       <div class="j">${esc(s[2])}</div>
     </div>`).join('')}</div>`;
 }
+
+/* ============================================================
+   単語帳
+   テストとは別に、1000語をただ眺めて調べられる場所。
+   覚えているかを問われずに、意味・例文・豆知識・絵を見に行ける
+   ============================================================ */
+const V_FILTERS = [
+  { id:'all',   label:'すべて' },
+  { id:'new',   label:'未出題' },
+  { id:'wrong', label:'間違えた' },
+  { id:'done',  label:'正解済み' },
+  { id:'art',   label:'絵あり' }
+];
+
+function wordState(w){
+  const t = store.rec[vKey(w)];
+  if(!t) return 'new';
+  if(t.w > 0) return 'wrong';
+  return t.r > 0 ? 'done' : 'new';
+}
+
+function filterWords(){
+  const q = state.vq.trim().toLowerCase();
+  return VOCAB.filter(w => {
+    if(bandOf(w) !== state.vBand && !q) return false;   /* 検索中は帯をまたぐ */
+    if(state.vFilter === 'art'){ if(!hasArt(w[0])) return false; }
+    else if(state.vFilter !== 'all' && wordState(w) !== state.vFilter) return false;
+    if(!q) return true;
+    return w[0].toLowerCase().includes(q) || w[1].includes(q)
+        || w[3].toLowerCase().includes(q) || w[4].includes(q);
+  });
+}
+
+const hasArt = word => typeof VOCAB_ART !== 'undefined' && !!VOCAB_ART[word];
+
+function viewWordbook(){
+  const list = filterWords();
+  const seg = (items, cur, key) => `<div class="seg scroll">${items.map(it => `
+    <button data-${key}="${it.id}" aria-current="${String(it.id) === String(cur)}">${it.label}</button>`).join('')}</div>`;
+
+  return `
+    ${headRow('単語')}
+    ${vocabTabs()}
+
+    <div class="searchbox">
+      <span class="mag" aria-hidden="true">🔍</span>
+      <input id="vq" type="search" inputmode="search" autocapitalize="off" autocorrect="off"
+        placeholder="単語・訳・例文から探す" value="${esc(state.vq)}">
+      ${state.vq ? '<button class="clear" data-clearvq aria-label="消す">✕</button>' : ''}
+    </div>
+
+    ${state.vq ? '' : seg(BANDS.map(b => ({ id:b.id, label:b.label })), state.vBand, 'vband')}
+    ${seg(V_FILTERS, state.vFilter, 'vfilter')}
+
+    <p class="sub" style="margin:2px 0 12px">${list.length}語${
+      state.vq ? '（検索中は帯をまたいで探します）' : ''}</p>
+
+    ${list.length ? list.map(w => wordRow(w)).join('')
+      : `<div class="empty"><span class="ic">🔍</span>該当する語がありません。</div>`}`;
+}
+
+function wordRow(w){
+  const open = state.vOpen === w[0];
+  const st = wordState(w);
+  const dot = { new:'', wrong:'ng', done:'ok' }[st];
+  return `<div class="wb ${open ? 'open' : ''}">
+    <button class="wb-head" data-word="${esc(w[0])}">
+      <span class="wb-rank ${dot}">${w[2]}</span>
+      <span class="wb-main">
+        <b>${esc(w[0])}</b>
+        <span class="wb-ja">${esc(w[1])}</span>
+      </span>
+      ${hasArt(w[0]) ? '<span class="wb-art" aria-label="絵あり">🖼</span>' : ''}
+      <span class="wb-caret">${open ? '▲' : '▼'}</span>
+    </button>
+    ${open ? `<div class="wb-body">
+      ${hasArt(w[0]) ? `<div class="wb-figure">${VOCAB_ART[w[0]]}</div>` : ''}
+      <div class="wb-ipa">${esc(w[5])}</div>
+      ${vocabSenses(w)}
+      ${w[6] ? `<button class="linkto" data-goto="${w[6]}" data-sense=""
+          style="margin-top:10px">📖 この語はコアページがあります</button>` : ''}
+      ${vocabTrivia(w)}
+    </div>` : ''}
+  </div>`;
+}
+
+/* テストと単語帳の切り替え */
+const vocabTabs = () => `<div class="seg" style="margin-bottom:14px">
+  <button data-vtab="test" aria-current="${state.vTab === 'test'}">テスト</button>
+  <button data-vtab="book" aria-current="${state.vTab === 'book'}">単語帳</button>
+</div>`;
 
 /* ============================================================
    復習
@@ -832,7 +932,8 @@ function render(){
   if(state.tab === 'book')        html = state.page === MATRIX_ID ? viewMatrix()
                                        : state.page ? viewBookPage(state.page) : viewBookList();
   else if(state.tab === 'quiz')   html = viewQuiz();
-  else if(state.tab === 'vocab')  html = viewVocab();
+  else if(state.tab === 'vocab')  html = state.vocab ? viewVocab()
+                                       : state.vTab === 'book' ? viewWordbook() : viewVocab();
   else                            html = viewReview();
   $('#view').innerHTML = html;
   $('#panel').innerHTML = state.panel === 'settings' ? viewSettings()
@@ -857,6 +958,8 @@ function render(){
   /* 検索欄は描き直すと中身ごと作り直されるので、入力位置を戻しておく */
   const q = document.getElementById('q');
   if(q && state.qFocus){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+  const vq = document.getElementById('vq');
+  if(vq && state.vqFocus){ vq.focus(); vq.setSelectionRange(vq.value.length, vq.value.length); }
   if(state.tab === 'book' && state.page && state.page !== MATRIX_ID){
     watchSenses();
     if(state.focusSense){ jumpTo(state.focusSense); state.focusSense = null; }
@@ -865,6 +968,10 @@ function render(){
 
 /* 検索は打つたびに絞り込む。変換中（日本語入力の途中）は反応させない */
 document.addEventListener('input', ev => {
+  if(ev.target.id === 'vq'){
+    if(ev.isComposing) return;
+    state.vq = ev.target.value; state.vqFocus = true; state.vOpen = null; render(); return;
+  }
   if(ev.target.id !== 'q') return;
   if(ev.isComposing) return;
   state.q = ev.target.value;
@@ -872,6 +979,7 @@ document.addEventListener('input', ev => {
   render();
 });
 document.addEventListener('compositionend', ev => {
+  if(ev.target.id === 'vq'){ state.vq = ev.target.value; state.vqFocus = true; render(); return; }
   if(ev.target.id !== 'q') return;
   state.q = ev.target.value; state.qFocus = true; render();
 });
@@ -882,7 +990,7 @@ document.addEventListener('click', ev => {
     '[data-cell],[data-verb],[data-vband],[data-vmode],[data-vstart],[data-vpick],'+
     '[data-vcheck],[data-vnext],[data-vstartwrong],[data-install],'+
     '[data-panel],[data-close],[data-set],[data-reset],[data-reset-yes],[data-clearq],'+
-    '[data-scope],[data-cat]');
+    '[data-scope],[data-cat],[data-vtab],[data-word],[data-vfilter],[data-clearvq]');
   if(!t) return;
   const d = t.dataset;
 
@@ -938,7 +1046,11 @@ document.addEventListener('click', ev => {
   else if(d.verb)         { state.mxVerb = d.verb; state.cell = null; }
   else if(d.scope)        { state.scope = d.scope; state.quiz = null; }
   else if(d.cat)          { state.cat = d.cat; }
-  else if(d.vband)        { state.vBand = +d.vband; state.vocab = null; }
+  else if(d.vtab)         { state.vTab = d.vtab; state.vocab = null; state.vOpen = null; }
+  else if(d.word)         { state.vOpen = state.vOpen === d.word ? null : d.word; }
+  else if(d.vfilter)      { state.vFilter = d.vfilter; state.vOpen = null; }
+  else if(d.clearvq !== undefined){ state.vq = ''; state.vqFocus = true; }
+  else if(d.vband)        { state.vBand = +d.vband; state.vocab = null; state.vOpen = null; }
   else if(d.vmode)        { state.vMode = d.vmode;  state.vocab = null; }
   else if(d.vstart !== undefined || d.vstartwrong !== undefined){
     const onlyWrong = d.vstartwrong !== undefined;

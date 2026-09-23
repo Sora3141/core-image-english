@@ -8,6 +8,36 @@
    例文を足しても水増しになるので入れていない。
    ============================================================ */
 const VOCAB_SENSES = {
+/* ---- イメージ図を2枚にした語（図の左右と例文をそろえる） ---- */
+arm: [['腕', 'He broke his arm playing soccer.', 'サッカーで腕を折った。'],
+  ['武器', 'The country agreed to reduce its arms.', 'その国は武器を減らすことに合意した。']],
+floor: [['床', 'The kids were sitting on the floor.', '子どもたちは床に座っていた。'],
+  ['階', 'Her office is on the fifth floor.', '彼女の事務所は5階にある。']],
+field: [['野原', 'Cows were grazing in the field.', '牛が野原で草を食べていた。'],
+  ['分野', 'She is a leader in her field.', '彼女はその分野の第一人者だ。']],
+space: [['空いた場所', 'Is there space for one more chair?', 'もう1脚椅子を置く場所ある?'],
+  ['宇宙', 'He dreamed of traveling in space.', '彼は宇宙を旅することを夢見ていた。']],
+ground: [['地面', 'The ball rolled along the ground.', 'ボールが地面を転がっていった。'],
+  ['根拠', 'You have no grounds for complaint.', '文句を言う根拠がない。']],
+park: [['公園', 'We walked through the park at sunset.', '夕暮れに公園を歩いた。'],
+  ['駐車する', 'You can park behind the building.', '建物の裏に駐車できます。']],
+store: [['店', 'The store closes at nine on Sundays.', 'その店は日曜は9時に閉まる。'],
+  ['蓄える', 'Squirrels store nuts for the winter.', 'リスは冬に備えて木の実を蓄える。']],
+lose: [['失う', 'I lost my keys somewhere on the train.', '電車のどこかで鍵をなくした。'],
+  ['負ける', 'We lost the final by one point.', '決勝を1点差で落とした。']],
+full: [['いっぱいの', 'The bus was full, so we waited.', 'バスが満員だったので待った。'],
+  ['完全な', 'He gave me his full support.', '彼は全面的に支えてくれた。']],
+open: [['開ける', 'Could you open the window a little?', '窓を少し開けてくれる?'],
+  ['開いている', 'The shop is open until midnight.', 'その店は夜中まで開いている。']],
+clean: [['きれいな', 'Put on a clean shirt before you go.', '行く前にきれいなシャツを着なさい。'],
+  ['掃除する', 'I clean the kitchen every Sunday.', '毎週日曜に台所を掃除する。']],
+poor: [['貧しい', 'He grew up in a poor village.', '彼は貧しい村で育った。'],
+  ['下手な', 'I have a poor sense of direction.', '方向感覚がまるでない。']],
+dark: [['暗い', 'It gets dark early in December.', '12月は暗くなるのが早い。'],
+  ['暗闇', 'The cat can see in the dark.', '猫は暗闇でも見える。']],
+strong: [['強い', 'A strong wind blew the door shut.', '強い風でドアが閉まった。'],
+  ['丈夫な', 'This rope is strong enough to hold us.', 'このロープは我々を支えるだけ丈夫だ。']],
+
 
 /* ---------- 意味が3つ以上ある語 ---------- */
 course: [['講座', 'I took a cooking course last year.', '去年、料理の講座を受けた。'],
@@ -532,6 +562,48 @@ fun: [['楽しみ', 'We had a lot of fun yesterday.', '昨日はとても楽し�
    由来が俗説のもの（news が東西南北の頭文字、など）は入れていない。
    ============================================================ */
 const VOCAB_TRIVIA = {
+/* ---- イメージ図から言葉のつながりが見えるもの ---- */
+arm: ['「腕」と「武器」がどちらも arm である理由',
+  'ラテン語 arma「道具・装備」と、腕を表す語がヨーロッパで早くに混ざった。'+
+  '腕は体に備わった道具であり、武器は腕に持つ道具。'+
+  '「武器」の意味では必ず複数形 arms になる、という区別だけが残っている。'],
+store: ['「店」と「蓄える」がつながっている理由',
+  '元の意味は「蓄える」のほう。ラテン語 instaurare「補充する」から来ていて、'+
+  '蓄えた物そのものが stock、蓄えておく場所が store になった。'+
+  'アメリカで「店」の意味が主になったが、storage（保管）にはもとの形が残っている。'],
+park: ['「公園」から「駐車する」が出てきた理由',
+  'もとは「囲われた土地」。王の狩り場を囲ったのが park だった。'+
+  '軍隊が大砲や荷車を一か所に囲って並べておくことを park と呼び、'+
+  'そこから車を並べて置く意味になった。芝生とは関係ない。'],
+train: ['「列車」と「訓練する」が同じ語である理由',
+  '中心にあるのは「引く」。ドレスの引きずる裾が train、'+
+  '機関車が客車を引き連ねたものも train。'+
+  '人を引っぱって望む方向へ導くのが「訓練する」。引かれて続く、が全部に通っている。'],
+paper: ['paper が「新聞」や「論文」も指す理由',
+  '語源はナイル川のパピルス（papyrus）。'+
+  '書くための材料がそのまま、書かれたものの名前になった。'+
+  'newspaper の news が落ちて paper だけで新聞、学術の場では論文を指す。'],
+field: ['field が「分野」を意味する理由',
+  '見渡すかぎりの平地が field。柵も建物もないので、どこまでが自分の範囲かを'+
+  '線で区切って考える必要があった。その「受け持ちの範囲」の感覚が残って、'+
+  '学問や仕事の「分野」になった。野球の守備範囲を思うと近い。'],
+ground: ['ground が「根拠」も意味する理由',
+  '建物は地面の上にしか建たない。主張も同じで、'+
+  '何かの上に載っていなければ立たない。'+
+  'その土台が ground。日本語の「根も葉もない」と発想がそろっている。'],
+fall: ['秋が fall と呼ばれる理由',
+  '「葉が落ちる季節」を意味した fall of the leaf が短くなったもの。'+
+  'イギリスでは autumn に取って代わられたが、'+
+  '移民が持ち込んだアメリカにはそのまま残った。同じ言語が地域で分かれた例。'],
+table: ['「机」と「表」が同じ語である理由',
+  '元は「平らな板」。文字を刻む板も table だった。'+
+  '板の上を線で区切って数字を並べたものが「表」になり、'+
+  '板に脚をつけたものが「机」になった。timetable は板の名残。'],
+head: ['head が「長」も「向かう」も意味する理由',
+  '体の一番上にあり、進む方向を決めるのが頭。'+
+  '集団の一番上にいて方向を決める人が head（長）、'+
+  '自分が先頭になってある方向へ進むのが head for。位置ではなく役割の語。'],
+
 
 /* ---- 2つの意味が1語に同居する理由が分かるもの ---- */
 patient: ['「患者」と「辛抱強い」が同じ語である理由',

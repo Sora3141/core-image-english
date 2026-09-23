@@ -927,7 +927,35 @@ function rememberPlace(){
   if(JSON.stringify(l) !== JSON.stringify(store.last)){ store.last = l; save(); }
 }
 
+/* いまどの画面を見ているかを表す鍵。
+   これが変わらない更新（行を開く、答えを選ぶ、マスを選ぶ）は
+   「同じ画面の中の出来事」なので、スクロール位置をそのまま保つ。
+   変わったときだけ移動とみなし、その画面を前に見ていた位置から始める。
+
+   鍵に入れないもの: vOpen（単語帳の開閉）、cell（マトリクスの選択）、
+   quiz.sel / vocab.judged（答えたかどうか）、panel（設定の開閉） */
+function screenKey(){
+  if(state.tab === 'book'){
+    if(state.page) return 'book:' + state.page;
+    return 'booklist:' + state.cat + ':' + state.q;
+  }
+  if(state.tab === 'quiz')
+    return state.quiz ? 'quiz:' + state.quiz.i : 'quiztop:' + state.scope;
+  if(state.tab === 'vocab'){
+    if(state.vocab) return 'vocabq:' + state.vocab.i;
+    if(state.vTab === 'book') return 'wordbook:' + state.vBand + ':' + state.vFilter + ':' + state.vq;
+    return 'vocabtop';
+  }
+  return 'review';
+}
+let lastKey = null;
+const scrollMemo = {};
+
 function render(){
+  const viewEl = $('#view');
+  const prevKey = lastKey;
+  const prevTop = viewEl ? viewEl.scrollTop : 0;
+
   let html;
   if(state.tab === 'book')        html = state.page === MATRIX_ID ? viewMatrix()
                                        : state.page ? viewBookPage(state.page) : viewBookList();
@@ -943,7 +971,17 @@ function render(){
     b.setAttribute('aria-selected', b.dataset.tab === state.tab));
   rememberPlace();
 
-  $('#view').scrollTop = 0;
+  /* 画面が変わっていなければその場に留まる。
+     innerHTML を入れ替えると中身ごと作り直されて 0 に戻るので、明示的に書き戻す */
+  const key = screenKey();
+  if(key === prevKey){
+    $('#view').scrollTop = prevTop;
+  }else{
+    if(prevKey !== null) scrollMemo[prevKey] = prevTop;
+    $('#view').scrollTop = scrollMemo[key] || 0;
+  }
+  lastKey = key;
+
   const vin = document.getElementById('vin');
   if(vin && !vin.disabled) vin.focus();
 

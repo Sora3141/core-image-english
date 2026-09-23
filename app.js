@@ -14,7 +14,7 @@ const INTERVALS = [0, 1, 3, 7, 21, 60];   // SRS: box → 次回までの日数
 const DAY = 86400000;
 
 /* ---------- 設定 ---------- */
-const DEFAULTS = { theme:'auto', accent:'orange', fs:1, size:10, haptics:true };
+const DEFAULTS = { theme:'auto', accent:'orange', fs:1, size:10, haptics:true, sound:true };
 const THEMES  = [{id:'auto',label:'自動',note:'端末に合わせる'},
                  {id:'light',label:'ライト',note:'明るい'},
                  {id:'dark',label:'ダーク',note:'暗い'}];
@@ -61,6 +61,57 @@ function buzz(ok){
   if(!store.set.haptics || !navigator.vibrate) return;
   navigator.vibrate(ok ? 12 : [10, 40, 10]);
 }
+
+/* ============================================================
+   効果音 ── その場で合成する
+
+   音声ファイルは持たない。数十バイトのコードで済むうえ、
+   読み込み待ちが無く、圏外でも鳴り、キャッシュも増えない。
+
+   音の作りは「正解を褒めすぎず、不正解を責めない」こと。
+   正解は上がる2音、不正解は下がる2音で、どちらも0.2秒で終わる。
+   間違えたときの音を耳ざわりにすると、間違えるのが嫌になって
+   手が止まる。そこは震え（buzz）の役目に任せる。
+   ============================================================ */
+const TONES = {
+  /* [周波数, 開始秒, 長さ秒, 音量] */
+  ok:   { wave:'sine',     notes:[[880, 0, .09, .16], [1318.51, .07, .13, .14]] },
+  ng:   { wave:'triangle', notes:[[261.63, 0, .11, .11], [196, .09, .16, .09]] },
+  done: { wave:'sine',     notes:[[523.25, 0, .12, .12], [659.25, .07, .12, .12],
+                                  [783.99, .14, .12, .12], [1046.5, .21, .3, .13]] }
+};
+
+let actx = null;
+function play(kind){
+  if(!store.set.sound) return;
+  const t = TONES[kind];
+  if(!t) return;
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    /* 鳴らす瞬間まで作らない。iOS は操作の中でしか音を出せないので、
+       ここ（タップの処理の中）で作って起こすのがちょうどいい */
+    actx = actx || new AC();
+    if(actx.state === 'suspended') actx.resume();
+    const now = actx.currentTime;
+    t.notes.forEach(([hz, at, dur, vol]) => {
+      const osc = actx.createOscillator(), g = actx.createGain();
+      osc.type = t.wave;
+      osc.frequency.value = hz;
+      /* 立ち上がりを少し鈍らせないと、頭が「プチッ」と鳴る */
+      g.gain.setValueAtTime(0.0001, now + at);
+      g.gain.exponentialRampToValueAtTime(vol, now + at + .012);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + at + dur);
+      osc.connect(g).connect(actx.destination);
+      osc.start(now + at);
+      osc.stop(now + at + dur + .02);
+    });
+  }catch(err){ /* 音が出せない環境でも学習は止めない */ }
+}
+
+/* 震えと音は必ず一緒に出す。片方だけ呼ぶと、設定を切ったときに
+   手ごたえが半分だけ残って、壊れたように感じる */
+function feedback(ok){ buzz(ok); play(ok ? 'ok' : 'ng'); }
 function save(){ localStorage.setItem(KEY, JSON.stringify(store)); }
 function rec(id){
   return store.rec[id] || (store.rec[id] = { r:0, w:0, box:0, due:0 });
@@ -865,6 +916,13 @@ function viewSettings(){
       </div>
 
       <div class="set-group">
+        <div class="set-label">正解・不正解のときに音を鳴らす</div>
+        ${seg('sound', [{id:'on',label:'オン'},{id:'off',label:'オフ'}],
+              s.sound ? 'on' : 'off', 'sound')}
+        <p class="set-note">マナーモードでも鳴る端末があります。</p>
+      </div>
+
+      <div class="set-group">
         <div class="set-label">正解・不正解のときに震わせる</div>
         ${seg('haptics', [{id:'on',label:'オン'},{id:'off',label:'オフ'}],
               s.haptics ? 'on' : 'off', 'haptics')}
@@ -1063,6 +1121,7 @@ document.addEventListener('click', ev => {
     if(d.set === 'accent')  store.set.accent = v;
     if(d.set === 'fs')      store.set.fs     = +v;
     if(d.set === 'size')    store.set.size   = +v;
+    if(d.set === 'sound'){ store.set.sound = v === 'on'; play('ok'); }
     if(d.set === 'haptics'){ store.set.haptics = v === 'on'; buzz(true); }
     save(); applySettings(); render(); return;
   }
@@ -1095,9 +1154,12 @@ document.addEventListener('click', ev => {
     q.sel = +d.pick;
     const ok = q.sel === e.answer;
     if(ok) q.right++;
-    grade(e.id, ok); buzz(ok);
+    grade(e.id, ok); feedback(ok);
   }
-  else if(d.next !== undefined){ state.quiz.i++; state.quiz.sel = null; }
+  else if(d.next !== undefined){
+    state.quiz.i++; state.quiz.sel = null;
+    if(state.quiz.i >= state.quiz.list.length) play('done');
+  }
   else if(d.cell)         { state.cell = d.cell; store.cells[d.cell] = 1; save(); }
   else if(d.verb)         { state.mxVerb = d.verb; state.cell = null; }
   else if(d.scope)        { state.scope = d.scope; state.quiz = null; }
@@ -1119,7 +1181,7 @@ document.addEventListener('click', ev => {
     q.sel = d.vpick; q.judged = true;
     const w = q.list[q.i], ok = q.sel === w[0];
     if(ok) q.right++;
-    grade(vKey(w), ok); buzz(ok);
+    grade(vKey(w), ok); feedback(ok);
   }
   else if(d.vcheck !== undefined){
     const q = state.vocab; if(q.judged) return;
@@ -1129,12 +1191,13 @@ document.addEventListener('click', ev => {
     const w = q.list[q.i];
     const ok = q.typed.trim().toLowerCase() === w[0].toLowerCase();
     if(ok) q.right++;
-    grade(vKey(w), ok); buzz(ok);
+    grade(vKey(w), ok); feedback(ok);
   }
   else if(d.vnext !== undefined){
     const q = state.vocab;
     q.i++; q.sel = null; q.typed = ''; q.judged = false;
     if(q.i < q.list.length) q.choices = vocabChoices(q.list[q.i]);
+    else play('done');
   }
 
   render();

@@ -450,6 +450,8 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 .set-group{margin-top:18px}
 .set-label{font-size:0.8125rem; color:var(--muted); margin-bottom:8px}
 .set-label b{color:var(--text); font-weight:400}
+/* 設定の補足。ラベルより弱く、次の項目とくっつかない程度に離す */
+.set-note{font-size:0.75rem; color:var(--muted); opacity:.75; margin:8px 0 0}
 
 .swatches{display:flex; gap:10px}
 .swatch{

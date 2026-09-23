@@ -938,5 +938,376 @@ wSome: SVG(SPLIT + `
   <text x="240" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">あるかどうか未定</text>`)
   + CAP('だから勧誘の疑問文には some が使える')
 
+,
+
+/* ---------- 文法（第4弾）のコア図 ---------- */
+
+gOrder: SVG(`
+  ${[['The dog','bit','the man',34],['The man','bit','the dog',80]].map(([a,v,b,y])=>
+   `<rect x="24" y="${y-16}" width="76" height="30" rx="5" fill="var(--accent)" opacity=".85"/>
+    <text x="62" y="${y+4}" text-anchor="middle" font-size="11" font-family="Georgia,serif" fill="var(--bg)">${a}</text>
+    <text x="126" y="${y+4}" text-anchor="middle" font-size="12" font-family="Georgia,serif" fill="var(--muted)">${v}</text>
+    <rect x="160" y="${y-16}" width="80" height="30" rx="5" fill="none" stroke="var(--muted)" stroke-width="2.5"/>
+    <text x="200" y="${y+4}" text-anchor="middle" font-size="11" font-family="Georgia,serif" fill="var(--text)">${b}</text>`).join('')}
+  <path d="M258 30 q22 32 0 58" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <text x="290" y="64" text-anchor="middle" font-size="10.5" fill="var(--accent)">入替え</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">置いた場所が役割になる</text>`)
+  + CAP('日本語の「が・を」にあたる名札が、英語にはない'),
+
+gSvoo: SVG(`
+  ${[['S',36,44],['V',88,44],['人',150,56],['物',224,56]].map(([t,x,w],i)=>
+   `<rect x="${x}" y="40" width="${w}" height="34" rx="5" fill="${i>=2?'var(--accent)':'none'}"
+      stroke="${i>=2?'var(--accent)':'var(--muted)'}" stroke-width="2.5" opacity="${i>=2?1:0.6}"/>
+    <text x="${x+w/2}" y="62" text-anchor="middle" font-size="13"
+      fill="${i>=2?'var(--bg)':'var(--muted)'}">${t}</text>`).join('')}
+  <text x="176" y="26" text-anchor="middle" font-size="11.5" fill="var(--accent)">人が先、物が後</text>
+  <text x="160" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">He gave me a book.</text>`)
+  + CAP('物を先にするなら、後ろに to か for で人を添える'),
+
+gSvoc: SVG(`
+  ${[['S',30,42],['V',82,42]].map(([t,x,w])=>
+   `<rect x="${x}" y="40" width="${w}" height="34" rx="5" fill="none" stroke="var(--muted)"
+      stroke-width="2.5" opacity=".6"/><text x="${x+w/2}" y="62" text-anchor="middle"
+      font-size="13" fill="var(--muted)">${t}</text>`).join('')}
+  <rect x="146" y="40" width="48" height="34" rx="5" fill="var(--accent)"/>
+  <text x="170" y="62" text-anchor="middle" font-size="13" fill="var(--bg)">O</text>
+  <text x="212" y="62" text-anchor="middle" font-size="14" fill="var(--accent)">＝</text>
+  <rect x="230" y="40" width="48" height="34" rx="5" fill="var(--accent)"/>
+  <text x="254" y="62" text-anchor="middle" font-size="13" fill="var(--bg)">C</text>
+  <text x="212" y="30" text-anchor="middle" font-size="10.5" fill="var(--muted)">隠れた be</text>
+  <text x="160" y="100" text-anchor="middle" font-size="11" fill="var(--muted)">That makes me happy. → me IS happy</text>`)
+  + CAP('間に be を入れて通れば SVOC'),
+
+gThere: SVG(`
+  <path d="M30 88 h260" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  <path d="M40 74 L60 24 L268 24 L288 74" fill="none" stroke="var(--muted)" stroke-width="2"
+        opacity=".3"/>
+  <circle cx="160" cy="66" r="16" fill="var(--accent)"/>
+  <path d="M160 26 v14" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="3 3"/>
+  <path d="M160 48 l7 -12 h-14 z" fill="var(--accent)" transform="rotate(180 160 42)"/>
+  <text x="160" y="18" text-anchor="middle" font-size="11.5" fill="var(--accent)">新しいものが登場</text>
+  <text x="160" y="108" text-anchor="middle" font-size="11" fill="var(--muted)">舞台（話の場）</text>`)
+  + CAP('すでに登場済みの the には使えない'),
+
+gImp: SVG(`
+  <text x="46" y="52" font-size="17" font-family="Georgia,serif" fill="var(--muted)" opacity=".45">(You)</text>
+  <line x1="40" y1="46" x2="104" y2="46" stroke="var(--ng)" stroke-width="2.5"/>
+  <text x="120" y="52" font-size="17" font-family="Georgia,serif" fill="var(--accent)">Open the window.</text>
+  <text x="160" y="84" text-anchor="middle" font-size="11.5" fill="var(--accent)">主語を省いて動詞から</text>
+  <text x="160" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">目の前の相手なので言わなくても分かる</text>`)
+  + CAP('否定は be動詞でも Don’t be late.'),
+
+gCausative: SVG(`
+  <line x1="28" y1="66" x2="292" y2="66" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  ${[['let',56],['get',124],['have',196],['make',266]].map(([t,x])=>
+   `<line x1="${x}" y1="58" x2="${x}" y2="74" stroke="var(--accent)" stroke-width="3"/>
+    <text x="${x}" y="48" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+      fill="var(--accent)">${t}</text>`).join('')}
+  <text x="30" y="96" font-size="11" fill="var(--muted)">弱い</text>
+  <text x="160" y="22" text-anchor="middle" font-size="11.5" fill="var(--accent)">加える力の強さ</text>
+  <text x="290" y="96" text-anchor="end" font-size="11" fill="var(--muted)">強い</text>`)
+  + CAP('get だけ to がつく ── ひと手間かけて動かすから'),
+
+gPercept: SVG(SPLIT + `
+  ${[18,54,90,126].map((x,i)=>`<rect x="${x}" y="42" width="30" height="30" rx="3"
+     fill="var(--accent)" opacity=".9"/>`).join('')}
+  <text x="80" y="30" text-anchor="middle" font-size="11" fill="var(--accent)">原形＝全部</text>
+  <text x="80" y="92" text-anchor="middle" font-size="11" fill="var(--muted)">cross（渡りきる）</text>
+  ${[182,218,254,290].map((x,i)=>`<rect x="${x}" y="42" width="30" height="30" rx="3"
+     fill="${i===1?'var(--accent)':'none'}" stroke="var(--muted)" stroke-width="2"
+     opacity="${i===1?1:0.35}"/>`).join('')}
+  <text x="240" y="30" text-anchor="middle" font-size="11" fill="var(--accent)">-ing＝途中</text>
+  <text x="240" y="92" text-anchor="middle" font-size="11" fill="var(--muted)">crossing（渡っている）</text>`)
+  + CAP('進行形のコア【途中の一コマ】がそのまま効いている'),
+
+gInf: SVG(`
+  <rect x="120" y="14" width="80" height="30" rx="6" fill="var(--accent)"/>
+  <text x="160" y="34" text-anchor="middle" font-size="14" font-family="Georgia,serif" fill="var(--bg)">to do</text>
+  ${[['名詞的',52],['形容詞的',160],['副詞的',268]].map(([t,x])=>
+   `<path d="M160 48 L${x} 72" stroke="var(--accent)" stroke-width="2.5"/>
+    <rect x="${x-40}" y="76" width="80" height="26" rx="5" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <text x="${x}" y="94" text-anchor="middle" font-size="11" fill="var(--accent)">${t}</text>`).join('')}
+  <text x="160" y="118" text-anchor="middle" font-size="11" fill="var(--muted)">意味は1つ。置かれた位置が用法を決める</text>`)
+  + CAP('3用法は暗記するものではない'),
+
+gWh: SVG(`
+  <rect x="24" y="30" width="120" height="32" rx="6" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" stroke-dasharray="4 4"/>
+  <text x="84" y="51" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--muted)">Where is he?</text>
+  <path d="M152 46 h34" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M198 46 l-14 6 v-12 z" fill="var(--accent)"/>
+  <rect x="206" y="30" width="96" height="32" rx="6" fill="var(--accent)"/>
+  <text x="254" y="51" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--bg)">where he is</text>
+  <text x="160" y="82" text-anchor="middle" font-size="11.5" fill="var(--accent)">埋め込むと普通の語順に戻る</text>
+  <text x="160" y="104" text-anchor="middle" font-size="11" fill="var(--muted)">I know where he is.</text>`)
+  + CAP('もう質問ではないので、do や倒置は消える'),
+
+gThat: SVG(`
+  <rect x="70" y="30" width="180" height="34" rx="6" fill="var(--accent)" opacity=".2"
+        stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="160" y="52" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">that he is right</text>
+  <text x="160" y="20" text-anchor="middle" font-size="11" fill="var(--muted)">文がまるごと</text>
+  <rect x="130" y="76" width="60" height="26" rx="5" fill="var(--accent)"/>
+  <text x="160" y="94" text-anchor="middle" font-size="12" fill="var(--bg)">名詞1個</text>
+  <path d="M160 66 v6" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M160 76 l6 -10 h-12 z" fill="var(--accent)" transform="rotate(180 160 71)"/>`)
+  + CAP('名詞1個ぶんになるので、大きな文にはめ込める'),
+
+gFuture: SVG(`
+  <line x1="24" y1="70" x2="296" y2="70" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  <circle cx="160" cy="70" r="7" fill="var(--accent)"/>
+  <text x="160" y="90" text-anchor="middle" font-size="10.5" fill="var(--muted)">いま</text>
+  <circle cx="70" cy="70" r="7" fill="var(--accent)" opacity=".5"/>
+  <text x="70" y="90" text-anchor="middle" font-size="10.5" fill="var(--muted)">前から</text>
+  <text x="70" y="48" text-anchor="middle" font-size="11.5" fill="var(--accent)">be going to</text>
+  <text x="160" y="48" text-anchor="middle" font-size="11.5" fill="var(--accent)">will</text>
+  <text x="160" y="28" text-anchor="middle" font-size="10.5" fill="var(--muted)">この場で決まった</text>
+  <text x="260" y="90" text-anchor="middle" font-size="10.5" fill="var(--muted)">未来</text>
+  <path d="M290 70 l-12 5 v-10 z" fill="var(--muted)" opacity=".5"/>`)
+  + CAP('英語に未来形はない ── あるのは今の心の言い方だけ'),
+
+gPastProg: SVG(`
+  <line x1="24" y1="72" x2="296" y2="72" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  <rect x="60" y="54" width="140" height="14" rx="7" fill="var(--accent)" opacity=".55"/>
+  <text x="130" y="44" text-anchor="middle" font-size="11" fill="var(--accent)">was cooking（背景）</text>
+  <circle cx="172" cy="61" r="9" fill="var(--accent)"/>
+  <path d="M172 92 v-20" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="212" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">he called（割り込み）</text>
+  <text x="290" y="90" text-anchor="end" font-size="10.5" fill="var(--muted)">いま</text>`)
+  + CAP('背景が進行形、割り込みが過去形'),
+
+gPastPerf: SVG(`
+  <line x1="24" y1="70" x2="296" y2="70" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  ${[['had left',70,'もう一つ前'],['I got there',170,'過去の基準点'],['いま',274,'']].map(([t,x,s],i)=>
+   `<circle cx="${x}" cy="70" r="${i===2?6:9}" fill="var(--accent)" opacity="${i===2?0.4:1}"/>
+    <text x="${x}" y="52" text-anchor="middle" font-size="11" font-family="${i===2?'inherit':'Georgia,serif'}"
+      fill="var(--accent)">${t}</text>
+    ${s?`<text x="${x}" y="92" text-anchor="middle" font-size="10" fill="var(--muted)">${s}</text>`:''}`).join('')}
+  <path d="M158 70 L82 70" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <path d="M74 70 l14 6 v-12 z" fill="var(--accent)"/>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">基準点をずらした現在完了</text>`)
+  + CAP('順番が紛らわしいときに、それを整理する道具'),
+
+gModalPerf: SVG(`
+  <circle cx="72" cy="70" r="14" fill="var(--muted)" opacity=".5"/>
+  <text x="72" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">済んだ出来事</text>
+  <circle cx="254" cy="70" r="16" fill="var(--accent)"/>
+  <text x="254" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">いまの判断</text>
+  <path d="M232 62 Q160 24 92 58" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M84 62 l16 -3 l-3 13 z" fill="var(--accent)"/>
+  <text x="160" y="28" text-anchor="middle" font-size="11.5" fill="var(--accent)">過去へ向けて下す</text>`)
+  + CAP('推量にも後悔にもなるのは、判断の向きが違うだけ')
+
+,
+
+gComp: SVG(`
+  <rect x="70" y="52" width="46" height="46" rx="5" fill="var(--accent)" opacity=".55"/>
+  <rect x="180" y="24" width="46" height="74" rx="5" fill="var(--accent)"/>
+  <line x1="60" y1="98" x2="250" y2="98" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  <line x1="132" y1="24" x2="168" y2="24" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>
+  <line x1="132" y1="52" x2="168" y2="52" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>
+  <line x1="150" y1="26" x2="150" y2="50" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="150" y="16" text-anchor="middle" font-size="11" fill="var(--accent)">差</text>
+  <text x="264" y="66" font-size="12" font-family="Georgia,serif" fill="var(--muted)">than</text>
+  <text x="160" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">比べる相手がないと成立しない</text>`)
+  + CAP('差を強めるのは much / far。very は使えない'),
+
+gSuper: SVG(`
+  ${[[50,40],[100,58],[150,86],[200,50],[250,34]].map(([x,h],i)=>
+   `<rect x="${x-18}" y="${98-h}" width="36" height="${h}" rx="4"
+      fill="var(--accent)" opacity="${i===2?1:0.35}"/>`).join('')}
+  <line x1="24" y1="98" x2="296" y2="98" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  <text x="150" y="26" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--accent)">the -est</text>
+  <text x="160" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">1番は必ず1つに決まる ── だから the</text>`)
+  + CAP('冠詞のコア（特定できるか）がそのまま効いている'),
+
+gAs: SVG(`
+  <rect x="82" y="36" width="46" height="62" rx="5" fill="var(--accent)"/>
+  <rect x="192" y="36" width="46" height="62" rx="5" fill="var(--accent)"/>
+  <line x1="60" y1="98" x2="260" y2="98" stroke="var(--muted)" stroke-width="2.5" opacity=".45"/>
+  <line x1="60" y1="36" x2="260" y2="36" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="160" y="72" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--muted)">as … as</text>
+  <text x="160" y="26" text-anchor="middle" font-size="11" fill="var(--accent)">同じ高さ</text>
+  <text x="160" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">否定にすると「そこまで届かない」</text>`)
+  + CAP('間に入るのは原級。比較級は入らない'),
+
+gCompAdv: SVG(`
+  <rect x="44" y="30" width="34" height="68" rx="5" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="48" y="60" width="26" height="34" rx="3" fill="var(--accent)"/>
+  <rect x="232" y="30" width="34" height="68" rx="5" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="236" y="60" width="26" height="34" rx="3" fill="var(--accent)"/>
+  ${[44,52].map(y=>`<line x1="92" y1="${y}" x2="218" y2="${y}" stroke="var(--accent)"
+     stroke-width="2.5" stroke-dasharray="5 4"/>`).join('')}
+  <path d="M61 52 v-16" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M61 28 l6 12 h-12 z" fill="var(--accent)"/>
+  <path d="M249 52 v-16" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M249 28 l6 12 h-12 z" fill="var(--accent)"/>
+  <text x="155" y="30" text-anchor="middle" font-size="11.5" fill="var(--accent)">連動する</text>
+  <text x="160" y="114" text-anchor="middle" font-size="11" fill="var(--muted)">The sooner, the better.</text>`)
+  + CAP('一方が動けば、もう一方も動く'),
+
+gAnd: SVG(`
+  <rect x="44" y="42" width="90" height="36" rx="6" fill="var(--accent)" opacity=".85"/>
+  <rect x="186" y="42" width="90" height="36" rx="6" fill="var(--accent)" opacity=".85"/>
+  <text x="160" y="66" text-anchor="middle" font-size="14" font-family="Georgia,serif"
+        fill="var(--accent)">and</text>
+  <line x1="140" y1="60" x2="148" y2="60" stroke="var(--accent)" stroke-width="2.5"/>
+  <line x1="172" y1="60" x2="180" y2="60" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="89" y="30" text-anchor="middle" font-size="11" fill="var(--muted)">同じ資格</text>
+  <text x="231" y="30" text-anchor="middle" font-size="11" fill="var(--muted)">同じ資格</text>
+  <text x="160" y="104" text-anchor="middle" font-size="11" fill="var(--muted)">名詞と名詞、動詞と動詞、文と文</text>`)
+  + CAP('前後が同じ形でないと不自然になる'),
+
+gWhen: SVG(`
+  <rect x="120" y="34" width="176" height="36" rx="6" fill="var(--accent)"/>
+  <text x="208" y="57" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--bg)">I’ll call you</text>
+  <rect x="24" y="76" width="176" height="32" rx="6" fill="none" stroke="var(--accent)"
+        stroke-width="2.5" stroke-dasharray="5 4"/>
+  <text x="112" y="97" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--accent)">when I arrive</text>
+  <path d="M112 76 L150 70" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="208" y="24" text-anchor="middle" font-size="11" fill="var(--muted)">主役の文</text>
+  <text x="34" y="66" font-size="11" fill="var(--muted)">脇役</text>`)
+  + CAP('前後どちらにも置ける ── 副詞のかたまりだから'),
+
+gRelAdv: SVG(`
+  <text x="86" y="52" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--muted)">in which</text>
+  <rect x="28" y="32" width="116" height="30" rx="6" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" stroke-dasharray="4 4"/>
+  <line x1="156" y1="47" x2="192" y2="47" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M204 47 l-14 6 v-12 z" fill="var(--accent)"/>
+  <rect x="212" y="32" width="80" height="30" rx="6" fill="var(--accent)"/>
+  <text x="252" y="52" text-anchor="middle" font-size="14" font-family="Georgia,serif"
+        fill="var(--bg)">where</text>
+  <text x="160" y="84" text-anchor="middle" font-size="11.5" fill="var(--accent)">前置詞ごと1語にまとめる</text>
+  <text x="160" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">だから後ろは欠けのない完全な文になる</text>`)
+  + CAP('後ろに欠けがあれば関係代名詞、なければ関係副詞'),
+
+gPart: SVG(`
+  <rect x="26" y="40" width="74" height="32" rx="6" fill="var(--accent)"/>
+  <text x="63" y="61" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--bg)">the man</text>
+  <text x="152" y="61" font-size="12" font-family="Georgia,serif" fill="var(--muted)" opacity=".45">who is</text>
+  <line x1="110" y1="56" x2="196" y2="56" stroke="var(--ng)" stroke-width="2.5"/>
+  <rect x="204" y="40" width="92" height="32" rx="6" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="250" y="61" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--accent)">standing there</text>
+  <text x="160" y="26" text-anchor="middle" font-size="11" fill="var(--muted)">関係代名詞から who is を省くと分詞</text>
+  <text x="160" y="100" text-anchor="middle" font-size="11" fill="var(--muted)">する側なら -ing、される側なら過去分詞</text>`)
+  + CAP('1語なら名詞の前、2語以上なら後ろ'),
+
+gPartCon: SVG(`
+  <text x="26" y="48" font-size="13" font-family="Georgia,serif" fill="var(--muted)" opacity=".45">When I</text>
+  <line x1="22" y1="42" x2="96" y2="42" stroke="var(--ng)" stroke-width="2.5"/>
+  <text x="104" y="48" font-size="13" font-family="Georgia,serif" fill="var(--accent)">walked home,</text>
+  <text x="222" y="48" font-size="13" font-family="Georgia,serif" fill="var(--muted)">I met him.</text>
+  <path d="M120 58 v10" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="3 3"/>
+  <path d="M120 76 l6 -12 h-12 z" fill="var(--accent)" transform="rotate(180 120 70)"/>
+  <text x="160" y="94" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">Walking home, I met him.</text>`)
+  + CAP('主語が同じときだけ省ける'),
+
+gIf: SVG(`
+  <line x1="44" y1="24" x2="44" y2="104" stroke="var(--accent)" stroke-width="3"/>
+  <text x="44" y="16" text-anchor="middle" font-size="10.5" fill="var(--accent)">現実</text>
+  <line x1="60" y1="46" x2="130" y2="46" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M142 46 l-14 6 v-12 z" fill="var(--accent)"/>
+  <text x="212" y="50" text-anchor="middle" font-size="11.5" fill="var(--accent)">1歩 → 過去形</text>
+  <line x1="60" y1="84" x2="204" y2="84" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M216 84 l-14 6 v-12 z" fill="var(--accent)"/>
+  <text x="250" y="104" text-anchor="middle" font-size="11.5" fill="var(--accent)">2歩 → 過去完了</text>`)
+  + CAP('仮定法は、過去形＝【距離】を現実に向けただけ'),
+
+gIt: SVG(`
+  <rect x="28" y="38" width="46" height="32" rx="6" fill="none" stroke="var(--accent)"
+        stroke-width="2.5" stroke-dasharray="5 4"/>
+  <text x="51" y="59" text-anchor="middle" font-size="14" font-family="Georgia,serif"
+        fill="var(--accent)">It</text>
+  <text x="51" y="88" text-anchor="middle" font-size="10" fill="var(--muted)">中身なし</text>
+  <text x="96" y="59" font-size="12" font-family="Georgia,serif" fill="var(--muted)">is hard</text>
+  <rect x="164" y="38" width="130" height="32" rx="6" fill="var(--accent)"/>
+  <text x="229" y="59" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--bg)">to learn English</text>
+  <text x="229" y="88" text-anchor="middle" font-size="10" fill="var(--muted)">本当の主語</text>
+  <path d="M164 26 Q110 14 62 30" fill="none" stroke="var(--accent)" stroke-width="2"
+        stroke-dasharray="4 4" opacity=".7"/>`)
+  + CAP('英語は主語がないと文にならない ── だから形だけ整える'),
+
+gPron: SVG(SPLIT + `
+  <circle cx="58" cy="58" r="18" fill="var(--accent)"/>
+  <path d="M84 58 h24" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="3 3"/>
+  <circle cx="126" cy="58" r="18" fill="var(--accent)"/>
+  <text x="92" y="30" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">it</text>
+  <text x="92" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">まったく同じもの</text>
+  <circle cx="212" cy="58" r="18" fill="var(--accent)"/>
+  <circle cx="280" cy="58" r="18" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="246" y="30" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">one</text>
+  <text x="246" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">同じ種類の別のもの</text>`)
+  + CAP('店で this one と言うのは「その種類の1つ」だから'),
+
+gQuant: SVG(SPLIT + `
+  <ellipse cx="80" cy="60" rx="52" ry="32" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  ${[[58,52],[82,68],[104,50]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="10" fill="var(--accent)"/>`).join('')}
+  <text x="80" y="20" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--accent)">all / both</text>
+  <text x="80" y="108" text-anchor="middle" font-size="11" fill="var(--muted)">まとめて → 複数扱い</text>
+  ${[196,240,284].map((x,i)=>`<circle cx="${x}" cy="60" r="12" fill="${i===1?'var(--accent)':'none'}"
+     stroke="var(--accent)" stroke-width="2.5"/>`).join('')}
+  <path d="M240 34 l6 10 h-12 z" fill="var(--accent)"/>
+  <text x="240" y="20" text-anchor="middle" font-size="12" font-family="Georgia,serif"
+        fill="var(--accent)">each / every</text>
+  <text x="240" y="108" text-anchor="middle" font-size="11" fill="var(--muted)">1つずつ → 単数扱い</text>`)
+  + CAP('いま見ているのは常に1つ。だから動詞も単数'),
+
+gTag: SVG(`
+  <rect x="24" y="38" width="130" height="34" rx="6" fill="var(--accent)"/>
+  <text x="89" y="60" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--bg)">It’s cold</text>
+  <text x="89" y="26" text-anchor="middle" font-size="10.5" fill="var(--muted)">肯定</text>
+  <path d="M160 55 h22" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M192 55 l-14 6 v-12 z" fill="var(--accent)"/>
+  <rect x="200" y="38" width="96" height="34" rx="6" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="248" y="60" text-anchor="middle" font-size="13" font-family="Georgia,serif"
+        fill="var(--accent)">isn’t it?</text>
+  <text x="248" y="26" text-anchor="middle" font-size="10.5" fill="var(--muted)">否定で受ける</text>
+  <text x="160" y="104" text-anchor="middle" font-size="11" fill="var(--muted)">下げれば同意、上げれば本当の質問</text>`)
+  + CAP('Yes / No は質問の形ではなく「事実」に合わせる'),
+
+gAdj: SVG(SPLIT + `
+  <rect x="26" y="44" width="46" height="30" rx="5" fill="var(--accent)" opacity=".6"/>
+  <text x="49" y="64" text-anchor="middle" font-size="11" fill="var(--bg)">big</text>
+  <rect x="78" y="44" width="52" height="30" rx="5" fill="none" stroke="var(--muted)" stroke-width="2.5"/>
+  <text x="104" y="64" text-anchor="middle" font-size="11" fill="var(--text)">garden</text>
+  <text x="80" y="30" text-anchor="middle" font-size="11" fill="var(--accent)">1語なら前</text>
+  <rect x="180" y="44" width="52" height="30" rx="5" fill="none" stroke="var(--muted)" stroke-width="2.5"/>
+  <text x="206" y="64" text-anchor="middle" font-size="11" fill="var(--text)">garden</text>
+  <rect x="238" y="44" width="62" height="30" rx="5" fill="var(--accent)" opacity=".6"/>
+  <text x="269" y="64" text-anchor="middle" font-size="10" fill="var(--bg)">full of …</text>
+  <text x="240" y="30" text-anchor="middle" font-size="11" fill="var(--accent)">長ければ後ろ</text>
+  <text x="160" y="104" text-anchor="middle" font-size="11" fill="var(--muted)">重い情報ほど後ろへ</text>`)
+  + CAP('something だけは必ず後ろから修飾する'),
+
+gPlural: SVG(SPLIT + `
+  <text x="80" y="54" text-anchor="middle" font-size="20" font-family="Georgia,serif"
+        fill="var(--accent)">book<tspan font-weight="700">s</tspan></text>
+  ${[52,80,108].map(x=>`<rect x="${x-9}" y="64" width="18" height="14" rx="2" fill="var(--accent)"/>`).join('')}
+  <text x="80" y="102" text-anchor="middle" font-size="11" fill="var(--muted)">数を増やす</text>
+  <text x="240" y="54" text-anchor="middle" font-size="20" font-family="Georgia,serif"
+        fill="var(--accent)">Tom<tspan font-weight="700">’s</tspan></text>
+  <circle cx="214" cy="72" r="10" fill="var(--accent)"/>
+  <path d="M228 72 h14" stroke="var(--accent)" stroke-width="2.5"/>
+  <rect x="248" y="64" width="20" height="16" rx="2" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="240" y="102" text-anchor="middle" font-size="11" fill="var(--muted)">持ち主を示す</text>`)
+  + CAP('アポストロフィの有無だけが両者を分けている')
+
 
 };

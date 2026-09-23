@@ -106,14 +106,14 @@ NGSL（New General Service List）頻度順の上位1000語。
 ## 収録内容
 
 ```
-77ページ     不変化詞25 ・ 基本動詞30 ・ 文法10 ・ 紛らわしい語12
-312派生      各コアからの派生用法
-657例文      訳と「なぜそうなるか」のメモつき
-162本の⚡    豆知識
+107ページ    不変化詞25 ・ 基本動詞30 ・ 文法40 ・ 紛らわしい語12
+432派生      各コアからの派生用法
+894例文     訳と「なぜそうなるか」のメモつき
+222本の⚡    豆知識
 269句動詞    30動詞 × 25不変化詞 = 750マスのうち実在する269
-618問        コア適用 ・ 用法穴埋め ・ 意味選択
+858問        コア適用 ・ 用法穴埋め ・ 意味選択
 1000単語     NGSL 頻度順。うち66語はコアページへ繋がる
-77コア図     全ページにSVGの模式図
+107コア図    全ページにSVGの模式図
 ```
 
 **不変化詞（25）**
@@ -126,8 +126,13 @@ get / take / put / come / go / make / have / turn / give / keep /
 hold / break / run / look / bring / set / stand / let / call / cut /
 pull / push / carry / fall / catch / leave / pass / work / play / pick
 
-**文法（10）**
-過去形＝距離 / to と -ing / 冠詞 / 現在形 / 進行形 / 現在完了 / 助動詞 / 受動態 / 関係代名詞 / do
+**文法（40）** ── 中学英文法をひと通り
+時制  過去形＝距離 / 現在形 / 進行形 / 現在完了 / 過去進行形 / 過去完了 / 未来表現 / 助動詞＋完了形
+文型  語順 / SVOO / SVOC / there is / 命令文と感嘆文
+動詞  使役 / 知覚動詞 / 不定詞の3用法 / to と -ing / 疑問詞+to と間接疑問 / that節 / 受動態
+比較  比較級 / 最上級 / as 〜 as / 比較の応用
+つなぐ 等位接続詞 / 従属接続詞 / 関係代名詞 / 関係副詞 / 分詞の後置修飾 / 分詞構文
+その他 冠詞 / 助動詞 / 仮定法 / do / it の特別用法 / 代名詞 / 数量表現 / 付加疑問 / 形容詞と副詞の位置 / 複数形と所有格
 
 **紛らわしい語（12）**
 say・tell・speak・talk / see・look・watch・hear・listen / big・large・great・huge /
@@ -146,11 +151,11 @@ app.js              画面遷移・採点・SRS・マトリクス
 diagrams.js         コア図28点（CSS変数を参照するのでテーマ追従）
 data/particles.js   不変化詞25ページ
 data/verbs.js       基本動詞30ページ
-data/grammar.js     文法10ページ
+data/grammar.js     文法40ページ
 data/words.js       紛らわしい語12ページ
 data/phrasals.js    句動詞マトリクス269
 data/vocab.js       単語1000（NGSL 上位1000語）
-data/exercises.js   演習618問
+data/exercises.js   演習858問
 DESIGN.md           設計メモ（決定事項・見送った案の記録）
 ```
 
@@ -175,8 +180,11 @@ DESIGN.md           設計メモ（決定事項・見送った案の記録）
 
 ## 今後
 
-- 文法の残り30（比較 / 接続詞 / 使役 / 知覚動詞 / SVOO・SVOC / 分詞 / 仮定法 …）
+当初の3本柱（単語1000・中学英文法・句動詞）は、ひと通り揃いました。
+
 - 不変化詞 `after` / `behind`（`look after` / `leave behind` をマトリクスに載せるため）
+- 紛らわしい語の追加（make/do、in time/on time など）
+- 語彙を1000語より先へ（NGSL は2801語ある）
 
 ## License
 

@@ -1704,5 +1704,305 @@ const EXERCISES = [
 {id:'wsom-q5',kind:'fill',ref:'w-some',refSense:'wsom-any',prompt:'Do you have ___ questions?',question:'空欄に入るのは?（あるか無いか分からない）',choices:['some','any','a few','little'],answer:1,explain:'存在を前提にしていないので any。'},
 {id:'wsom-q6',kind:'fill',ref:'w-some',refSense:'wsom-some',prompt:'Would you like ___ more tea?',question:'空欄に入るのは?',choices:['any','some','few','little'],answer:1,explain:'お茶があることは前提で勧めているので some。'},
 {id:'wsom-q7',kind:'fill',ref:'w-some',refSense:'wsom-some',prompt:'I have ___ good news for you.',question:'空欄に入るのは?',choices:['any','some','a few','few'],answer:1,explain:'あることが分かっているので some。news は不可算なので a few は使えない。'},
-{id:'wsom-q8',kind:'fill',ref:'w-some',refSense:'wsom-anypos',prompt:'___ question is welcome.',question:'空欄に入るのは?（どんな質問でも）',choices:['Some','Any','Few','Little'],answer:1,explain:'肯定文の any は「どれでも」。'}
+{id:'wsom-q8',kind:'fill',ref:'w-some',refSense:'wsom-anypos',prompt:'___ question is welcome.',question:'空欄に入るのは?（どんな質問でも）',choices:['Some','Any','Few','Little'],answer:1,explain:'肯定文の any は「どれでも」。'},
+
+/* ============================== 語順 ============================== */
+{id:'gord-q1',kind:'core',ref:'g-order',refSense:'gord-fix',prompt:'The dog bit the man. と The man bit the dog.',question:'なぜ意味が変わるのか?',choices:['英語には「が・を」にあたる名札がなく、置いた場所が役割になるから','dog と man の意味が違うから','bit が不規則動詞だから','冠詞が違うから'],answer:0,explain:'日本語は助詞が役割を持つので並べ替えられる。英語は語順そのものが役割を示している。'},
+{id:'gord-q2',kind:'core',ref:'g-order',refSense:'gord-ja',prompt:'日本語は「犬が男を噛んだ」を「男を犬が噛んだ」にできます。',question:'その理由は?',choices:['助詞が役割の名札になっているから','日本語に語順がないから','動詞が最後だから','主語を省けるから'],answer:0,explain:'名札があれば並べ替えても分かる。英語は名札を捨てた代わりに語順を固定した。'},
+{id:'gord-q3',kind:'core',ref:'g-order',refSense:'gord-add',prompt:'I met him at the station yesterday.',question:'場所と時の並び順は?',choices:['場所 → 時','時 → 場所','どちらでもよい','動詞の前'],answer:0,explain:'狭いもの（場所）から広いもの（時）へ、と並べるのが基本。'},
+{id:'gord-q4',kind:'core',ref:'g-order',refSense:'gord-frame',prompt:'英文の背骨になる3つは?',question:'いちばん近い説明は?',choices:['誰が → どうする → 何を','いつ → どこで → 誰が','何を → 誰が → どうする','主語 → 目的語 → 動詞'],answer:0,explain:'S V O。この骨ができてから、場所や時を周りに足していく。'},
+{id:'gord-q5',kind:'fill',ref:'g-order',refSense:'gord-frame',prompt:'___ opened the door.',question:'空欄に入るのは?',choices:['She','Her','Hers','Herself'],answer:0,explain:'動詞の前は主語の位置。主語には主格 She が入る。'},
+{id:'gord-q6',kind:'fill',ref:'g-order',refSense:'gord-add',prompt:'I saw her ___ yesterday.',question:'空欄に入るのは?',choices:['at the station','the station','station at','to the station'],answer:0,explain:'場所は前置詞つきで、時（yesterday）より前に置く。'},
+{id:'gord-q7',kind:'fill',ref:'g-order',refSense:'gord-frame',prompt:'The man ___ the dog.',question:'空欄に入るのは?（男が犬を噛んだ）',choices:['bit','was bitten','biting','bite'],answer:0,explain:'前が「する人」、後ろが「される側」。能動なら bit。'},
+{id:'gord-q8',kind:'core',ref:'g-order',refSense:'gord-fix',prompt:'英語の語順が固いのは不便なのでしょうか?',question:'いちばん近い説明は?',choices:['名札（助詞）を捨てた代償として選ばれた仕組み','英語が新しい言語だから','文法が未熟だから','単に慣習'],answer:0,explain:'役割を示す手段がないので、「前に置いたら主語」と決めるしかなかった。'},
+
+/* ============================== SVOO ============================== */
+{id:'gsvoo-q1',kind:'core',ref:'g-svoo',refSense:'gsvoo-which',prompt:'give は to、make は for を取ります。',question:'その分かれ目は?',choices:['相手がいないと行為が完結しないかどうか','動詞の長さ','古い語か新しい語か','母音で始まるか'],answer:0,explain:'give は相手がいないと成立しない → to。make は相手がいなくても成立する → for。'},
+{id:'gsvoo-q2',kind:'core',ref:'g-svoo',refSense:'gsvoo-order',prompt:'He gave me a book.',question:'2つの目的語の並び順は?',choices:['人 → 物','物 → 人','どちらでもよい','長い方が先'],answer:0,explain:'渡す相手を先に置く。物を先にするなら to / for で人を添える。'},
+{id:'gsvoo-q3',kind:'core',ref:'g-svoo',refSense:'gsvoo-why',prompt:'He gave me it. が言いにくい理由は?',question:'いちばん近い説明は?',choices:['代名詞は軽いので、文末という目立つ位置に置くと落ち着かないから','it が短いから','give は代名詞を取れないから','文法的に誤りだから'],answer:0,explain:'英語は重い情報ほど後ろに置く。He gave it to me. が自然。'},
+{id:'gsvoo-q4',kind:'core',ref:'g-svoo',refSense:'gsvoo-to',jumpTo:'to/to-reach',prompt:'He gave a book to me. の to はどのイメージ?',question:'いちばん近い説明は?',choices:['私の手まで届く','私のために','私と一緒に','私から離れて'],answer:0,explain:'to は【到達する方向】。相手まで実際に届く動詞につく。'},
+{id:'gsvoo-q5',kind:'fill',ref:'g-svoo',refSense:'gsvoo-which',prompt:'She made a cake ___ me.',question:'空欄に入るのは?',choices:['to','for','at','with'],answer:1,explain:'make は相手がいなくても成立するので for。'},
+{id:'gsvoo-q6',kind:'fill',ref:'g-svoo',refSense:'gsvoo-which',prompt:'Could you show the way ___ me?',question:'空欄に入るのは?',choices:['for','to','at','with'],answer:1,explain:'show は相手がいないと成立しないので to。'},
+{id:'gsvoo-q7',kind:'fill',ref:'g-svoo',refSense:'gsvoo-order',prompt:'Can you show ___?',question:'空欄に入るのは?',choices:['me the way','the way me','to me the way','the way to'],answer:0,explain:'人 → 物 の順。'},
+{id:'gsvoo-q8',kind:'fill',ref:'g-svoo',refSense:'gsvoo-which',prompt:'I bought a present ___ my sister.',question:'空欄に入るのは?',choices:['to','for','at','on'],answer:1,explain:'buy は相手がいなくても成立するので for。'},
+
+/* ============================== SVOC ============================== */
+{id:'gsvoc-q1',kind:'core',ref:'g-svoc',refSense:'gsvoc-check',prompt:'SVOO と SVOC を見分ける方法は?',question:'いちばん近い説明は?',choices:['2つの目的語の間に be動詞を入れて、意味が通るか試す','動詞の種類で覚える','長さで判断する','冠詞を見る'],answer:0,explain:'me is happy（通る）→ SVOC。me is a book（通らない）→ SVOO。'},
+{id:'gsvoc-q2',kind:'core',ref:'g-svoc',refSense:'gsvoc-make',prompt:'Keep the door open. の open は?',question:'いちばん近い説明は?',choices:['形容詞で「開いた状態」','動詞で「開ける」','名詞','副詞'],answer:0,explain:'the door ＝ open という関係を keep している。「開けて」なら Open the door.'},
+{id:'gsvoc-q3',kind:'core',ref:'g-svoc',refSense:'gsvoc-think',prompt:'I found the book interesting.',question:'この文が表しているのは?',choices:['その本が面白いと思った','面白い本を見つけた','その本を面白くした','面白がって本を探した'],answer:0,explain:'the book ＝ interesting という関係を found（思った）している。'},
+{id:'gsvoc-q4',kind:'core',ref:'g-svoc',refSense:'gsvoc-call',prompt:'They named the dog Momo.',question:'the dog と Momo の関係は?',choices:['the dog ＝ Momo','the dog が Momo を持つ','the dog が Momo に渡す','無関係'],answer:0,explain:'O に C という名前を貼る形。'},
+{id:'gsvoc-q5',kind:'fill',ref:'g-svoc',refSense:'gsvoc-make',prompt:'The news made me ___.',question:'空欄に入るのは?',choices:['happily','happy','happiness','to happy'],answer:1,explain:'me ＝ happy という関係なので形容詞。副詞は入らない。'},
+{id:'gsvoc-q6',kind:'fill',ref:'g-svoc',refSense:'gsvoc-make',prompt:'Please keep the window ___.',question:'空欄に入るのは?',choices:['close','closed','closing','to close'],answer:1,explain:'窓は閉められる側なので過去分詞。the window ＝ closed。'},
+{id:'gsvoc-q7',kind:'fill',ref:'g-svoc',refSense:'gsvoc-call',prompt:'Just ___ Ken.',question:'空欄に入るのは?（ケンって呼んで）',choices:['call me','call to me','call for me','call my'],answer:0,explain:'call + O + C。me ＝ Ken という関係。'},
+{id:'gsvoc-q8',kind:'core',ref:'g-svoc',refSense:'gsvoc-check',prompt:'He gave me a book. に be を入れると?',question:'どうなるか?',choices:['me is a book となり意味が通らない → SVOO','me is a book となり意味が通る → SVOC','入れられない','文型は判別できない'],answer:0,explain:'私は本ではないので通らない。よって SVOO。'},
+
+/* =========================== there is =========================== */
+{id:'gthr-q1',kind:'core',ref:'g-there',refSense:'gthr-the',prompt:'×There is the cat in the garden. が言えない理由は?',question:'いちばん近い説明は?',choices:['the がついている＝すでに登場済みなのに、初登場させる形を使うのは矛盾するから','the と there は一緒に使えないから','cat が可算名詞だから','is が単数だから'],answer:0,explain:'普通に The cat is in the garden. と言えばよい。'},
+{id:'gthr-q2',kind:'core',ref:'g-there',refSense:'gthr-new',prompt:'There is a cat there. と there が2つ並べられます。',question:'ここから分かることは?',choices:['前の there に「そこ」の意味はない','2つとも場所を指す','文法的な誤り','強調している'],answer:0,explain:'前の there は「新しいものを出しますよ」という合図にすぎない。'},
+{id:'gthr-q3',kind:'core',ref:'g-there',refSense:'gthr-agree',prompt:'there is / there are はどちらに合わせるか?',question:'いちばん近い説明は?',choices:['be動詞の後ろにある本当の主語','there','文の長さ','話し手の判断'],answer:0,explain:'there は主語ではない。There are books … なら books に合わせて are。'},
+{id:'gthr-q4',kind:'core',ref:'g-there',refSense:'gthr-exist',prompt:'There was an accident.',question:'この there is が出しているのは?',choices:['出来事','場所','時間','人'],answer:0,explain:'物だけでなく出来事も舞台に出せる。'},
+{id:'gthr-q5',kind:'fill',ref:'g-there',refSense:'gthr-agree',prompt:'There ___ three eggs left.',question:'空欄に入るのは?',choices:['is','are','has','have'],answer:1,explain:'本当の主語は three eggs（複数）なので are。'},
+{id:'gthr-q6',kind:'fill',ref:'g-there',refSense:'gthr-new',prompt:'___ a problem with my order.',question:'空欄に入るのは?',choices:['There is','It is','That is','Here is'],answer:0,explain:'聞き手がまだ知らない問題を初めて舞台に出す形。'},
+{id:'gthr-q7',kind:'fill',ref:'g-there',refSense:'gthr-the',prompt:'___ is in the garden.',question:'空欄に入るのは?（その猫は庭にいる）',choices:['There the cat','The cat','There is the cat','It there'],answer:1,explain:'すでに特定できる猫なので、普通の文でよい。'},
+{id:'gthr-q8',kind:'fill',ref:'g-there',refSense:'gthr-agree',prompt:'There ___ a book and two pens on the desk.',question:'空欄に入るのは?',choices:['is','are','be','was'],answer:0,explain:'すぐ後ろの a book（単数）に合わせるのが一般的。'},
+
+/* ======================== 命令文と感嘆文 ======================== */
+{id:'gimp-q1',kind:'core',ref:'g-imp',refSense:'gimp-neg',prompt:'×Be not late. が言えない理由は?',question:'いちばん近い説明は?',choices:['否定の命令文は be動詞でも Don’t を使うから','not が動詞の後に来ないから','late が形容詞だから','命令文は否定にできないから'],answer:0,explain:'○Don’t be late. 命令文は動詞の原形から始まる形なので、do の力を借りる。'},
+{id:'gimp-q2',kind:'core',ref:'g-imp',refSense:'gimp-base',prompt:'命令文に主語がないのはなぜ?',question:'いちばん近い説明は?',choices:['目の前の相手（you）なので言わなくても分かるから','主語が禁止されているから','動詞が原形だから','短くするため'],answer:0,explain:'(You) open the window. の you が省かれている。'},
+{id:'gimp-q3',kind:'core',ref:'g-imp',refSense:'gimp-excl',prompt:'What と How の使い分けは?',question:'いちばん近い説明は?',choices:['名詞ごと驚くなら What、そうでなければ How','What の方が強い','How は疑問文専用','どちらでもよい'],answer:0,explain:'What a beautiful day!（day という名詞がある）／How beautiful!（名詞がない）'},
+{id:'gimp-q4',kind:'core',ref:'g-imp',refSense:'gimp-soft',jumpTo:'g-past/gpast-polite',prompt:'Open the window. を丁寧にする方法は?',question:'いちばん丁寧なのは?',choices:['Please をつける','will you? をつける','Could you open the window? と疑問文にする','声を小さくする'],answer:2,explain:'過去形 could で距離を取るのが最も丁寧。命令文のままでは強さが残る。'},
+{id:'gimp-q5',kind:'fill',ref:'g-imp',refSense:'gimp-neg',prompt:'___ be so nervous.',question:'空欄に入るのは?',choices:['Not','Be not','Don’t','Doesn’t'],answer:2,explain:'be動詞の命令文でも否定は Don’t。'},
+{id:'gimp-q6',kind:'fill',ref:'g-imp',refSense:'gimp-excl',prompt:'___ a beautiful day!',question:'空欄に入るのは?',choices:['How','What','Which','Why'],answer:1,explain:'a day という名詞があるので What。'},
+{id:'gimp-q7',kind:'fill',ref:'g-imp',refSense:'gimp-excl',prompt:'___ beautiful!',question:'空欄に入るのは?',choices:['What','What a','How','How a'],answer:2,explain:'名詞がないので How。'},
+{id:'gimp-q8',kind:'fill',ref:'g-imp',refSense:'gimp-base',prompt:'___ quiet, please.',question:'空欄に入るのは?',choices:['Are','Be','Being','To be'],answer:1,explain:'命令文は動詞の原形から。be動詞の原形は be。'},
+
+/* ============================== 使役 ============================== */
+{id:'gcau-q1',kind:'core',ref:'g-causative',refSense:'gcau-get',jumpTo:'get/get-cause',prompt:'get だけ to がつく理由は?',question:'いちばん近い説明は?',choices:['get のコアが【至る】で、相手を「やる」ところまで動かす到達の感覚があるから','get が不規則動詞だから','to がないと意味が通じないから','慣用で理由はない'],answer:0,explain:'ひと手間かけて説得する感じが、この to に出ている。'},
+{id:'gcau-q2',kind:'core',ref:'g-causative',refSense:'gcau-have',prompt:'I had him fix my car. と I had my car fixed. の違いは?',question:'いちばん近い説明は?',choices:['目的語が「する側」なら原形、「される側」なら過去分詞','前者の方が丁寧','後者は過去のこと','違いはない'],answer:0,explain:'him は直す側なので fix、my car は直される側なので fixed。'},
+{id:'gcau-q3',kind:'core',ref:'g-causative',refSense:'gcau-let',prompt:'let が他の3語と決定的に違うところは?',question:'いちばん近い説明は?',choices:['力を加えず、止めないことでさせている','いちばん強い','過去形がない','人にしか使えない'],answer:0,explain:'make は強制、have は手配、get は説得、let だけが「何もしない」。'},
+{id:'gcau-q4',kind:'core',ref:'g-causative',refSense:'gcau-make',prompt:'She made me wait an hour.',question:'この make が表しているのは?',choices:['私の意思に関係なく待たされた','待つのを許してくれた','待つよう手配した','待つよう説得した'],answer:0,explain:'make は力ずくでさせる、いちばん強い使役。'},
+{id:'gcau-q5',kind:'fill',ref:'g-causative',refSense:'gcau-get',prompt:'I finally got him ___ me.',question:'空欄に入るのは?',choices:['help','to help','helping','helped'],answer:1,explain:'get だけ to不定詞が続く。'},
+{id:'gcau-q6',kind:'fill',ref:'g-causative',refSense:'gcau-let',prompt:'My parents let me ___ abroad.',question:'空欄に入るのは?',choices:['to go','go','going','gone'],answer:1,explain:'let の後ろは原形。'},
+{id:'gcau-q7',kind:'fill',ref:'g-causative',refSense:'gcau-have',prompt:'I had my hair ___ yesterday.',question:'空欄に入るのは?',choices:['cut','to cut','cutting','cuts'],answer:0,explain:'髪は切られる側なので過去分詞。cut は原形と同形だが、ここは過去分詞。'},
+{id:'gcau-q8',kind:'fill',ref:'g-causative',refSense:'gcau-make',prompt:'Don’t ___ me laugh.',question:'空欄に入るのは?',choices:['let','make','get','have'],answer:1,explain:'意思に関係なく笑わされるので make。'},
+
+/* ============================ 知覚動詞 ============================ */
+{id:'gper-q1',kind:'core',ref:'g-percept',refSense:'gper-base',jumpTo:'g-prog/gprog-now',prompt:'I saw him cross と I saw him crossing の違いは?',question:'いちばん近い説明は?',choices:['原形は渡りきるまで、-ing は途中の一場面','原形の方が丁寧','-ing は未来のこと','違いはない'],answer:0,explain:'進行形のコア【途中の一コマ】がそのまま効いている。'},
+{id:'gper-q2',kind:'core',ref:'g-percept',refSense:'gper-pp',prompt:'I heard my name called.',question:'なぜ過去分詞なのか?',choices:['名前は呼ばれる側だから','過去のことだから','受動態だから','call が他動詞だから'],answer:0,explain:'O が「される」関係のときは過去分詞。'},
+{id:'gper-q3',kind:'core',ref:'g-percept',refSense:'gper-base',prompt:'He was seen to cross the street.',question:'なぜ to が現れたのか?',choices:['能動では省かれていた to が、受動態にすると顔を出すから','過去だから','seen が不規則だから','誤りである'],answer:0,explain:'I saw him cross（能動）→ He was seen to cross（受動）。'},
+{id:'gper-q4',kind:'core',ref:'g-percept',refSense:'gper-verbs',prompt:'この形を取るのはどんな動詞か?',question:'いちばん近い説明は?',choices:['see / hear / feel など五感で捉える動詞','移動を表す動詞','感情を表す動詞','すべての他動詞'],answer:0,explain:'watch / listen to / notice もこの仲間。'},
+{id:'gper-q5',kind:'fill',ref:'g-percept',refSense:'gper-ing',prompt:'I heard someone ___ on the door.',question:'空欄に入るのは?（ノックしている最中）',choices:['knock','knocking','knocked','to knock'],answer:1,explain:'途中の一場面を切り取っているので -ing。'},
+{id:'gper-q6',kind:'fill',ref:'g-percept',refSense:'gper-base',prompt:'I saw her ___ the building at nine.',question:'空欄に入るのは?（入るのを最後まで見た）',choices:['to enter','enter','entered','enters'],answer:1,explain:'一部始終を見届けたので原形。'},
+{id:'gper-q7',kind:'fill',ref:'g-percept',refSense:'gper-pp',prompt:'I felt my shoulder ___.',question:'空欄に入るのは?（触られた）',choices:['touch','touching','touched','to touch'],answer:2,explain:'肩は触られる側なので過去分詞。'},
+{id:'gper-q8',kind:'fill',ref:'g-percept',refSense:'gper-verbs',prompt:'I felt something ___ my arm.',question:'空欄に入るのは?',choices:['to touch','touch','touched','touches'],answer:1,explain:'something が触れる側なので原形。'},
+
+/* ============================== 不定詞 ============================== */
+{id:'ginf-q1',kind:'core',ref:'g-inf',refSense:'ginf-check',prompt:'不定詞の3用法はどう見分けるのか?',question:'いちばん近い説明は?',choices:['文のどこに置かれているかを見る','訳し方を暗記する','動詞の種類で決まる','時制で決まる'],answer:0,explain:'名詞が要る場所なら名詞的、名詞の後ろなら形容詞的、文が完成した後なら副詞的。'},
+{id:'ginf-q2',kind:'core',ref:'g-inf',refSense:'ginf-adj',prompt:'something to eat',question:'この to eat は何を説明しているか?',choices:['something','eat','文全体','何も説明していない'],answer:0,explain:'直前の名詞 something を後ろから説明している＝形容詞的用法。'},
+{id:'ginf-q3',kind:'core',ref:'g-inf',refSense:'ginf-adv',prompt:'He grew up to be a doctor.',question:'この to不定詞が表しているのは?',choices:['目的','結果','理由','条件'],answer:1,explain:'成長して、その結果 医者になった。副詞的用法の「結果」。'},
+{id:'ginf-q4',kind:'core',ref:'g-inf',refSense:'ginf-noun',prompt:'To see is to believe.',question:'この2つの to不定詞の役割は?',choices:['主語と補語','目的語と副詞','形容詞と副詞','どちらも副詞'],answer:0,explain:'名詞の位置にあるので名詞的用法。'},
+{id:'ginf-q5',kind:'fill',ref:'g-inf',refSense:'ginf-adv',prompt:'I came here ___ you.',question:'空欄に入るのは?（会うために）',choices:['seeing','to see','for see','see'],answer:1,explain:'目的を表す副詞的用法。'},
+{id:'ginf-q6',kind:'fill',ref:'g-inf',refSense:'ginf-adj',prompt:'Is there anything ___?',question:'空欄に入るのは?（何か食べるもの）',choices:['eat','eating','to eat','for eat'],answer:2,explain:'anything を後ろから説明する形容詞的用法。'},
+{id:'ginf-q7',kind:'fill',ref:'g-inf',refSense:'ginf-adv',prompt:'I’m glad ___ that.',question:'空欄に入るのは?',choices:['hear','to hear','hearing','heard'],answer:1,explain:'うれしい理由を表す副詞的用法。'},
+{id:'ginf-q8',kind:'fill',ref:'g-inf',refSense:'ginf-adj',prompt:'I have a lot of work ___.',question:'空欄に入るのは?',choices:['do','to do','doing','done'],answer:1,explain:'work を説明する形容詞的用法。'},
+
+/* ====================== 疑問詞+to と間接疑問 ====================== */
+{id:'gwh-q1',kind:'core',ref:'g-wh',refSense:'gwh-order',prompt:'×Do you know where is he? が間違いな理由は?',question:'いちばん近い説明は?',choices:['where he is は文に埋め込まれたかたまりで、もう質問ではないから','where が疑問詞だから','know が他動詞だから','is の位置が古いから'],answer:0,explain:'質問しているのは Do you know …? の部分だけ。かたまりの中は普通の語順に戻る。'},
+{id:'gwh-q2',kind:'core',ref:'g-wh',refSense:'gwh-toinf',jumpTo:'to/to-infinitive',prompt:'what to say が「何と言うべきか」になる理由は?',question:'いちばん近い説明は?',choices:['to のコア【これから向かう】が「これからどうすべきか」を含むから','what が疑問詞だから','say が動詞だから','慣用で理由はない'],answer:0,explain:'what to say ＝ what I should say。'},
+{id:'gwh-q3',kind:'core',ref:'g-wh',refSense:'gwh-tothat',prompt:'間接疑問を「疑問詞 + to」に短くできる条件は?',question:'いちばん近い説明は?',choices:['主語が同じであること','過去形であること','疑問詞が what であること','いつでもできる'],answer:0,explain:'I don’t know what I should say → I don’t know what to say。'},
+{id:'gwh-q4',kind:'core',ref:'g-wh',refSense:'gwh-order',prompt:'What does she want? を文に埋め込むと?',question:'does はどうなるか?',choices:['消える','残る','did になる','doing になる'],answer:0,explain:'I know what she wants. 疑問文ではなくなるので代理人の does は不要になる。'},
+{id:'gwh-q5',kind:'fill',ref:'g-wh',refSense:'gwh-indirect',prompt:'Do you know where ___?',question:'空欄に入るのは?',choices:['is he','he is','does he be','he does'],answer:1,explain:'埋め込まれたかたまりは主語 → 動詞の普通の語順。'},
+{id:'gwh-q6',kind:'fill',ref:'g-wh',refSense:'gwh-toinf',prompt:'Please tell me how ___ there.',question:'空欄に入るのは?',choices:['to get','getting','get','I get to'],answer:0,explain:'疑問詞 + to不定詞で「どうやって行けばよいか」。'},
+{id:'gwh-q7',kind:'fill',ref:'g-wh',refSense:'gwh-indirect',prompt:'I wonder what ___.',question:'空欄に入るのは?',choices:['does she want','she wants','wants she','she want'],answer:1,explain:'間接疑問なので普通の語順、三人称単数なので wants。'},
+{id:'gwh-q8',kind:'fill',ref:'g-wh',refSense:'gwh-toinf',prompt:'I’m not sure ___ next.',question:'空欄に入るのは?',choices:['what do','what to do','what doing','to what do'],answer:1,explain:'what to do ＝ 何をすべきか。'},
+
+/* ============================== that節 ============================== */
+{id:'gtht-q1',kind:'core',ref:'g-that',refSense:'gtht-omit',jumpTo:'g-rel/grel-obj',prompt:'目的語の that が省略できる理由は?',question:'いちばん近い説明は?',choices:['that がなくても「ここから新しい文が始まる」と読み手が判断できるから','that が短いから','目的語は重要でないから','慣用で理由はない'],answer:0,explain:'関係代名詞の目的格が省略できるのとまったく同じ理屈。主語の that は省略できない。'},
+{id:'gtht-q2',kind:'core',ref:'g-that',refSense:'gtht-subj',prompt:'It is clear that he lied. の it は何を指すか?',question:'いちばん近い説明は?',choices:['何も指さず、仮の主語として置かれている','he','lied','clear'],answer:0,explain:'that節が長くて頭でっかちなので、本体を後ろに回している。英語は重い情報ほど後ろ。'},
+{id:'gtht-q3',kind:'core',ref:'g-that',refSense:'gtht-obj',prompt:'that の役割は?',question:'いちばん近い説明は?',choices:['文をまるごと名詞1個ぶんの部品にする','時制を示す','主語を示す','強調する'],answer:0,explain:'「ここから文が1つ始まりますよ」という合図。'},
+{id:'gtht-q4',kind:'core',ref:'g-that',refSense:'gtht-adj',prompt:'I’m glad that you came.',question:'この that節の役割は?',choices:['うれしい理由を示す','主語','目的語','時を示す'],answer:0,explain:'感情や確信の形容詞の後ろで、なぜそう感じるかを示す。'},
+{id:'gtht-q5',kind:'fill',ref:'g-that',refSense:'gtht-obj',prompt:'I think ___ he is right.',question:'空欄に入るのは?',choices:['that','what','which','who'],answer:0,explain:'文をまるごと目的語にするので that。省略もできる。'},
+{id:'gtht-q6',kind:'fill',ref:'g-that',refSense:'gtht-subj',prompt:'___ is clear that he lied.',question:'空欄に入るのは?',choices:['That','It','There','He'],answer:1,explain:'仮の主語 It を立て、本体の that節を後ろに回す。'},
+{id:'gtht-q7',kind:'fill',ref:'g-that',refSense:'gtht-adj',prompt:'I’m sure ___ he’ll come.',question:'空欄に入るのは?',choices:['that','what','if','which'],answer:0,explain:'確信の理由を示す that節。'},
+{id:'gtht-q8',kind:'core',ref:'g-that',refSense:'gtht-subj',prompt:'主語の位置にある that が省略できない理由は?',question:'いちばん近い説明は?',choices:['切れ目が分からなくなるから','主語は重要だから','文法規則だから','長いから'],answer:0,explain:'文頭にいきなり名詞が2つ並ぶと、どこまでが主語か判断できなくなる。'},
+
+/* ============================== 未来表現 ============================== */
+{id:'gfut-q1',kind:'core',ref:'g-future',refSense:'gfut-will',jumpTo:'g-modal/gmod-will',prompt:'電話が鳴って I’ll get it! と言えるのはなぜ?',question:'いちばん近い説明は?',choices:['will は「今この場で心が固まった」ことを表すから','will が未来形だから','短いから','命令だから'],answer:0,explain:'前から出る係だったなら I’m going to get it. になる。'},
+{id:'gfut-q2',kind:'core',ref:'g-future',refSense:'gfut-going',prompt:'黒い雲を見て It’s going to rain. と言う理由は?',question:'いちばん近い説明は?',choices:['兆候がすでに出ていて、事態が動き出しているから','雲が黒いから','be going to の方が丁寧だから','未来だから'],answer:0,explain:'根拠なく予想するなら I think it will rain.。'},
+{id:'gfut-q3',kind:'core',ref:'g-future',refSense:'gfut-prog',prompt:'I’m meeting him at three. が未来を表せる理由は?',question:'いちばん近い説明は?',choices:['約束がすでに動き出しているので、もう途中だから','進行形に未来用法があるから','at three があるから','meet が特別だから'],answer:0,explain:'準備が始まっている＝すでに途中。だから進行形が使える。'},
+{id:'gfut-q4',kind:'core',ref:'g-future',refSense:'gfut-present',prompt:'The train leaves at ten. が現在形なのはなぜ?',question:'いちばん近い説明は?',choices:['時刻表のように動かないことが決まっているから','未来形がないから','電車は現在形と決まっているから','習慣だから'],answer:0,explain:'個人の意志とは無関係に確定しているものは「いつもそう」と同じ扱い。'},
+{id:'gfut-q5',kind:'fill',ref:'g-future',refSense:'gfut-going',prompt:'I’ve decided. I ___ study abroad next year.',question:'空欄に入るのは?',choices:['will','am going to','am','would'],answer:1,explain:'すでに決めたことなので be going to。'},
+{id:'gfut-q6',kind:'fill',ref:'g-future',refSense:'gfut-will',prompt:'— It’s heavy. — I ___ help you.',question:'空欄に入るのは?',choices:['am going to','will','am','would'],answer:1,explain:'今その場で申し出ているので will。'},
+{id:'gfut-q7',kind:'fill',ref:'g-future',refSense:'gfut-prog',prompt:'We ___ next month — the contract is signed.',question:'空欄に入るのは?',choices:['move','will move','are moving','moved'],answer:2,explain:'契約済みで動き出しているので進行形。'},
+{id:'gfut-q8',kind:'core',ref:'g-future',refSense:'gfut-will',prompt:'英語に未来形という時制はありますか?',question:'いちばん近い説明は?',choices:['ない。will は助動詞で、今の心の言い方にすぎない','ある。will がそれ','ある。be going to がそれ','過去形の反対として存在する'],answer:0,explain:'あるのは現在形と過去形の2つだけ。未来は助動詞や進行形で表す。'},
+
+/* ============================== 過去進行形 ============================== */
+{id:'gpp-q1',kind:'core',ref:'g-pastprog',refSense:'gpp-interrupt',prompt:'I was cooking when he called.',question:'なぜ料理が進行形なのか?',choices:['料理はしばらく続いていた背景で、電話は一瞬の割り込みだから','料理の方が重要だから','cook が状態動詞だから','when があるから'],answer:0,explain:'I cooked when he called. にすると「電話が来てから料理した」と順番が変わる。'},
+{id:'gpp-q2',kind:'core',ref:'g-pastprog',refSense:'gpp-soft',jumpTo:'g-past/gpast-polite',prompt:'I was wondering if you could help. がとても丁寧な理由は?',question:'いちばん近い説明は?',choices:['過去形と進行形で、距離を二重に取っているから','wonder が丁寧な語だから','長いから','if があるから'],answer:0,explain:'過去形＝現在からの距離、進行形＝一時的で確定していない感じ。英語の丁寧さは距離の重ね方で作られる。'},
+{id:'gpp-q3',kind:'core',ref:'g-pastprog',refSense:'gpp-mid',prompt:'過去進行形が写しているのは?',question:'いちばん近い説明は?',choices:['過去の一点で何の途中だったか','過去に何回やったか','過去から今まで続いていること','過去より前のこと'],answer:0,explain:'過去の一点にカメラを置いて、進行中の場面を写す形。'},
+{id:'gpp-q4',kind:'core',ref:'g-pastprog',refSense:'gpp-two',prompt:'She was reading while I was cooking.',question:'この2つの関係は?',choices:['並行して進んでいた','片方が割り込んだ','順番に起きた','無関係'],answer:0,explain:'while でつなぐと、2つが同時に進んでいたことを表せる。'},
+{id:'gpp-q5',kind:'fill',ref:'g-pastprog',refSense:'gpp-interrupt',prompt:'It ___ when we arrived.',question:'空欄に入るのは?（着いたとき雨が降っていた）',choices:['rained','was raining','rains','has rained'],answer:1,explain:'背景なので進行形。'},
+{id:'gpp-q6',kind:'fill',ref:'g-pastprog',refSense:'gpp-mid',prompt:'What ___ you doing at eight last night?',question:'空欄に入るのは?',choices:['did','were','are','have'],answer:1,explain:'過去の一点で進行中だったことを聞くので were + -ing。'},
+{id:'gpp-q7',kind:'fill',ref:'g-pastprog',refSense:'gpp-interrupt',prompt:'I was walking home when someone ___ me.',question:'空欄に入るのは?',choices:['was calling','called','calls','has called'],answer:1,explain:'割り込みは一瞬なので過去形。'},
+{id:'gpp-q8',kind:'fill',ref:'g-pastprog',refSense:'gpp-soft',prompt:'I ___ wondering if you had a minute.',question:'空欄に入るのは?',choices:['am','was','will be','have been'],answer:1,explain:'過去形にすることで距離が生まれ、丁寧になる。'},
+
+/* ============================== 過去完了 ============================== */
+{id:'gpf-q1',kind:'core',ref:'g-pastperf',refSense:'gpf-before',jumpTo:'g-perfect/gperf-result',prompt:'過去完了と現在完了の関係は?',question:'いちばん近い説明は?',choices:['基準点が「今」か「過去のある時点」かの違い','過去完了の方が古い','意味が正反対','無関係'],answer:0,explain:'同じ仕組みで、カメラの位置だけが違う形。'},
+{id:'gpf-q2',kind:'core',ref:'g-pastperf',refSense:'gpf-need',prompt:'いつも過去完了にする必要はありますか?',question:'いちばん近い説明は?',choices:['before / after / and で順番が分かるなら過去形で足りる','必ず必要','過去形では誤り','文語でのみ必要'],answer:0,explain:'過去完了は順番が紛らわしいときに整理する道具。使いすぎると重たくなる。'},
+{id:'gpf-q3',kind:'core',ref:'g-pastperf',refSense:'gpf-before',prompt:'The train had already left when I got there.',question:'起きた順番は?',choices:['電車の出発 → 私の到着','私の到着 → 電車の出発','同時','分からない'],answer:0,explain:'過去完了は「その時点より前に済んでいた」ことを表す。'},
+{id:'gpf-q4',kind:'core',ref:'g-pastperf',refSense:'gpf-if',jumpTo:'g-if/gif-past',prompt:'If I had known, I would have helped.',question:'この文が表しているのは?',choices:['実際は知らなかったし、助けなかった','知っていたので助けた','知っていたが助けなかった','これから助ける'],answer:0,explain:'過去の事実に反する仮定。過去より前の距離＝過去の現実からの距離。'},
+{id:'gpf-q5',kind:'fill',ref:'g-pastperf',refSense:'gpf-before',prompt:'When I arrived, the meeting ___ already started.',question:'空欄に入るのは?',choices:['has','had','was','is'],answer:1,explain:'到着より前に始まっていたので過去完了。'},
+{id:'gpf-q6',kind:'fill',ref:'g-pastperf',refSense:'gpf-cont',prompt:'She ___ there for ten years before she moved.',question:'空欄に入るのは?',choices:['has lived','had lived','lives','was living'],answer:1,explain:'引っ越すまで続いていた＝過去の時点までの継続。'},
+{id:'gpf-q7',kind:'fill',ref:'g-pastperf',refSense:'gpf-need',prompt:'I finished my work and ___ home.',question:'空欄に入るのは?',choices:['had gone','went','have gone','was going'],answer:1,explain:'and で順番が分かるので過去形で足りる。'},
+{id:'gpf-q8',kind:'fill',ref:'g-pastperf',refSense:'gpf-before',prompt:'I ___ never seen snow before I moved here.',question:'空欄に入るのは?',choices:['have','had','was','did'],answer:1,explain:'引っ越し（過去）より前の経験なので過去完了。'},
+
+/* ======================= 助動詞＋完了形 ======================= */
+{id:'gmp-q1',kind:'core',ref:'g-modalperf',refSense:'gmp-should',jumpTo:'g-modal/gmod-should',prompt:'should have が「後悔」になる仕組みは?',question:'いちばん近い説明は?',choices:['【当然の道筋】を済んだことに向けると「通らなかった」＝後悔になる','should が強いから','have が否定を含むから','慣用で理由はない'],answer:0,explain:'未来に向ければ You should rest.（助言）のままで、後悔にはならない。'},
+{id:'gmp-q2',kind:'core',ref:'g-modalperf',refSense:'gmp-must',prompt:'He must have forgotten.',question:'この must はどこに向かっているか?',choices:['過去の出来事についての判断','これからの行動','現在の状態','未来の予定'],answer:0,explain:'must の【強い圧力】が、過去の判断に向いている。'},
+{id:'gmp-q3',kind:'core',ref:'g-modalperf',refSense:'gmp-must',prompt:'must の3つの顔を並べると?',question:'共通しているのは?',choices:['どれも【強い圧力】で、向ける先だけが違う','別々の意味で無関係','過去にしか使えない','後悔を表す'],answer:0,explain:'You must go（行動へ）／He must be tired（判断へ）／He must have forgotten（過去の判断へ）。'},
+{id:'gmp-q4',kind:'core',ref:'g-modalperf',refSense:'gmp-cant',prompt:"She can't have said that.",question:'この文が表しているのは?',choices:['彼女がそう言ったはずがない','彼女はそう言えなかった','彼女はそう言うかもしれない','彼女はそう言うべきだった'],answer:0,explain:'可能性がそもそも無い、という強い否定の推量。'},
+{id:'gmp-q5',kind:'fill',ref:'g-modalperf',refSense:'gmp-should',prompt:'I ___ studied harder for the exam.',question:'空欄に入るのは?（すべきだった）',choices:['must have','should have','can have','may have'],answer:1,explain:'当然の道筋を通らなかった＝後悔。'},
+{id:'gmp-q6',kind:'fill',ref:'g-modalperf',refSense:'gmp-may',prompt:'He’s not here. He ___ left already.',question:'空欄に入るのは?（かもしれない）',choices:['may have','should have','can have','must not have'],answer:0,explain:'妨げるものがない＝ありうる。'},
+{id:'gmp-q7',kind:'fill',ref:'g-modalperf',refSense:'gmp-must',prompt:'The lights are off. They ___ gone out.',question:'空欄に入るのは?（に違いない）',choices:['may have','should have','must have','can have'],answer:2,explain:'そう結論するしかない＝強い確信。'},
+{id:'gmp-q8',kind:'fill',ref:'g-modalperf',refSense:'gmp-should',prompt:'You ___ said that. It was rude.',question:'空欄に入るのは?',choices:['should have','shouldn’t have','must have','may have'],answer:1,explain:'言うべきではなかった、という後悔・非難。'},
+
+/* ============================== 比較級 ============================== */
+{id:'gcmp-q1',kind:'core',ref:'g-comp',refSense:'gcmp-much',prompt:'×very better と言えない理由は?',question:'いちばん近い説明は?',choices:['very は程度を強める語で、差を強める語ではないから','better が不規則だから','very が古いから','慣用で理由はない'],answer:0,explain:'差を強めるのは much / far / a lot。very tall は言えるが very taller は言えない。'},
+{id:'gcmp-q2',kind:'core',ref:'g-comp',refSense:'gcmp-than',prompt:'比較級に than が必要な理由は?',question:'いちばん近い説明は?',choices:['何と比べているかがないと、差が成立しないから','than が接続詞だから','文法規則だから','強調のため'],answer:0,explain:'比較級は必ず、比べる相手とセットで意味を持つ。'},
+{id:'gcmp-q3',kind:'core',ref:'g-comp',refSense:'gcmp-form',prompt:'-er と more の分かれ目は?',question:'いちばん近い説明は?',choices:['語の音の長さ（音節の数）','語の意味','品詞','古さ'],answer:0,explain:'1〜2音節なら -er、3音節以上なら more。'},
+{id:'gcmp-q4',kind:'core',ref:'g-comp',refSense:'gcmp-irr',prompt:'good → better のように不規則になる語の特徴は?',question:'いちばん近い説明は?',choices:['よく使う語ほど古い形が残りやすい','長い語','外来語','名詞'],answer:0,explain:'頻度が高い語は形が固定されやすく、規則化の波を受けにくい。'},
+{id:'gcmp-q5',kind:'fill',ref:'g-comp',refSense:'gcmp-much',prompt:'This one is ___ better than that.',question:'空欄に入るのは?',choices:['very','much','so','too'],answer:1,explain:'差を強めるので much。'},
+{id:'gcmp-q6',kind:'fill',ref:'g-comp',refSense:'gcmp-form',prompt:'This book is ___ than that one.',question:'空欄に入るのは?',choices:['more interesting','interestinger','most interesting','interesting'],answer:0,explain:'interesting は長い語なので more。'},
+{id:'gcmp-q7',kind:'fill',ref:'g-comp',refSense:'gcmp-irr',prompt:'My cold is getting ___.',question:'空欄に入るのは?（悪化している）',choices:['badder','worse','worst','more bad'],answer:1,explain:'bad → worse は不規則変化。'},
+{id:'gcmp-q8',kind:'fill',ref:'g-comp',refSense:'gcmp-than',prompt:'It was easier ___ I thought.',question:'空欄に入るのは?',choices:['as','than','that','then'],answer:1,explain:'比較級とセットになるのは than。'},
+
+/* ============================== 最上級 ============================== */
+{id:'gsup-q1',kind:'core',ref:'g-super',refSense:'gsup-the',jumpTo:'g-article/gart-the',prompt:'最上級に the がつく理由は?',question:'いちばん近い説明は?',choices:['1番は必ず1つに決まる＝特定できるから','最上級は強調だから','文法規則だから','the が強めるから'],answer:0,explain:'冠詞のコア（相手も特定できるか）がそのまま効いている。'},
+{id:'gsup-q2',kind:'core',ref:'g-super',refSense:'gsup-range',prompt:'in the class と of the three の使い分けは?',question:'いちばん近い説明は?',choices:['in は囲まれた範囲、of は全体から取り出す','in の方が広い','of は古い言い方','違いはない'],answer:0,explain:'不変化詞のコア（in＝内側、of＝分離）がそのまま効いている。'},
+{id:'gsup-q3',kind:'core',ref:'g-super',refSense:'gsup-noth',prompt:'Nothing is more important than health.',question:'この文と同じ意味なのは?',choices:['健康が一番大切だ','健康は大切ではない','健康より大切なものがある','大切なものは何もない'],answer:0,explain:'最上級は比較級でも言い換えられる。'},
+{id:'gsup-q4',kind:'core',ref:'g-super',refSense:'gsup-one',prompt:'one of the best movies の後ろが複数形なのはなぜ?',question:'いちばん近い説明は?',choices:['「最高の映画たちのうちの1つ」だから','one が単数だから','best が複数を要求するから','慣用で理由はない'],answer:0,explain:'複数の中から1つを取り出す形なので、後ろは複数形。'},
+{id:'gsup-q5',kind:'fill',ref:'g-super',refSense:'gsup-the',prompt:'He is ___ tallest in our class.',question:'空欄に入るのは?',choices:['a','the','—','an'],answer:1,explain:'1番は1つに決まるので the。'},
+{id:'gsup-q6',kind:'fill',ref:'g-super',refSense:'gsup-range',prompt:'She is the tallest ___ the three.',question:'空欄に入るのは?',choices:['in','of','at','on'],answer:1,explain:'数えられる複数から取り出すので of。'},
+{id:'gsup-q7',kind:'fill',ref:'g-super',refSense:'gsup-range',prompt:'This is the best restaurant ___ town.',question:'空欄に入るのは?',choices:['of','in','at','among'],answer:1,explain:'町という囲まれた範囲なので in。'},
+{id:'gsup-q8',kind:'fill',ref:'g-super',refSense:'gsup-one',prompt:'It’s one of the best ___ I’ve seen.',question:'空欄に入るのは?',choices:['movie','movies','a movie','the movie'],answer:1,explain:'one of the 最上級 + 複数形。'},
+
+/* ============================== as 〜 as ============================== */
+{id:'gas-q1',kind:'core',ref:'g-as',refSense:'gas-equal',prompt:'×as taller as と言えない理由は?',question:'いちばん近い説明は?',choices:['as 〜 as は同じ目盛りに並べる形なので、差を表す比較級と合わないから','taller が長いから','as が2つあるから','慣用で理由はない'],answer:0,explain:'差を言いたいなら than の形に切り替える。'},
+{id:'gas-q2',kind:'core',ref:'g-as',refSense:'gas-not',prompt:'It’s not as good as that. が It’s worse than that. よりやわらかい理由は?',question:'いちばん近い説明は?',choices:['否定で言うことで、直接的な批判を避けられるから','短いから','as が丁寧だから','過去形だから'],answer:0,explain:'「それほどよくない」は「悪い」と言い切らない控えめな言い方。'},
+{id:'gas-q3',kind:'core',ref:'g-as',refSense:'gas-times',prompt:'twice as large as that',question:'倍数はどこに置くか?',choices:['最初の as の前','2つの as の間','最後','どこでもよい'],answer:0,explain:'three times as many も同じ形。'},
+{id:'gas-q4',kind:'core',ref:'g-as',refSense:'gas-possible',prompt:'as soon as possible が表しているのは?',question:'いちばん近い説明は?',choices:['可能な範囲の上限まで早く','ちょうどよい早さで','ゆっくりでよい','いつでもよい'],answer:0,explain:'possible が上限を示している。'},
+{id:'gas-q5',kind:'fill',ref:'g-as',refSense:'gas-equal',prompt:'He’s as ___ as me.',question:'空欄に入るのは?',choices:['taller','tall','tallest','more tall'],answer:1,explain:'as 〜 as の間に入るのは原級。'},
+{id:'gas-q6',kind:'fill',ref:'g-as',refSense:'gas-not',prompt:'It’s not ___ bad as I thought.',question:'空欄に入るのは?',choices:['so','as','than','more'],answer:1,explain:'not as 〜 as で「〜ほどではない」。so でも言えるが as が基本。'},
+{id:'gas-q7',kind:'fill',ref:'g-as',refSense:'gas-possible',prompt:'Please reply as soon as ___.',question:'空欄に入るのは?',choices:['possible','possibly','you possible','it possible'],answer:0,explain:'as … as possible で「できるだけ〜」。'},
+{id:'gas-q8',kind:'fill',ref:'g-as',refSense:'gas-times',prompt:'This room is ___ as large as that one.',question:'空欄に入るのは?（2倍）',choices:['two','twice','second','double as'],answer:1,explain:'倍数は最初の as の前。twice / three times など。'},
+
+/* ============================== 比較の応用 ============================== */
+{id:'gca-q1',kind:'core',ref:'g-compadv',refSense:'gca-the',prompt:'The sooner, the better. に動詞がない理由は?',question:'いちばん近い説明は?',choices:['The sooner it is, the better it is. から分かりきった部分が削られたから','命令文だから','慣用句に文法はないから','動詞が省略できない形だから'],answer:0,explain:'よく使う形なので短くなり、標語のような響きになっている。'},
+{id:'gca-q2',kind:'core',ref:'g-compadv',refSense:'gca-prefer',prompt:'prefer に than ではなく to を使う理由は?',question:'いちばん近い説明は?',choices:['prefer は比較級ではないので than を取れない','to の方が丁寧','prefer が古い語','than は名詞を取れない'],answer:0,explain:'superior to / inferior to も同じで、ラテン語由来の比較の語は to をとる。'},
+{id:'gca-q3',kind:'core',ref:'g-compadv',refSense:'gca-and',prompt:'It’s getting colder and colder.',question:'この形が表しているのは?',choices:['同じ方向へ進み続ける','2つを比べる','一番寒い','寒さが止まった'],answer:0,explain:'比較級を重ねると「どんどん〜になる」。'},
+{id:'gca-q4',kind:'core',ref:'g-compadv',refSense:'gca-the',prompt:'The more you practice, the better you get.',question:'この形が表しているのは?',choices:['2つの目盛りが連動する','練習が一番大事','練習しても無駄','練習を比べる'],answer:0,explain:'一方が上がれば、もう一方も上がる。'},
+{id:'gca-q5',kind:'fill',ref:'g-compadv',refSense:'gca-prefer',prompt:'I prefer tea ___ coffee.',question:'空欄に入るのは?',choices:['than','to','over than','from'],answer:1,explain:'prefer A to B。'},
+{id:'gca-q6',kind:'fill',ref:'g-compadv',refSense:'gca-and',prompt:'___ and more people are working from home.',question:'空欄に入るのは?',choices:['Much','More','Many','Most'],answer:1,explain:'比較級 and 比較級 で「ますます」。'},
+{id:'gca-q7',kind:'fill',ref:'g-compadv',refSense:'gca-the',prompt:'___ sooner, the better.',question:'空欄に入るのは?',choices:['A','The','Much','More'],answer:1,explain:'the 比較級, the 比較級 の形。'},
+{id:'gca-q8',kind:'fill',ref:'g-compadv',refSense:'gca-less',prompt:'This model is ___ expensive than that one.',question:'空欄に入るのは?（より安い）',choices:['more','less','least','little'],answer:1,explain:'less は more の反対方向の比較。'},
+
+/* ============================== 等位接続詞 ============================== */
+{id:'gand-q1',kind:'core',ref:'g-and',refSense:'gand-or',prompt:'Hurry up, and you’ll catch it. と Hurry up, or you’ll miss it.',question:'この差は?',choices:['and は「そうすれば」、or は「さもないと」','and の方が強い','or は疑問文','意味は同じ'],answer:0,explain:'接続詞1つで正反対の条件になる。'},
+{id:'gand-q2',kind:'core',ref:'g-and',refSense:'gand-same',prompt:'等位接続詞の前後で守るべきことは?',question:'いちばん近い説明は?',choices:['同じ資格・同じ形にすること','長さをそろえること','時制をそろえること','主語をそろえること'],answer:0,explain:'名詞と名詞、動詞と動詞、文と文。ここが崩れると不自然になる。'},
+{id:'gand-q3',kind:'core',ref:'g-and',refSense:'gand-but',prompt:'It’s small but strong. の but が示しているのは?',question:'いちばん近い説明は?',choices:['「小さい→弱い」という予想を裏切る方向','2つを並べる','理由を示す','選択肢を示す'],answer:0,explain:'but は期待される流れと逆へ進む。'},
+{id:'gand-q4',kind:'core',ref:'g-and',refSense:'gand-so',prompt:'so と because の違いは?',question:'いちばん近い説明は?',choices:['so は 原因→結果、because は 結果→原因 の順','so の方が丁寧','because は文語','違いはない'],answer:0,explain:'言いたいことを先に置きたいなら because、流れのまま話すなら so。'},
+{id:'gand-q5',kind:'fill',ref:'g-and',refSense:'gand-or',prompt:'Hurry, ___ you’ll be late.',question:'空欄に入るのは?',choices:['and','or','but','so'],answer:1,explain:'命令文 + or ＝ さもないと。'},
+{id:'gand-q6',kind:'fill',ref:'g-and',refSense:'gand-so',prompt:'It was raining, ___ we stayed home.',question:'空欄に入るのは?',choices:['because','so','but','or'],answer:1,explain:'原因 → 結果の順なので so。'},
+{id:'gand-q7',kind:'fill',ref:'g-and',refSense:'gand-same',prompt:'She likes ___ and dancing.',question:'空欄に入るのは?',choices:['to sing','singing','sing','sang'],answer:1,explain:'and の前後は同じ形。dancing に合わせて singing。'},
+{id:'gand-q8',kind:'fill',ref:'g-and',refSense:'gand-but',prompt:'I tried, ___ it didn’t work.',question:'空欄に入るのは?',choices:['and','so','but','or'],answer:2,explain:'期待を裏切る方向なので but。'},
+
+/* ============================== 従属接続詞 ============================== */
+{id:'gwhn-q1',kind:'core',ref:'g-when',refSense:'gwhn-future',prompt:'×I’ll call you when I will arrive. が誤りな理由は?',question:'いちばん近い説明は?',choices:['when のかたまりは前提を置いているだけで、未来を予測していないから','when に will は使えない決まりだから','call が未来だから','2回 will は使えないから'],answer:0,explain:'判断（will）が入るのは主役の文の方だけ、という住み分け。'},
+{id:'gwhn-q2',kind:'core',ref:'g-when',refSense:'gwhn-future',prompt:'I don’t know when he will arrive. では will を使えます。',question:'その理由は?',choices:['こちらは間接疑問で、名詞のかたまりだから','文が長いから','know が特別だから','誤りである'],answer:0,explain:'同じ when でも、副詞のかたまりか名詞のかたまりかで扱いが変わる。'},
+{id:'gwhn-q3',kind:'core',ref:'g-when',refSense:'gwhn-if',prompt:'unless の意味は?',question:'いちばん近い説明は?',choices:['if … not（〜でなければ）','if（もし〜なら）','although（〜だが）','because（〜なので）'],answer:0,explain:'Unless you hurry ＝ If you don’t hurry。'},
+{id:'gwhn-q4',kind:'core',ref:'g-when',refSense:'gwhn-time',prompt:'従属接続詞のかたまりが前後どちらにも置ける理由は?',question:'いちばん近い説明は?',choices:['主役の文に添えられる副詞の脇役だから','短いから','接続詞が2つあるから','語順が自由だから'],answer:0,explain:'1個の副詞のかたまりとして働くので、置く場所を選べる。'},
+{id:'gwhn-q5',kind:'fill',ref:'g-when',refSense:'gwhn-future',prompt:'I’ll call you when I ___.',question:'空欄に入るのは?',choices:['will arrive','arrive','arrived','am arriving'],answer:1,explain:'時の副詞節では未来でも現在形。'},
+{id:'gwhn-q6',kind:'fill',ref:'g-when',refSense:'gwhn-if',prompt:'___ you hurry, you’ll miss the train.',question:'空欄に入るのは?',choices:['If','Unless','Although','Because'],answer:1,explain:'「急がなければ」なので Unless（＝if … not）。'},
+{id:'gwhn-q7',kind:'fill',ref:'g-when',refSense:'gwhn-why',prompt:'___ it was raining, we went out.',question:'空欄に入るのは?',choices:['Because','Although','If','When'],answer:1,explain:'雨なのに出かけた＝譲歩なので Although。'},
+{id:'gwhn-q8',kind:'fill',ref:'g-when',refSense:'gwhn-time',prompt:'I’ll wait ___ you come back.',question:'空欄に入るのは?',choices:['by','until','for','while'],answer:1,explain:'戻るまでずっと待つので until。by なら「までに」。'},
+
+/* ============================== 関係副詞 ============================== */
+{id:'grla-q1',kind:'core',ref:'g-reladv',refSense:'grla-diff',prompt:'関係代名詞と関係副詞はどう見分けるか?',question:'いちばん近い説明は?',choices:['後ろの文に欠けがあるかどうか','先行詞の種類','文の長さ','時制'],answer:0,explain:'the house which I bought（目的語が欠けている）／the house where I live（欠けがない）。'},
+{id:'grla-q2',kind:'core',ref:'g-reladv',refSense:'grla-where',prompt:'where は元々どういう形か?',question:'いちばん近い説明は?',choices:['in which / at which が1語にまとまったもの','which の変化形','疑問詞がそのまま来たもの','接続詞'],answer:0,explain:'前置詞ごと1語になっているので、後ろは欠けのない完全な文になる。'},
+{id:'grla-q3',kind:'core',ref:'g-reladv',refSense:'grla-why',prompt:'That’s why I left. は何が省かれているか?',question:'いちばん近い説明は?',choices:['the reason','that','it','because'],answer:0,explain:'元は That’s the reason why I left. どちらか片方あれば通じる。'},
+{id:'grla-q4',kind:'core',ref:'g-reladv',refSense:'grla-when',prompt:'I remember the day when we met. の when は?',question:'いちばん近い説明は?',choices:['on which が1語になったもの','疑問詞','接続詞','副詞'],answer:0,explain:'時を説明する関係副詞。'},
+{id:'grla-q5',kind:'fill',ref:'g-reladv',refSense:'grla-where',prompt:'This is the house ___ I was born.',question:'空欄に入るのは?',choices:['which','where','that','who'],answer:1,explain:'I was born で文が完成しているので関係副詞。'},
+{id:'grla-q6',kind:'fill',ref:'g-reladv',refSense:'grla-diff',prompt:'This is the house ___ I bought last year.',question:'空欄に入るのは?',choices:['where','which','when','why'],answer:1,explain:'bought の目的語が欠けているので関係代名詞。'},
+{id:'grla-q7',kind:'fill',ref:'g-reladv',refSense:'grla-when',prompt:'I’ll never forget the day ___ we first met.',question:'空欄に入るのは?',choices:['which','where','when','that day'],answer:2,explain:'時を説明するので when。'},
+{id:'grla-q8',kind:'fill',ref:'g-reladv',refSense:'grla-why',prompt:'That’s the reason ___ I quit.',question:'空欄に入るのは?',choices:['which','where','why','what'],answer:2,explain:'理由を説明するので why。'},
+
+/* ============================== 分詞の後置修飾 ============================== */
+{id:'gpar-q1',kind:'core',ref:'g-part',refSense:'gpar-from',jumpTo:'g-rel/grel-subj',prompt:'分詞の後置修飾はどこから来た形か?',question:'いちばん近い説明は?',choices:['関係代名詞から who is / which is を省いた形','不定詞の変形','命令文の変形','受動態の変形'],answer:0,explain:'the man who is standing there → the man standing there。'},
+{id:'gpar-q2',kind:'core',ref:'g-part',refSense:'gpar-ing',prompt:'exciting news と excited people の違いは?',question:'いちばん近い説明は?',choices:['ニュースはさせる側、人はさせられた側','時制が違う','品詞が違う','違いはない'],answer:0,explain:'-ing は「する側」、過去分詞は「される側」。interesting と interested も同じ関係。'},
+{id:'gpar-q3',kind:'core',ref:'g-part',refSense:'gpar-front',prompt:'a sleeping baby と a baby sleeping in the car',question:'前後が変わる基準は?',choices:['1語なら前、2語以上なら後ろ','意味の違い','時制の違い','丁寧さ'],answer:0,explain:'英語は「重い情報ほど後ろ」。'},
+{id:'gpar-q4',kind:'core',ref:'g-part',refSense:'gpar-pp',prompt:'the car parked outside',question:'なぜ過去分詞なのか?',choices:['車は停められた側だから','過去のことだから','受動態だから','park が他動詞だから'],answer:0,explain:'その名詞が動作を受けている関係のときは過去分詞。'},
+{id:'gpar-q5',kind:'fill',ref:'g-part',refSense:'gpar-ing',prompt:'The man ___ over there is my boss.',question:'空欄に入るのは?',choices:['stand','standing','stood','to stand'],answer:1,explain:'男性が立っている＝する側なので -ing。'},
+{id:'gpar-q6',kind:'fill',ref:'g-part',refSense:'gpar-pp',prompt:'I found a letter ___ in French.',question:'空欄に入るのは?',choices:['writing','written','wrote','to write'],answer:1,explain:'手紙は書かれた側なので過去分詞。'},
+{id:'gpar-q7',kind:'fill',ref:'g-part',refSense:'gpar-ing',prompt:'The movie was really ___.',question:'空欄に入るのは?',choices:['excited','exciting','excite','excites'],answer:1,explain:'映画はわくわくさせる側なので -ing。'},
+{id:'gpar-q8',kind:'fill',ref:'g-part',refSense:'gpar-front',prompt:'Don’t wake the ___ baby.',question:'空欄に入るのは?',choices:['sleep','sleeping','slept','to sleep'],answer:1,explain:'1語なので名詞の前に置く。'},
+
+/* ============================== 分詞構文 ============================== */
+{id:'gpc-q1',kind:'core',ref:'g-partcon',refSense:'gpc-how',prompt:'分詞構文で省けるのは?',question:'いちばん近い説明は?',choices:['接続詞と主語','動詞と目的語','冠詞と前置詞','副詞だけ'],answer:0,explain:'When I walked home → Walking home。動詞は -ing にする。'},
+{id:'gpc-q2',kind:'core',ref:'g-partcon',refSense:'gpc-how',prompt:'分詞構文が使える条件は?',question:'いちばん近い説明は?',choices:['前後の主語が同じであること','過去形であること','文が短いこと','接続詞が when であること'],answer:0,explain:'主語が違うと、誰が動作したのか分からなくなる。'},
+{id:'gpc-q3',kind:'core',ref:'g-partcon',refSense:'gpc-mean',prompt:'接続詞を省くと何が起きるか?',question:'いちばん近い説明は?',choices:['時・理由・条件などの関係が文脈任せになる','意味が消える','必ず理由になる','時制が変わる'],answer:0,explain:'情報を削った形なので、読み手が補う必要がある。'},
+{id:'gpc-q4',kind:'core',ref:'g-partcon',refSense:'gpc-fixed',prompt:'分詞構文は会話でよく使われますか?',question:'いちばん近い説明は?',choices:['あまり使わない。会話では接続詞をそのまま言う方が親切','会話でこそよく使う','会話でしか使わない','使ってはいけない'],answer:0,explain:'ニュースや論文など、簡潔さが求められる書き言葉でよく見る。'},
+{id:'gpc-q5',kind:'fill',ref:'g-partcon',refSense:'gpc-how',prompt:'___ home, I met an old friend.',question:'空欄に入るのは?',choices:['Walk','Walking','Walked','To walk'],answer:1,explain:'When I walked home の接続詞と主語を省いた形。'},
+{id:'gpc-q6',kind:'fill',ref:'g-partcon',refSense:'gpc-mean',prompt:'___ tired, I went to bed early.',question:'空欄に入るのは?',choices:['Feel','Feeling','Felt','To feel'],answer:1,explain:'Because I felt tired の分詞構文。'},
+{id:'gpc-q7',kind:'fill',ref:'g-partcon',refSense:'gpc-being',prompt:'___ in English, the letter was hard to read.',question:'空欄に入るのは?',choices:['Writing','Written','Write','To write'],answer:1,explain:'手紙は書かれた側なので (Being) written。being は省略できる。'},
+{id:'gpc-q8',kind:'fill',ref:'g-partcon',refSense:'gpc-fixed',prompt:'___ speaking, Japanese trains are punctual.',question:'空欄に入るのは?',choices:['General','Generally','To general','Generalize'],answer:1,explain:'Generally speaking は決まった形の分詞構文。'},
+
+/* ============================== 仮定法 ============================== */
+{id:'gif-q1',kind:'core',ref:'g-if',refSense:'gif-now',jumpTo:'g-past/gpast-real',prompt:'仮定法は新しく覚え直す文法でしょうか?',question:'いちばん近い説明は?',choices:['過去形＝【距離】を、時間ではなく現実に向けているだけ','まったく別の体系','過去のことを表す形','丁寧表現の一種'],answer:0,explain:'Could you …? が丁寧なのも同じ仕組み。3つとも1つの形の使い分け。'},
+{id:'gif-q2',kind:'core',ref:'g-if',refSense:'gif-past',prompt:'過去完了を使う仮定法が表しているのは?',question:'いちばん近い説明は?',choices:['過去の現実からずらす（2歩）','現在の現実からずらす（1歩）','未来のこと','ありうること'],answer:0,explain:'もう一段深く現実から離すために、時制をもう一段さかのぼらせている。'},
+{id:'gif-q3',kind:'core',ref:'g-if',refSense:'gif-real',prompt:'If it rains, we’ll cancel. が仮定法でない理由は?',question:'いちばん近い説明は?',choices:['雨は十分ありうることだから','if がないから','未来だから','短いから'],answer:0,explain:'ありうることなら現在形のまま。現実からずらす必要がない。'},
+{id:'gif-q4',kind:'core',ref:'g-if',refSense:'gif-wish',prompt:'He talks as if he knew everything.',question:'この文が表しているのは?',choices:['実際は知らない','実際に知っている','知っているか分からない','これから知る'],answer:0,explain:'as if + 過去形で、現実からずらしている。'},
+{id:'gif-q5',kind:'fill',ref:'g-if',refSense:'gif-now',prompt:'If I ___ time, I would go with you.',question:'空欄に入るのは?',choices:['have','had','will have','am having'],answer:1,explain:'現在の現実と違うので過去形。'},
+{id:'gif-q6',kind:'fill',ref:'g-if',refSense:'gif-past',prompt:'If I had known, I ___ helped.',question:'空欄に入るのは?',choices:['would','will','would have','had'],answer:2,explain:'過去の仮定なので would have + 過去分詞。'},
+{id:'gif-q7',kind:'fill',ref:'g-if',refSense:'gif-real',prompt:'If it ___ tomorrow, we’ll cancel.',question:'空欄に入るのは?',choices:['rains','rained','will rain','would rain'],answer:0,explain:'ありうる条件なので現在形。仮定法にしない。'},
+{id:'gif-q8',kind:'fill',ref:'g-if',refSense:'gif-wish',prompt:'I wish I ___ fly.',question:'空欄に入るのは?',choices:['can','could','will','would have'],answer:1,explain:'現実にはできないことを望むので過去形 could。'},
+
+/* ============================== it の特別用法 ============================== */
+{id:'git-q1',kind:'core',ref:'g-it',refSense:'git-weather',prompt:'It’s raining. の it は何を指すか?',question:'いちばん近い説明は?',choices:['何も指していない。形を整えるためだけ','雨','空','天気'],answer:0,explain:'英語は主語がないと文が成立しない。日本語なら「雨だ」で済むところ。'},
+{id:'git-q2',kind:'core',ref:'g-it',refSense:'git-cleft',prompt:'強調構文と仮主語の見分け方は?',question:'いちばん近い説明は?',choices:['It is と that を取り除いて、文として成立するか試す','長さで判断','時制で判断','動詞で判断'],answer:0,explain:'It was Ken that broke the window. → Ken broke the window.（成立）→ 強調構文。'},
+{id:'git-q3',kind:'core',ref:'g-it',refSense:'git-formal',prompt:'It is hard to learn English. の本当の主語は?',question:'いちばん近い説明は?',choices:['to learn English','It','hard','English'],answer:0,explain:'長い主語を後ろに回し、仮の主語 it を先に置いている。'},
+{id:'git-q4',kind:'core',ref:'g-it',refSense:'git-obj',prompt:'I found it hard to say no. の it は?',question:'いちばん近い説明は?',choices:['仮の目的語','本当の目的語','主語','強調'],answer:0,explain:'目的語が長いときも、仮の it を立てて本体を後ろに回す。'},
+{id:'git-q5',kind:'fill',ref:'g-it',refSense:'git-formal',prompt:'___ is important to sleep well.',question:'空欄に入るのは?',choices:['That','It','There','This'],answer:1,explain:'仮主語の it。本当の主語は to sleep well。'},
+{id:'git-q6',kind:'fill',ref:'g-it',refSense:'git-weather',prompt:'___ takes ten minutes from here.',question:'空欄に入るのは?',choices:['There','It','That','This'],answer:1,explain:'時間や距離を表す it。何も指していない。'},
+{id:'git-q7',kind:'fill',ref:'g-it',refSense:'git-cleft',prompt:'It was yesterday ___ I saw him.',question:'空欄に入るのは?',choices:['which','that','when I','where'],answer:1,explain:'強調構文は It is 〜 that … の形。'},
+{id:'git-q8',kind:'fill',ref:'g-it',refSense:'git-obj',prompt:'The rain made ___ difficult to walk.',question:'空欄に入るのは?',choices:['that','it','there','this'],answer:1,explain:'make it 形容詞 to do の形。仮目的語の it。'},
+
+/* ============================== 代名詞 ============================== */
+{id:'gprn-q1',kind:'core',ref:'g-pron',refSense:'gprn-one',prompt:'店で this one と言うのはなぜ?',question:'いちばん近い説明は?',choices:['指しているのは「その種類の1つ」だから','one の方が丁寧だから','it は物に使えないから','慣用で理由はない'],answer:0,explain:'it を使うと「その現物」になってしまう。'},
+{id:'gprn-q2',kind:'core',ref:'g-pron',refSense:'gprn-it',prompt:'I lost my pen. I need to find it. と … buy one. の違いは?',question:'いちばん近い説明は?',choices:['it はなくしたそのペン、one は別の新しいペン','意味は同じ','one の方が高価','it は複数'],answer:0,explain:'it ＝ 同一物、one ＝ 同じ種類の別のもの。'},
+{id:'gprn-q3',kind:'core',ref:'g-pron',refSense:'gprn-self',prompt:'I hurt myself. に myself が要る理由は?',question:'いちばん近い説明は?',choices:['英語は「誰が誰を」をはっきりさせる言語だから','hurt が他動詞だから','強調のため','慣用で理由はない'],answer:0,explain:'I hurt. だと何を傷つけたのか分からない。主語と同じ人だと示す専用の形が要る。'},
+{id:'gprn-q4',kind:'core',ref:'g-pron',refSense:'gprn-they',prompt:'They say it’s going to rain. の they は?',question:'いちばん近い説明は?',choices:['不特定の人々。誰かは重要でない','特定の人たち','天気予報士','話し手の友人'],answer:0,explain:'総称の they。日本語の「〜らしい」に近い。'},
+{id:'gprn-q5',kind:'fill',ref:'g-pron',refSense:'gprn-one',prompt:'Do you have a smaller ___?',question:'空欄に入るのは?',choices:['it','one','that','this'],answer:1,explain:'同じ種類の別のものを求めているので one。'},
+{id:'gprn-q6',kind:'fill',ref:'g-pron',refSense:'gprn-it',prompt:'I left my phone at home. I need ___.',question:'空欄に入るのは?（そのスマホ）',choices:['one','it','that one','another'],answer:1,explain:'そのもの自体を指すので it。'},
+{id:'gprn-q7',kind:'fill',ref:'g-pron',refSense:'gprn-self',prompt:'Please make ___ at home.',question:'空欄に入るのは?',choices:['you','your','yourself','yours'],answer:2,explain:'主語（you）と同じ人なので再帰代名詞。'},
+{id:'gprn-q8',kind:'fill',ref:'g-pron',refSense:'gprn-self',prompt:'I did it ___ — nobody helped me.',question:'空欄に入るのは?',choices:['me','my','myself','mine'],answer:2,explain:'強調の再帰代名詞。'},
+
+/* ============================== 数量表現 ============================== */
+{id:'gqnt-q1',kind:'core',ref:'g-quant',refSense:'gqnt-each',prompt:'each / every の後ろが単数になる理由は?',question:'いちばん近い説明は?',choices:['1つずつ順に見ていく語で、いま見ているのは常に1つだから','単数形が原則だから','短い語だから','慣用で理由はない'],answer:0,explain:'all は全体をまとめて見るので複数扱いになる。'},
+{id:'gqnt-q2',kind:'core',ref:'g-quant',refSense:'gqnt-each',prompt:'each と every の違いは?',question:'いちばん近い説明は?',choices:['each は1つひとつを意識、every は全部を見渡して「どれも」','each の方が多い','every は古い','違いはない'],answer:0,explain:'each は2つからでも使えるが、every は3つ以上から。'},
+{id:'gqnt-q3',kind:'core',ref:'g-quant',refSense:'gqnt-either',prompt:'either と neither が使える範囲は?',question:'いちばん近い説明は?',choices:['2つのうち','3つ以上','何個でも','1つだけ'],answer:0,explain:'either ＝ どちらか、neither ＝ どちらも〜ない。'},
+{id:'gqnt-q4',kind:'core',ref:'g-quant',refSense:'gqnt-all',prompt:'all と each の見方の違いは?',question:'いちばん近い説明は?',choices:['all はひとまとめ、each は1つずつ','all の方が多い','each は人にしか使えない','違いはない'],answer:0,explain:'この違いが、そのまま動詞の単複に出る。'},
+{id:'gqnt-q5',kind:'fill',ref:'g-quant',refSense:'gqnt-each',prompt:'Every room ___ clean.',question:'空欄に入るのは?',choices:['are','is','were','have'],answer:1,explain:'1つずつ見る語なので単数扱い。'},
+{id:'gqnt-q6',kind:'fill',ref:'g-quant',refSense:'gqnt-all',prompt:'All the students ___ here.',question:'空欄に入るのは?',choices:['is','are','has','was'],answer:1,explain:'全体をまとめて見るので複数扱い。'},
+{id:'gqnt-q7',kind:'fill',ref:'g-quant',refSense:'gqnt-either',prompt:'___ of them came — the room was empty.',question:'空欄に入るのは?',choices:['Either','Neither','Both','All'],answer:1,explain:'どちらも来なかったので Neither。'},
+{id:'gqnt-q8',kind:'fill',ref:'g-quant',refSense:'gqnt-each',prompt:'___ student has a locker.',question:'空欄に入るのは?',choices:['Each','All','Both','Many'],answer:0,explain:'has（単数）なので Each。All なら All students have …。'},
+
+/* ============================== 付加疑問と否定疑問 ============================== */
+{id:'gtag-q1',kind:'core',ref:'g-tag',refSense:'gtag-ans',prompt:'— Don’t you like it? — Yes, I do.',question:'この Yes が意味するのは?',choices:['好きだ','好きではない','分からない','質問を否定している'],answer:0,explain:'英語の Yes / No は質問の形ではなく「事実」に合わせる。日本語とちょうど反対になる。'},
+{id:'gtag-q2',kind:'core',ref:'g-tag',refSense:'gtag-make',prompt:'付加疑問の作り方は?',question:'いちばん近い説明は?',choices:['肯定なら否定で、否定なら肯定で受ける','必ず否定で受ける','必ず肯定で受ける','動詞をそのまま繰り返す'],answer:0,explain:'It’s cold, isn’t it? / You don’t smoke, do you?'},
+{id:'gtag-q3',kind:'core',ref:'g-tag',refSense:'gtag-tone',prompt:'It’s cold, isn’t it? を下げ調子で言うと?',question:'いちばん近い説明は?',choices:['同意を求めていて、答えは期待していない','本当に質問している','怒っている','否定している'],answer:0,explain:'上げ調子なら本当の質問になる。同じ形でも言い方で意味が変わる。'},
+{id:'gtag-q4',kind:'core',ref:'g-tag',refSense:'gtag-neg',prompt:'Aren’t you coming? が表しているのは?',question:'いちばん近い説明は?',choices:['来ると思っていた、という意外さ','来ないでほしい','来るか分からない','来るなという命令'],answer:0,explain:'否定疑問は意外さや確認を表す。'},
+{id:'gtag-q5',kind:'fill',ref:'g-tag',refSense:'gtag-make',prompt:'It’s cold today, ___?',question:'空欄に入るのは?',choices:['is it','isn’t it','does it','doesn’t it'],answer:1,explain:'肯定文なので否定で受ける。'},
+{id:'gtag-q6',kind:'fill',ref:'g-tag',refSense:'gtag-make',prompt:'You don’t smoke, ___?',question:'空欄に入るのは?',choices:['don’t you','do you','are you','aren’t you'],answer:1,explain:'否定文なので肯定で受ける。'},
+{id:'gtag-q7',kind:'fill',ref:'g-tag',refSense:'gtag-make',prompt:'Let’s go, ___?',question:'空欄に入るのは?',choices:['will we','shall we','don’t we','aren’t we'],answer:1,explain:'Let’s の付加疑問は shall we? と決まっている。'},
+{id:'gtag-q8',kind:'fill',ref:'g-tag',refSense:'gtag-make',prompt:'Open the window, ___?',question:'空欄に入るのは?',choices:['shall we','will you','do you','don’t you'],answer:1,explain:'命令文の付加疑問は will you?。'},
+
+/* ============================== 形容詞と副詞の位置 ============================== */
+{id:'gadj-q1',kind:'core',ref:'g-adj',refSense:'gadj-som',prompt:'×cold something と言えない理由は?',question:'いちばん近い説明は?',choices:['some + thing がくっついた語なので、前に形容詞を置く隙間がないから','cold が短いから','something が不可算だから','慣用で理由はない'],answer:0,explain:'something cold to drink では、形容詞も不定詞も両方とも後ろに並ぶ。'},
+{id:'gadj-q2',kind:'core',ref:'g-adj',refSense:'gadj-freq',prompt:'頻度の副詞（always など）の位置は?',question:'いちばん近い説明は?',choices:['be動詞の後ろ、一般動詞の前','必ず文末','必ず文頭','どこでもよい'],answer:0,explain:'He is always late. / He always comes late.'},
+{id:'gadj-q3',kind:'core',ref:'g-adj',refSense:'gadj-order',prompt:'a nice big red Japanese wooden box の並び順は?',question:'いちばん近い説明は?',choices:['意見 → 大きさ → 色 → 出身 → 材質','材質 → 色 → 大きさ','長さ順','決まりはない'],answer:0,explain:'ネイティブは習わずに身につけている。順番が違うと不自然に響く。'},
+{id:'gadj-q4',kind:'core',ref:'g-adj',refSense:'gadj-pre',jumpTo:'g-part/gpar-front',prompt:'a beautiful garden と a garden full of flowers',question:'前後が変わる基準は?',choices:['1語なら前、2語以上なら後ろ','意味の違い','時制','丁寧さ'],answer:0,explain:'英語は重い情報ほど後ろへ。分詞の後置修飾と同じ原則。'},
+{id:'gadj-q5',kind:'fill',ref:'g-adj',refSense:'gadj-som',prompt:'I’d like something ___.',question:'空欄に入るのは?',choices:['cold','cold to','to cold','a cold'],answer:0,explain:'something は後ろから修飾する。'},
+{id:'gadj-q6',kind:'fill',ref:'g-adj',refSense:'gadj-freq',prompt:'He ___ comes late.',question:'空欄に入るのは?',choices:['is always','always','always is','comes always'],answer:1,explain:'一般動詞の前に置く。'},
+{id:'gadj-q7',kind:'fill',ref:'g-adj',refSense:'gadj-freq',prompt:'She ___ late for meetings.',question:'空欄に入るのは?',choices:['always is','is always','always','is late always'],answer:1,explain:'be動詞の後ろに置く。'},
+{id:'gadj-q8',kind:'fill',ref:'g-adj',refSense:'gadj-pre',prompt:'I bought a ___ bag.',question:'空欄に入るのは?',choices:['nice small leather','leather small nice','small leather nice','nice leather small'],answer:0,explain:'意見 → 大きさ → 材質 の順。'},
+
+/* ============================== 複数形と所有格 ============================== */
+{id:'gplr-q1',kind:'core',ref:'g-plural',refSense:'gplr-poss',prompt:'student’s と students’ の違いは?',question:'いちばん近い説明は?',choices:['前者は1人の生徒の、後者は複数の生徒の','前者が丁寧','後者は古い形','違いはない'],answer:0,explain:'複数形の -s の後ろには、アポストロフィだけを置く。音は同じ。'},
+{id:'gplr-q2',kind:'core',ref:'g-plural',refSense:'gplr-of',prompt:'人には ’s、物には of が使われる理由は?',question:'いちばん近い説明は?',choices:['’s は「持ち主」を示す形なので、意志のあるものと相性がいい','of が古いから','物は所有できないから','慣用で理由はない'],answer:0,explain:'ただし today’s news / a day’s work のように、時間には ’s を使う例外がある。'},
+{id:'gplr-q3',kind:'core',ref:'g-plural',refSense:'gplr-plural',jumpTo:'g-article/gart-none',prompt:'×two waters と言えない理由は?',question:'いちばん近い説明は?',choices:['水には輪郭がなく、数えられないから','water が短いから','two が古いから','複数形にできない語だから'],answer:0,explain:'冠詞のコア（輪郭があるか）がそのまま効いている。数えるなら two glasses of water。'},
+{id:'gplr-q4',kind:'core',ref:'g-plural',refSense:'gplr-irr',prompt:'man → men、child → children のように不規則な語の特徴は?',question:'いちばん近い説明は?',choices:['よく使う語ほど古い形が残りやすい','長い語','外来語','抽象名詞'],answer:0,explain:'比較級の good → better と同じ理屈。頻度が高い語は規則化の波を受けにくい。'},
+{id:'gplr-q5',kind:'fill',ref:'g-plural',refSense:'gplr-poss',prompt:'This is my ___ car.',question:'空欄に入るのは?（父の車）',choices:['father','fathers','father’s','fathers’'],answer:2,explain:'1人の父の車なので father’s。'},
+{id:'gplr-q6',kind:'fill',ref:'g-plural',refSense:'gplr-of',prompt:'Please close the door ___ the car.',question:'空欄に入るのは?',choices:["car's",'of','for','to'],answer:1,explain:'物なので of。'},
+{id:'gplr-q7',kind:'fill',ref:'g-plural',refSense:'gplr-irr',prompt:'I brushed my ___ before bed.',question:'空欄に入るのは?',choices:['tooths','teeth','tooth','teeths'],answer:1,explain:'tooth → teeth は不規則変化。'},
+{id:'gplr-q8',kind:'fill',ref:'g-plural',refSense:'gplr-poss',prompt:'Did you see ___ news?',question:'空欄に入るのは?（今日のニュース）',choices:['today','todays','today’s','of today'],answer:2,explain:'時間にも ’s を使う。'}
 ];

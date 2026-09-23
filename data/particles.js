@@ -463,5 +463,589 @@ const PARTICLES = [
           'a bridge over the river（川をまたぐ橋）に above は使えない。\n'+
           '「またぐ」動きがあるかどうかで決まる。'}]
 }
+,
+
+/* ---------------------------------------------------------- of */
+{
+  id:'of', type:'particle', headword:'of', core:'分離', diagram:'pOf',
+  coreNote:'of は off と同じ語源で、コアは【分離】。全体から切り離された一部、という関係を表す。'+
+           '「〜の」と訳すと見えなくなるが、根っこは切り離しにある。',
+  senses:[
+    { id:'of-part', chip:'全体の一部', label:'分離 → 全体から切り取った一部',
+      gloss:'大きなものから切り離されたひとかけら',
+      examples:[
+        {en:'a piece of cake', ja:'ケーキ一切れ', note:'ケーキから切り離された一片'},
+        {en:'one of them', ja:'そのうちの1つ', note:''},
+        {en:'a member of the team', ja:'チームの一員', note:'チームから取り出した1人'}]},
+    { id:'of-source', chip:'出どころ', label:'分離 → そこから出てきた',
+      gloss:'元をたどるとそこに行き着く',
+      examples:[
+        {en:'made of wood', ja:'木でできている', note:'木から切り出した。木のままだと分かる'},
+        {en:'die of cancer', ja:'がんで死ぬ', note:'そこから結果が出てくる'}]},
+    { id:'of-deprive', chip:'奪う', label:'分離 → 引き剥がす',
+      gloss:'持っていたものを切り離す',
+      examples:[
+        {en:'They robbed him of his wallet.', ja:'彼から財布を奪った', note:'彼から財布を分離'},
+        {en:'cure her of the disease', ja:'彼女の病気を治す', note:'彼女から病気を切り離す'}]},
+    { id:'of-belong', chip:'所属', label:'分離の裏返し → どこから来たか＝所属',
+      gloss:'切り離す前はそこの一部だった、という関係',
+      examples:[
+        {en:'the leg of the table', ja:'テーブルの脚', note:''},
+        {en:'the capital of Japan', ja:'日本の首都', note:''}]}],
+  trivia:[
+    {title:'of と off は、もとは同じ単語だった',
+     body:'強く発音された of が off になって分かれた。\n'+
+          'だから of には今も「分離」の意味が残っている。\n'+
+          'a piece of cake も rob him of his money も、根は同じ切り離し。'},
+    {title:'made of と made from の違い',
+     body:'made of wood ＝ 見れば木だと分かる（形が残っている）\n'+
+          'made from grapes ＝ ワイン。もうぶどうには見えない\n'+
+          'of は切り出しただけ、from は起点から離れて変化しきった、という差。'}]
+},
+
+/* -------------------------------------------------------- with */
+{
+  id:'with', type:'particle', headword:'with', core:'一緒にある', diagram:'pWith',
+  coreNote:'with は「そばに一緒にある」。人でも、持ち物でも、道具でも、'+
+           'そこに添えられていれば with。向かい合って一緒にいれば「対立」にもなる。',
+  senses:[
+    { id:'with-accompany', chip:'一緒に', label:'一緒にある → 同伴する',
+      gloss:'並んでその場にいる',
+      examples:[
+        {en:'Come with me.', ja:'一緒に来て', note:''},
+        {en:'I live with my family.', ja:'家族と住んでいる', note:''}]},
+    { id:'with-have', chip:'付いている', label:'一緒にある → 身につけている・添えられている',
+      gloss:'その人・物にくっついて存在する',
+      examples:[
+        {en:'a man with glasses', ja:'メガネをかけた男性', note:''},
+        {en:'coffee with milk', ja:'ミルク入りコーヒー', note:''}]},
+    { id:'with-tool', chip:'道具', label:'一緒にある → 手元にある道具を使って',
+      gloss:'その道具を持った状態で行う',
+      examples:[
+        {en:'Cut it with a knife.', ja:'ナイフで切って', note:'ナイフを持って切る'},
+        {en:'write with a pen', ja:'ペンで書く', note:''}]},
+    { id:'with-against', chip:'相手', label:'一緒にある → 向かい合う相手',
+      gloss:'同じ場にいれば、味方にも相手にもなる',
+      examples:[
+        {en:'I argued with him.', ja:'彼と言い争った', note:'向かい合って一緒にいる'},
+        {en:'play tennis with her', ja:'彼女とテニスをする', note:''}]},
+    { id:'with-cause', chip:'〜で', label:'一緒にある → その状態を伴って',
+      gloss:'感情や状態がそこに添えられている',
+      examples:[
+        {en:'shaking with fear', ja:'恐怖で震えている', note:'恐怖を伴って'},
+        {en:'With pleasure.', ja:'喜んで', note:''}]}],
+  trivia:[
+    {title:'fight with が「共に戦う」と「戦う相手」の両方になる理由',
+     body:'with は「一緒にその場にいる」としか言っていない。\n'+
+          '肩を並べていれば味方、向かい合っていれば敵。\n'+
+          'どちらかは文脈が決める。fight against なら必ず「逆らう」側になる。'},
+    {title:'with と by の使い分け',
+     body:'with ＝ 手に持っている道具（cut it with a knife）\n'+
+          'by ＝ 方法・手段そのもの（go by train / by email）\n'+
+          '手で握れるものは with、やり方は by、と考えるとほぼ外さない。'}]
+},
+
+/* ---------------------------------------------------------- by */
+{
+  id:'by', type:'particle', headword:'by', core:'すぐそば', diagram:'pBy',
+  coreNote:'by は「ぴったり横」。触れてはいないが、すぐそばにある。'+
+           'そばを通れば「経由」、そばにいた人は「やった人」、その時までのそばなら「期限」。',
+  senses:[
+    { id:'by-near', chip:'そば', label:'すぐそば → 近くにある',
+      gloss:'手を伸ばせば届く距離',
+      examples:[
+        {en:'sit by the window', ja:'窓ぎわに座る', note:''},
+        {en:'a house by the sea', ja:'海辺の家', note:''}]},
+    { id:'by-pass', chip:'通り過ぎる', label:'すぐそば → 横を通っていく',
+      gloss:'そばを掠めて進む',
+      examples:[
+        {en:'He walked by without a word.', ja:'彼は黙って通り過ぎた', note:''},
+        {en:'Time goes by so fast.', ja:'時間が経つのは早い', note:'そばを過ぎていく'}]},
+    { id:'by-means', chip:'手段', label:'すぐそば → それを経由して',
+      gloss:'そこを通ってたどり着く',
+      examples:[
+        {en:'go by train', ja:'電車で行く', note:'電車を経由する'},
+        {en:'contact me by email', ja:'メールで連絡して', note:''}]},
+    { id:'by-agent', chip:'やった人', label:'すぐそば → その場にいた＝動作主',
+      gloss:'受動態で「誰が」を言うときの by',
+      examples:[
+        {en:'written by Soseki', ja:'漱石によって書かれた', note:'そばにいた＝書いた人'},
+        {en:'The window was broken by a ball.', ja:'窓はボールで割られた', note:''}]},
+    { id:'by-deadline', chip:'期限', label:'すぐそば → その時までのどこか',
+      gloss:'その時点のそばまでに',
+      examples:[
+        {en:'Finish it by Friday.', ja:'金曜までに終わらせて', note:'金曜のそばまでに'},
+        {en:'by tomorrow morning', ja:'明日の朝までに', note:''}]},
+    { id:'by-degree', chip:'差', label:'すぐそば → どれだけ離れているか',
+      gloss:'二つの間の隙間の大きさ',
+      examples:[
+        {en:"He's taller by five centimeters.", ja:'彼の方が5センチ高い', note:''},
+        {en:'prices rose by 10%', ja:'価格が10%上がった', note:''}]}],
+  trivia:[
+    {title:'by Friday と until Friday はまったく違う',
+     body:'by Friday ＝ 金曜までのどこかで（一度やれば終わり）\n'+
+          'until Friday ＝ 金曜までずっと（継続する）\n'+
+          'Finish it by Friday.（金曜までに終わらせて）\n'+
+          'Wait until Friday.（金曜まで待って）\n'+
+          '締切なら by、継続なら until。'},
+    {title:'by train に a や the がつかない理由',
+     body:'ここでの train は具体的な一台ではなく「電車という手段」。\n'+
+          '手段には輪郭がないので冠詞がつかない。\n'+
+          'by car / by bus / by email も同じ。\n'+
+          '具体的な一台を指すなら on the 9:15 train のように変わる。'}]
+},
+
+/* -------------------------------------------------------- from */
+{
+  id:'from', type:'particle', headword:'from', core:'起点', diagram:'pFrom',
+  coreNote:'from は出発点。そこから離れていく矢印の「尻尾」を指している。'+
+           '離れるからこそ「区別」「防ぐ」まで届く。',
+  senses:[
+    { id:'from-start', chip:'出発点', label:'起点 → そこから始まる',
+      gloss:'動きが始まる場所・時間',
+      examples:[
+        {en:'from Tokyo to Osaka', ja:'東京から大阪まで', note:'to とセットで端から端まで'},
+        {en:'open from nine', ja:'9時から開いている', note:''}]},
+    { id:'from-origin', chip:'出身', label:'起点 → そこから来た',
+      gloss:'元をたどればそこ',
+      examples:[
+        {en:"I'm from Japan.", ja:'日本出身です', note:''},
+        {en:'a letter from her', ja:'彼女からの手紙', note:''}]},
+    { id:'from-material', chip:'原料', label:'起点 → そこから変化してできた',
+      gloss:'元の形はもう残っていない',
+      examples:[
+        {en:'Wine is made from grapes.', ja:'ワインはぶどうから作る', note:'もうぶどうには見えない'},
+        {en:'made from recycled paper', ja:'再生紙から作られた', note:''}]},
+    { id:'from-separate', chip:'引き離す', label:'起点 → そこから離す・防ぐ',
+      gloss:'近づけないように距離を作る',
+      examples:[
+        {en:'Keep away from the edge.', ja:'端から離れて', note:''},
+        {en:'It prevented him from going.', ja:'それが彼の外出を妨げた', note:'行くことから引き離す'}]},
+    { id:'from-differ', chip:'区別', label:'起点 → 離れている＝違う',
+      gloss:'重なっていない＝別物',
+      examples:[
+        {en:"It's different from mine.", ja:'私のとは違う', note:'私のものから離れている'},
+        {en:'tell right from wrong', ja:'善悪を見分ける', note:'切り分ける'}]}],
+  trivia:[
+    {title:'different from の from は「離れている」',
+     body:'2つが重なっておらず、距離があるから「違う」。\n'+
+          'tell A from B（AとBを見分ける）も、切り離して区別すること。\n'+
+          '「〜と違う」の「と」につられて different with と言わないよう注意。'},
+    {title:'made of と made from をもう一度',
+     body:'of ＝ 切り出しただけで元が分かる（a table made of wood）\n'+
+          'from ＝ 起点から離れて変化しきった（wine made from grapes）\n'+
+          '見て元が分かるかどうかで選べる。'}]
+},
+
+/* ------------------------------------------------------- about */
+{
+  id:'about', type:'particle', headword:'about', core:'まわりに', diagram:'pAbout',
+  coreNote:'about は的の中心ではなく、そのまわり。ぴったりではないから「およそ」、'+
+           'そのテーマの周辺だから「〜について」になる。',
+  senses:[
+    { id:'about-around', chip:'あたりを', label:'まわりに → その周辺を動く',
+      gloss:'中心を決めずにうろうろする',
+      examples:[
+        {en:'look about', ja:'あたりを見回す', note:''},
+        {en:'walk about the town', ja:'町をぶらつく', note:''}]},
+    { id:'about-approx', chip:'およそ', label:'まわりに → ぴったりではない',
+      gloss:'その数のあたり',
+      examples:[
+        {en:'about ten o’clock', ja:'10時ごろ', note:'10時ぴったりではない'},
+        {en:'about 50 people', ja:'50人くらい', note:''}]},
+    { id:'about-topic', chip:'〜について', label:'まわりに → そのテーマの周辺',
+      gloss:'その話題をぐるりと囲んで話す',
+      examples:[
+        {en:'talk about the plan', ja:'計画について話す', note:''},
+        {en:'a book about dogs', ja:'犬についての本', note:'犬まわりの話'}]},
+    { id:'about-to', chip:'もうすぐ', label:'まわりに → その直前まで来ている',
+      gloss:'すぐそこまで迫っている',
+      examples:[
+        {en:"I'm about to leave.", ja:'今まさに出るところ', note:'出発のすぐそば'},
+        {en:'It’s about to rain.', ja:'降り出しそうだ', note:''}]}],
+  trivia:[
+    {title:'about が「およそ」と「について」の両方になる理由',
+     body:'どちらも「中心ぴったりではなく、そのまわり」。\n'+
+          '数のまわりなら「およそ」、話題のまわりなら「について」。\n'+
+          '1つのイメージが2つの訳語に分かれているだけ。'},
+    {title:'a book about history と a book on history',
+     body:'about ＝ 歴史のまわりを扱う。一般向けの読み物\n'+
+          'on ＝ 歴史に貼りついている。専門的な論考\n'+
+          'about の方がゆるく、on の方が密着している。'}]
+},
+
+/* ----------------------------------------------------- through */
+{
+  id:'through', type:'particle', headword:'through', core:'貫通', diagram:'pThrough',
+  coreNote:'through は中を突き抜けること。入口から入って出口から出る。'+
+           'だから「最初から最後まで」「やり遂げる」まで届く。',
+  senses:[
+    { id:'thr-pierce', chip:'突き抜ける', label:'貫通 → 中を通って向こうへ',
+      gloss:'入って、出る',
+      examples:[
+        {en:'go through the tunnel', ja:'トンネルを抜ける', note:''},
+        {en:'The sun came through the window.', ja:'日が窓から差し込んだ', note:''}]},
+    { id:'thr-whole', chip:'端から端まで', label:'貫通 → 最初から最後まで',
+      gloss:'途中で止まらず全部',
+      examples:[
+        {en:'I slept through the night.', ja:'一晩中眠った', note:'夜を貫いて'},
+        {en:'read through the report', ja:'報告書を通読する', note:''}]},
+    { id:'thr-via', chip:'経由して', label:'貫通 → それを通して',
+      gloss:'間に何かを挟んで到達する',
+      examples:[
+        {en:'I got the job through a friend.', ja:'友人の紹介で仕事を得た', note:''},
+        {en:'learn through experience', ja:'経験を通して学ぶ', note:''}]},
+    { id:'thr-finish', chip:'やり遂げる', label:'貫通 → 通り抜けきる',
+      gloss:'苦しい区間を抜けて出口に出る',
+      examples:[
+        {en:'We got through it.', ja:'乗り切った', note:''},
+        {en:'go through a hard time', ja:'つらい時期を過ごす', note:'その中を通っている最中'}]}],
+  trivia:[
+    {title:'through と across の違い',
+     body:'through ＝ 中を貫く（go through the forest ＝ 森の中を抜ける）\n'+
+          'across ＝ 表面を横切る（swim across the river ＝ 川面を渡る）\n'+
+          '立体の中を通るか、平面の上を横切るか。\n'+
+          'だから walk across the bridge（橋の上）と言う。'},
+    {title:'電話の「つながる」も貫通',
+     body:'I couldn’t get through. ＝ 電話が通じなかった\n'+
+          '回線を貫いて向こう側まで届かなかった、ということ。\n'+
+          'Put me through to him.（彼につないで）も同じ。'}]
+},
+
+/* ------------------------------------------------------ across */
+{
+  id:'across', type:'particle', headword:'across', core:'表面を横切る', diagram:'pAcross',
+  coreNote:'across は面の上を端から端へ渡ること。'+
+           'through が中を貫くのに対し、across は表面をまたぐ。',
+  senses:[
+    { id:'acr-cross', chip:'横断', label:'横切る → 向こう岸へ渡る',
+      gloss:'こちら側から向こう側へ',
+      examples:[
+        {en:'walk across the street', ja:'通りを渡る', note:''},
+        {en:'swim across the river', ja:'川を泳いで渡る', note:'水面を横切る'}]},
+    { id:'acr-opposite', chip:'向かい', label:'横切った先 → 真向かい',
+      gloss:'渡りきったところにある',
+      examples:[
+        {en:'the café across from the station', ja:'駅の向かいのカフェ', note:''},
+        {en:'He sat across from me.', ja:'彼は私の向かいに座った', note:''}]},
+    { id:'acr-all', chip:'全体に', label:'横切る → 端から端まで行きわたる',
+      gloss:'その範囲をまたいで全部',
+      examples:[
+        {en:'across the country', ja:'国中で', note:''},
+        {en:'across all age groups', ja:'全年齢層にわたって', note:''}]},
+    { id:'acr-meet', chip:'出くわす', label:'横切る → たまたま交差する',
+      gloss:'進路が偶然ぶつかる',
+      examples:[
+        {en:'I came across an old photo.', ja:'古い写真を偶然見つけた', note:'横切って出会った'},
+        {en:'run across an old friend', ja:'旧友にばったり会う', note:''}]}],
+  trivia:[
+    {title:'come across が「偶然出会う」になる理由',
+     body:'自分の進路と、相手の存在が交差する。\n'+
+          '探していたわけではないのに横切ってしまった、という絵。\n'+
+          'だから「ばったり」「たまたま」のニュアンスが出る。'},
+    {title:'橋は across、トンネルは through',
+     body:'walk across the bridge ＝ 橋の上（面）を渡る\n'+
+          'walk through the tunnel ＝ トンネルの中（立体）を抜ける\n'+
+          '同じ「渡る」でも、上を行くか中を行くかで変わる。'}]
+},
+
+/* ------------------------------------------------------- along */
+{
+  id:'along', type:'particle', headword:'along', core:'線に沿って', diagram:'pAlong',
+  coreNote:'along は道や川など「細長いもの」に沿って進むこと。'+
+           '同じ線の上を一緒に進めば「同行」、うまく進めば「仲良くやる」になる。',
+  senses:[
+    { id:'alo-line', chip:'沿って', label:'沿って → 線の上を進む',
+      gloss:'道・川・壁などに寄り添って',
+      examples:[
+        {en:'walk along the river', ja:'川沿いを歩く', note:''},
+        {en:'trees along the road', ja:'道沿いの木々', note:''}]},
+    { id:'alo-together', chip:'一緒に', label:'沿って → 同じ線を一緒に進む',
+      gloss:'連れ立って',
+      examples:[
+        {en:'Come along!', ja:'一緒においでよ', note:''},
+        {en:'Bring your friend along.', ja:'友達も連れてきて', note:''}]},
+    { id:'alo-progress', chip:'うまく進む', label:'沿って → 引っかからずに進む',
+      gloss:'線から外れずに進めている',
+      examples:[
+        {en:'We get along well.', ja:'私たちは仲がいい', note:'一緒にうまく進めている'},
+        {en:'How’s it coming along?', ja:'進み具合はどう?', note:''}]}],
+  trivia:[
+    {title:'get along with が「仲良くやる」になる仕組み',
+     body:'同じ道を、ぶつからずに並んで進めている状態。\n'+
+          '仲が悪ければ線から外れたり衝突したりする。\n'+
+          'I don’t get along with him. ＝ うまく並んで歩けない。'},
+    {title:'along と through は進む向きが違う',
+     body:'along ＝ 長いものに「沿って」（川沿いを歩く）\n'+
+          'through ＝ 中を「貫いて」（森の中を抜ける）\n'+
+          'walk along the river は川岸、swim across the river は川を渡る。'}]
+},
+
+/* ------------------------------------------------------ around */
+{
+  id:'around', type:'particle', headword:'around', core:'周囲を', diagram:'pAround',
+  coreNote:'around はぐるりと囲む動き。一周すれば「まわりを」、'+
+           'あちこち回れば「うろうろ」、中心から外れれば「およそ」になる。',
+  senses:[
+    { id:'aro-circle', chip:'ぐるりと', label:'周囲を → 回りを取り巻く',
+      gloss:'中心のまわりを一周する',
+      examples:[
+        {en:'travel around the world', ja:'世界を一周する', note:''},
+        {en:'sit around the table', ja:'テーブルを囲んで座る', note:''}]},
+    { id:'aro-here', chip:'あちこち', label:'周囲を → そのへんを動き回る',
+      gloss:'決まった向きなく動く',
+      examples:[
+        {en:'look around', ja:'あたりを見回す', note:''},
+        {en:'I walked around for an hour.', ja:'1時間ぶらぶら歩いた', note:''}]},
+    { id:'aro-turn', chip:'向きを変える', label:'周囲を → 回って反対を向く',
+      gloss:'半周して向きが変わる',
+      examples:[
+        {en:'Turn around.', ja:'振り向いて', note:''},
+        {en:'The company turned around.', ja:'会社が持ち直した', note:'向きが逆になった'}]},
+    { id:'aro-approx', chip:'およそ', label:'周囲を → 中心ぴったりではない',
+      gloss:'その数のまわり',
+      examples:[
+        {en:'around ten o’clock', ja:'10時ごろ', note:''},
+        {en:'around 30 people', ja:'30人くらい', note:''}]},
+    { id:'aro-present', chip:'そのへんに', label:'周囲を → 近くに存在している',
+      gloss:'どこか近くにいる',
+      examples:[
+        {en:"I'll be around.", ja:'そのへんにいるよ', note:''},
+        {en:'Is John around?', ja:'ジョンいる?', note:''}]}],
+  trivia:[
+    {title:'turn around が「好転する」になる理由',
+     body:'向きがぐるりと反対になること。\n'+
+          '下向きだった業績が上向きに変わる、という絵がそのまま比喩になっている。\n'+
+          '人生でも会社でも a turnaround（転機）と言える。'},
+    {title:'around と about はどちらも「およそ」',
+     body:'around ten ／ about ten、どちらも「10時ごろ」。\n'+
+          'どちらも「中心ぴったりではなく、そのまわり」だから。\n'+
+          'アメリカ英語では around の方がよく使われる。'}]
+},
+
+/* -------------------------------------------------------- back */
+{
+  id:'back', type:'particle', headword:'back', core:'元の位置へ', diagram:'pBack',
+  coreNote:'back はもともと「背中」。背中の方向＝後ろ、そして'+
+           '「いま来た方へ戻る」。だから「返す」「元に戻す」が全部ここから出る。',
+  senses:[
+    { id:'bak-return', chip:'戻る', label:'元の位置へ → 帰る',
+      gloss:'出てきた場所へ引き返す',
+      examples:[
+        {en:"I'll be right back.", ja:'すぐ戻るよ', note:''},
+        {en:'Put it back where it was.', ja:'元の場所に戻して', note:''}]},
+    { id:'bak-state', chip:'元の状態へ', label:'元の位置へ → 前の状態に復する',
+      gloss:'崩れる前の姿に戻す',
+      examples:[
+        {en:'get back to normal', ja:'平常に戻る', note:''},
+        {en:'Things are back to how they were.', ja:'元どおりになった', note:''}]},
+    { id:'bak-reply', chip:'返す', label:'元の位置へ → 相手に返却する',
+      gloss:'来たものを送り返す',
+      examples:[
+        {en:'Give it back.', ja:'返して', note:''},
+        {en:"I'll call you back.", ja:'折り返し電話する', note:''}]},
+    { id:'bak-behind', chip:'後ろへ', label:'元の位置へ → 背中の方向',
+      gloss:'前ではなく後ろ側',
+      examples:[
+        {en:'Step back, please.', ja:'下がってください', note:''},
+        {en:'sit back and relax', ja:'深く座ってくつろぐ', note:''}]},
+    { id:'bak-hold', chip:'抑える', label:'後ろへ → 前に出さない',
+      gloss:'出ようとするものを引き留める',
+      examples:[
+        {en:'He held back his tears.', ja:'彼は涙をこらえた', note:'前に出させない'},
+        {en:'Don’t hold back.', ja:'遠慮しないで', note:''}]}],
+  trivia:[
+    {title:'back はもともと体の「背中」',
+     body:'背中が向いている方向＝後ろ。そこから「後ろへ」「元へ」に広がった。\n'+
+          'back の名詞（背中・背面）と副詞（戻って）は、実は同じ1語。\n'+
+          'the back of the room（部屋の奥）も同じ感覚。'},
+    {title:'call back と call off はまったく別物',
+     body:'call back ＝ 元の相手へ返す → かけ直す\n'+
+          'call off ＝ 予定から切り離す → 中止する\n'+
+          '同じ call でも、back（元へ）と off（分離）で行き先が正反対になる。'}]
+},
+
+/* -------------------------------------------------------- away */
+{
+  id:'away', type:'particle', headword:'away', core:'離れていく', diagram:'pAway',
+  coreNote:'away は今いる場所からどんどん離れること。'+
+           '離れ続ければやがて見えなくなるので、「消える」「亡くなる」まで届く。',
+  senses:[
+    { id:'awa-leave', chip:'離れる', label:'離れていく → その場を去る',
+      gloss:'ここから遠ざかる',
+      examples:[
+        {en:'Go away!', ja:'あっち行って', note:''},
+        {en:'He ran away.', ja:'彼は逃げた', note:''}]},
+    { id:'awa-absent', chip:'不在', label:'離れていく → 離れた場所にいる',
+      gloss:'ここにはいない',
+      examples:[
+        {en:"She's away this week.", ja:'彼女は今週不在です', note:''},
+        {en:'far away', ja:'遠く離れて', note:''}]},
+    { id:'awa-store', chip:'しまう', label:'離れていく → 見えない場所へ移す',
+      gloss:'手元から離して片づける',
+      examples:[
+        {en:'Put your toys away.', ja:'おもちゃを片づけて', note:''},
+        {en:'throw it away', ja:'捨てる', note:'手元から離して投げる'}]},
+    { id:'awa-vanish', chip:'消える', label:'離れていく → やがて無くなる',
+      gloss:'遠ざかりきって見えなくなる',
+      examples:[
+        {en:'The sound faded away.', ja:'音が消えていった', note:''},
+        {en:'He passed away last year.', ja:'彼は去年亡くなった', note:'行ってしまった'}]}],
+  trivia:[
+    {title:'pass away が「亡くなる」になる理由',
+     body:'そばを通り過ぎて、そのまま離れて行ってしまう。\n'+
+          'die を直接言わずに済ませる、やわらかい言い方。\n'+
+          '日本語の「逝く」「旅立つ」と発想がよく似ている。'},
+    {title:'right away はなぜ「すぐに」なのか',
+     body:'right は「ちょうど」を強める語。\n'+
+          '「間を置かずにこの場から離れて動き出す」＝ すぐに。\n'+
+          'I’ll do it right away.（今すぐやります）'}]
+},
+
+/* ----------------------------------------------------- against */
+{
+  id:'against', type:'particle', headword:'against', core:'逆らって接触', diagram:'pAgainst',
+  coreNote:'against は向かい合ってぶつかること。押し当てれば「もたれる」、'+
+           '流れに逆らえば「反対する」。for の正反対にあたる。',
+  senses:[
+    { id:'aga-lean', chip:'押し当てる', label:'逆らって接触 → 押しつける',
+      gloss:'力をかけながら触れている',
+      examples:[
+        {en:'lean against the wall', ja:'壁にもたれる', note:'壁を押しながら接触'},
+        {en:'The rain beat against the window.', ja:'雨が窓に打ちつけた', note:''}]},
+    { id:'aga-oppose', chip:'逆らう', label:'逆らって接触 → 流れに逆らう',
+      gloss:'進む向きと正面からぶつかる',
+      examples:[
+        {en:'walk against the wind', ja:'風に逆らって歩く', note:''},
+        {en:'fight against injustice', ja:'不正と戦う', note:''}]},
+    { id:'aga-no', chip:'反対', label:'逆らって接触 → 賛成しない',
+      gloss:'その側を向いていない',
+      examples:[
+        {en:'Are you for or against it?', ja:'賛成? 反対?', note:'for の正反対'},
+        {en:'I voted against the plan.', ja:'計画に反対票を投じた', note:''}]},
+    { id:'aga-guard', chip:'備える', label:'逆らって接触 → 来るものを受け止める',
+      gloss:'ぶつかってくるものに備える',
+      examples:[
+        {en:'protect yourself against the cold', ja:'寒さから身を守る', note:''},
+        {en:'insurance against fire', ja:'火災保険', note:''}]}],
+  trivia:[
+    {title:'for と against はきれいな対になっている',
+     body:'for ＝ そちらを向いている（賛成）\n'+
+          'against ＝ 正面からぶつかっている（反対）\n'+
+          'Are you for or against it? の一文に、両方のコアが並んでいる。'},
+    {title:'lean against は「もたれる」なのに逆らっている?',
+     body:'体重を壁にかけると、壁は押し返してくる。\n'+
+          'その押し合いが against。力がぶつかっていれば、\n'+
+          '仲が悪くなくても against になる。'}]
+},
+
+/* ----------------------------------------------------- between */
+{
+  id:'between', type:'particle', headword:'between', core:'2つの間', diagram:'pBetween',
+  coreNote:'between の -tween は two と同語源。'+
+           '2つのものに挟まれた空間を指す。3つ以上でも、一つひとつを意識していれば between が使える。',
+  senses:[
+    { id:'btw-space', chip:'間に', label:'2つの間 → 挟まれた場所',
+      gloss:'両側にそれぞれ1つずつある',
+      examples:[
+        {en:'between the bank and the post office', ja:'銀行と郵便局の間に', note:''},
+        {en:'Sit between us.', ja:'私たちの間に座って', note:''}]},
+    { id:'btw-time', chip:'時間の間', label:'2つの間 → 2つの時点にはさまれて',
+      gloss:'その区間のどこか',
+      examples:[
+        {en:'between two and three', ja:'2時から3時の間に', note:''},
+        {en:'between meals', ja:'食事と食事の間に', note:''}]},
+    { id:'btw-relation', chip:'関係', label:'2つの間 → 二者の関わり',
+      gloss:'両者をつなぐもの',
+      examples:[
+        {en:'the difference between them', ja:'それらの違い', note:''},
+        {en:'Between you and me, …', ja:'ここだけの話だけど', note:'2人の間にとどめる'}]}],
+  trivia:[
+    {title:'between の -tween は two と同じ語源',
+     body:'be + tween（twoの古い形）＝「2つのところに」。\n'+
+          '語源を知ると、なぜ2つ限定の匂いがするのかが腑に落ちる。\n'+
+          'twin（双子）や twice（2回）も同じ仲間。'},
+    {title:'between と among の本当の使い分け',
+     body:'among ＝ 3つ以上の「集まり」の中に、ぼんやり紛れている\n'+
+          'between ＝ 一つひとつを個別に意識している\n'+
+          'だから3か国でも、個々の国を意識するなら\n'+
+          'a treaty between the three countries と言える。'}]
+},
+
+/* ------------------------------------------------------- under */
+{
+  id:'under', type:'particle', headword:'under', core:'真下', diagram:'pUnder',
+  coreNote:'under は真下。何かに覆いかぶさられている位置。'+
+           'だから「支配下」「作用の途中」「未満」まで広がる。over の正反対。',
+  senses:[
+    { id:'und-below', chip:'真下', label:'真下 → 何かの下にある',
+      gloss:'上に覆うものがある',
+      examples:[
+        {en:'under the table', ja:'テーブルの下に', note:''},
+        {en:'under the blanket', ja:'毛布の下に', note:''}]},
+    { id:'und-control', chip:'支配下', label:'真下 → 力の下に置かれている',
+      gloss:'上から押さえられている',
+      examples:[
+        {en:'under pressure', ja:'プレッシャーを受けて', note:''},
+        {en:'The situation is under control.', ja:'状況は制御下にある', note:''},
+        {en:'under the law', ja:'法のもとで', note:''}]},
+    { id:'und-process', chip:'進行中', label:'真下 → その作用を受けている最中',
+      gloss:'まだ手が加えられている途中',
+      examples:[
+        {en:'under construction', ja:'工事中', note:'建設という作用の下にある'},
+        {en:'under discussion', ja:'議論中', note:''}]},
+    { id:'und-less', chip:'未満', label:'真下 → その数より下',
+      gloss:'基準線の下側',
+      examples:[
+        {en:'under 18', ja:'18歳未満', note:''},
+        {en:'under 1,000 yen', ja:'1000円以下', note:''}]}],
+  trivia:[
+    {title:'over と under はきれいな対',
+     body:'over ＝ 覆う・越える（over 100 people ＝ 100人超）\n'+
+          'under ＝ 覆われる・下回る（under 18 ＝ 18歳未満）\n'+
+          'overwork（働きすぎ）に対して underpaid（給料が安すぎる）。'},
+    {title:'under と below の違い',
+     body:'under ＝ 真下。覆われている感じ（under the table）\n'+
+          'below ＝ ただ低い位置にある（below sea level）\n'+
+          '上から何かがかぶさっているかどうかで選ぶ。'}]
+},
+
+/* -------------------------------------------------------- into */
+{
+  id:'into', type:'particle', headword:'into', core:'中へ入り込む', diagram:'pInto',
+  coreNote:'into は in（内側）と to（到達）の合成。'+
+           'in が「すでに中にある状態」なら、into は「外から中へ入っていく動き」。',
+  senses:[
+    { id:'int-enter', chip:'中へ', label:'入り込む → 外から内側へ',
+      gloss:'境界を越えて入る動き',
+      examples:[
+        {en:'He went into the room.', ja:'彼は部屋に入った', note:'in なら「部屋にいる」'},
+        {en:'get into the car', ja:'車に乗り込む', note:''}]},
+    { id:'int-change', chip:'変わる', label:'入り込む → 別のものの中へ姿を変える',
+      gloss:'その形の中に入ってしまう',
+      examples:[
+        {en:'Water turns into ice.', ja:'水は氷になる', note:''},
+        {en:'translate it into English', ja:'英語に訳す', note:'英語という形の中へ'}]},
+    { id:'int-crash', chip:'ぶつかる', label:'入り込む → 突っ込む',
+      gloss:'勢いよく中へ入ってしまう',
+      examples:[
+        {en:'The car ran into a wall.', ja:'車が壁に突っ込んだ', note:''},
+        {en:'I ran into an old friend.', ja:'旧友にばったり会った', note:'偶然ぶつかった'}]},
+    { id:'int-keen', chip:'ハマる', label:'入り込む → 深く入り込んでいる',
+      gloss:'その世界の中にどっぷり',
+      examples:[
+        {en:"I'm really into jazz.", ja:'ジャズにハマっている', note:''},
+        {en:'She’s into running.', ja:'彼女はランニングに夢中だ', note:''}]}],
+  trivia:[
+    {title:'in と into の違いは「状態」と「動き」',
+     body:'He is in the room. ＝ 部屋にいる（状態）\n'+
+          'He went into the room. ＝ 部屋に入った（動き）\n'+
+          'into は in ＋ to。to の「到達する矢印」が動きを足している。'},
+    {title:'run into が「ばったり会う」になる理由',
+     body:'もとは「突っ込む」。走っていて相手にぶつかる絵。\n'+
+          '予定になかったのにぶつかってしまった＝偶然出会った。\n'+
+          'bump into（ぶつかる → 出くわす）もまったく同じ発想。'}]
+}
+
 
 ];

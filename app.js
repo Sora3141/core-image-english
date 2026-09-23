@@ -31,14 +31,17 @@ function grade(id, ok){
   save();
 }
 
-const state = { tab:'book', page:null, focusSense:null, quiz:null, cell:null };
+const state = { tab:'book', page:null, focusSense:null, quiz:null, cell:null, mxVerb:'get' };
 const MATRIX_ID = '__matrix';
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuffle = a => a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
 
-/* 見出し語を例文中でハイライト */
+/* 見出し語を例文中でハイライト
+   文法ページの見出し（have + p.p. など）は正規表現の特殊文字を含むので、
+   英単語1語のときだけハイライトする */
 function markHead(en, head){
+  if(!/^[a-zA-Z]+$/.test(head)) return esc(en);
   return esc(en).replace(new RegExp('\\b' + head + '\\b','g'), '<em>' + head + '</em>');
 }
 
@@ -101,64 +104,6 @@ function viewBookList(){
     ${sections}`;
 }
 
-/* ============================================================
-   句動詞マトリクス ── 掛け算を目で見る
-   ============================================================ */
-const cellKey = (v,p) => v + '/' + p;
-const findPhrasal = (v,p) => PHRASALS.find(x => x.v === v && x.p === p);
-
-function viewMatrix(){
-  const sel = state.cell;
-  const grid = [
-    '<div class="mx-corner"></div>',
-    ...MATRIX_PARTICLES.map(p => `<div class="mx-h">${p}</div>`),
-    ...MATRIX_VERBS.flatMap(v => [
-      `<div class="mx-v">${v}</div>`,
-      ...MATRIX_PARTICLES.map(p => {
-        const ph = findPhrasal(v, p);
-        if(!ph) return '<div class="mx-cell none"></div>';
-        const key  = cellKey(v,p);
-        const open = !!store.cells[key];
-        const cls  = 'mx-cell ' + (open ? 'done' : 'hidden') + (sel === key ? ' sel' : '');
-        return `<button class="${cls}" data-cell="${key}">${open ? esc(ph.short) : '?'}</button>`;
-      })
-    ])
-  ].join('');
-
-  let detail = `<div class="card" style="color:var(--muted);font-size:13.5px;line-height:1.9;margin-top:14px">
-      マスをタップすると意味が出ます。<br>
-      意味を<b style="color:var(--text)">先に自分で推測してから</b>開くと、コアが身についているか確かめられます。<br>
-      空白のマスは「その組み合わせは使われない」という情報です。
-    </div>`;
-
-  if(sel){
-    const [v,p] = sel.split('/');
-    const ph = findPhrasal(v,p);
-    const vp = TEXTBOOK.find(x => x.id === v), pp = TEXTBOOK.find(x => x.id === p);
-    detail = `<div class="card mx-detail">
-      <div class="formula"><b>${esc(v)}</b> × <b>${esc(p)}</b></div>
-      <div class="cores">${esc(vp.core)} × ${esc(pp.core)}</div>
-      <div class="mean">${esc(ph.ja)}</div>
-      <div class="note">${esc(ph.note)}</div>
-      <div class="sample">${esc(ph.en)}</div>
-      <div class="mx-links">
-        <button class="linkto" data-goto="${v}" data-sense="">📖 ${esc(v)}</button>
-        <button class="linkto" data-goto="${p}" data-sense="">📖 ${esc(p)}</button>
-      </div>
-    </div>`;
-  }
-
-  const revealed = Object.keys(store.cells).length;
-  return `
-    <button class="backlink" data-back>← 教科書</button>
-    <h1>句動詞マトリクス</h1>
-    <p class="sub">300個の熟語ではなく、50個のコアの掛け算として見る</p>
-    <div class="progress"><i style="width:${revealed / PHRASALS.length * 100}%"></i></div>
-    <p class="sub" style="margin:-10px 0 14px">${revealed} / ${PHRASALS.length} マス　・　横にスクロールできます →</p>
-    <div class="mx-wrap"><div class="mx">${grid}</div></div>
-    ${detail}`;
-}
-
 function viewBookPage(id){
   const p = TEXTBOOK.find(x => x.id === id);
   return `
@@ -198,6 +143,96 @@ function viewBookPage(id){
 
     <button class="btn primary" data-quizref="${p.id}" style="margin-top:18px">
       このページの演習をやる</button>`;
+}
+
+/* ============================================================
+   句動詞マトリクス ── 掛け算を目で見る
+   ============================================================ */
+const cellKey = (v,p) => v + '/' + p;
+const findPhrasal = (v,p) => PHRASALS.find(x => x.v === v && x.p === p);
+
+function viewMatrix(){
+  const sel  = state.cell;
+  const verb = state.mxVerb;
+  /* 句動詞を1つも作らない不変化詞は列から外す（そのこと自体は下に明記する） */
+  const cols = MATRIX_PARTICLES.filter(p => PHRASALS.some(x => x.p === p));
+  const dead = MATRIX_PARTICLES.filter(p => !cols.includes(p));
+
+  /* ---- 俯瞰マップ：750マスの全体像を1画面に ---- */
+  const map = [
+    '<div class="mmap-corner"></div>',
+    ...cols.map(p => `<div class="mmap-h">${p}</div>`),
+    ...MATRIX_VERBS.flatMap(v => [
+      `<div class="mmap-v ${v === verb ? 'sel' : ''}">${v}</div>`,
+      ...cols.map(p => {
+        const ph = findPhrasal(v, p);
+        if(!ph) return '<div class="mmap-c"></div>';
+        return `<div class="mmap-c ${store.cells[cellKey(v,p)] ? 'done' : 'has'}"></div>`;
+      })
+    ])
+  ].join('');
+
+  /* ---- 選んだ動詞の行 ---- */
+  const page = TEXTBOOK.find(x => x.id === verb);
+  const rows = PHRASALS.filter(x => x.v === verb);
+  const cards = rows.map(ph => {
+    const key  = cellKey(ph.v, ph.p);
+    const open = !!store.cells[key];
+    const cls  = 'pv-card ' + (open ? 'done' : 'hidden') + (sel === key ? ' sel' : '');
+    return `<button class="${cls}" data-cell="${key}">
+      <span class="p">${esc(verb)} ${esc(ph.p)}</span>
+      <span class="m">${open ? esc(ph.short === ph.ja ? ph.ja : ph.ja) : 'タップして開く'}</span>
+    </button>`;
+  }).join('');
+
+  /* ---- 選んだマスの詳細 ---- */
+  let detail = '';
+  if(sel){
+    const [v,p] = sel.split('/');
+    const ph = findPhrasal(v,p);
+    const vp = TEXTBOOK.find(x => x.id === v), pp = TEXTBOOK.find(x => x.id === p);
+    detail = `<div class="card mx-detail">
+      <div class="formula"><b>${esc(v)}</b> × <b>${esc(p)}</b></div>
+      <div class="cores">${esc(vp.core)} × ${esc(pp.core)}</div>
+      <div class="mean">${esc(ph.ja)}</div>
+      ${ph.note ? `<div class="note">${esc(ph.note)}</div>` : ''}
+      <div class="sample">${esc(ph.en)}</div>
+      <div class="mx-links">
+        <button class="linkto" data-goto="${v}" data-sense="">📖 ${esc(v)}</button>
+        <button class="linkto" data-goto="${p}" data-sense="">📖 ${esc(p)}</button>
+      </div>
+    </div>`;
+  }
+
+  const revealed = Object.keys(store.cells).length;
+  return `
+    <button class="backlink" data-back>← 教科書</button>
+    <h1>句動詞マトリクス</h1>
+    <p class="sub">${PHRASALS.length}個の熟語ではなく、${MATRIX_VERBS.length}＋${cols.length}個のコアの掛け算として見る</p>
+    <div class="progress"><i style="width:${revealed / PHRASALS.length * 100}%"></i></div>
+    <p class="sub" style="margin:-10px 0 12px">${revealed} / ${PHRASALS.length} マス</p>
+
+    <div class="mmap-legend">
+      <span><i style="background:var(--accent)"></i>開いた</span>
+      <span><i style="background:var(--line)"></i>まだ</span>
+      <span><i style="background:transparent;border:1px solid var(--line)"></i>使われない組み合わせ</span>
+    </div>
+    <div class="mmap-wrap">
+      <div class="mmap" style="grid-template-columns:44px repeat(${cols.length}, 11px)">${map}</div>
+    </div>
+    <p class="sub" style="margin:8px 0 0; font-size:12px">
+      ${esc(dead.join(' / '))} は句動詞をまったく作らない。前置詞ではあっても、動詞にくっつく副詞辞にはならないため。
+    </p>
+
+    <div class="vchips">
+      ${MATRIX_VERBS.map(v => `<button class="vchip" data-verb="${v}"
+        aria-current="${v === verb}">${esc(v)}<span class="n">${
+          PHRASALS.filter(x => x.v === v).length}</span></button>`).join('')}
+    </div>
+
+    <p class="pv-head"><b>${esc(verb)}</b> ── ${esc(page.core)}　・　${rows.length}個</p>
+    <div class="pv-grid">${cards}</div>
+    ${detail}`;
 }
 
 /* ============================================================
@@ -378,7 +413,8 @@ function render(){
 
 document.addEventListener('click', ev => {
   const t = ev.target.closest('[data-tab],[data-open],[data-back],[data-pick],[data-next],' +
-    '[data-start],[data-startover],[data-startwrong],[data-goto],[data-quizref],[data-jump],[data-cell]');
+    '[data-start],[data-startover],[data-startwrong],[data-goto],[data-quizref],[data-jump],'+
+    '[data-cell],[data-verb]');
   if(!t) return;
   const d = t.dataset;
 
@@ -401,6 +437,7 @@ document.addEventListener('click', ev => {
   }
   else if(d.next !== undefined){ state.quiz.i++; state.quiz.sel = null; }
   else if(d.cell)         { state.cell = d.cell; store.cells[d.cell] = 1; save(); }
+  else if(d.verb)         { state.mxVerb = d.verb; state.cell = null; }
 
   render();
 });

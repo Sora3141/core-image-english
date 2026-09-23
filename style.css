@@ -252,3 +252,57 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 /* 文法ページ：見出し語が長いので少し小さく、日本語名を添える */
 .hero .word{overflow-wrap:anywhere}
 .hero .wordname{font-size:14px; color:var(--muted); margin-top:6px; letter-spacing:.04em}
+
+
+/* ---------- 句動詞マトリクス（750マス対応） ---------- */
+.mmap-wrap{overflow-x:auto; margin:0 -16px; padding:0 16px 8px; scrollbar-width:none}
+.mmap-wrap::-webkit-scrollbar{display:none}
+.mmap{display:grid; gap:1px; width:max-content}
+.mmap-corner{}
+.mmap-h{
+  writing-mode:vertical-rl; font-size:8.5px; color:var(--muted);
+  font-family:Georgia,serif; letter-spacing:.02em; height:46px;
+  display:flex; align-items:flex-end; justify-content:center; padding-bottom:2px;
+}
+.mmap-v{
+  font-size:9.5px; color:var(--muted); font-family:Georgia,serif;
+  display:flex; align-items:center; justify-content:flex-end; padding-right:5px; width:44px;
+}
+.mmap-v.sel{color:var(--accent); font-weight:700}
+.mmap-c{width:11px; height:11px; border-radius:2px; background:transparent}
+.mmap-c.has{background:var(--line)}
+.mmap-c.done{background:var(--accent)}
+.mmap-row.sel .mmap-c.has{background:var(--muted); opacity:.75}
+.mmap-legend{display:flex; gap:14px; font-size:11px; color:var(--muted); margin:2px 0 4px}
+.mmap-legend i{display:inline-block; width:10px; height:10px; border-radius:2px;
+  margin-right:5px; vertical-align:-1px}
+
+.vchips{
+  display:flex; gap:7px; overflow-x:auto; scrollbar-width:none;
+  margin:0 -16px; padding:10px 16px; position:sticky; top:0; z-index:10; background:var(--bg);
+}
+.vchips::-webkit-scrollbar{display:none}
+.vchip{
+  flex:0 0 auto; padding:7px 14px; border-radius:999px; border:1px solid var(--line);
+  background:var(--surface); color:var(--muted); font:inherit; font-size:14px;
+  font-family:Georgia,serif; cursor:pointer; white-space:nowrap;
+}
+.vchip[aria-current="true"]{background:var(--accent); border-color:var(--accent);
+  color:#fff; font-weight:700}
+.vchip .n{font-size:10px; opacity:.7; margin-left:4px; font-family:inherit}
+
+.pv-head{font-size:13px; color:var(--muted); margin:6px 0 10px}
+.pv-head b{color:var(--text); font-family:Georgia,serif; font-size:16px}
+.pv-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.pv-card{
+  border:1px solid var(--line); background:var(--surface); border-radius:11px;
+  padding:9px 10px; text-align:left; font:inherit; cursor:pointer; color:var(--text);
+  min-height:58px; display:flex; flex-direction:column; justify-content:center; gap:2px;
+}
+.pv-card .p{font-family:Georgia,serif; font-size:15px; color:var(--accent)}
+.pv-card .m{font-size:12.5px; color:var(--muted); line-height:1.3}
+.pv-card.hidden{border-style:dashed}
+.pv-card.hidden .m{color:var(--muted); opacity:.6}
+.pv-card.done{background:var(--accent-soft); border-color:var(--accent)}
+.pv-card.done .m{color:var(--text)}
+.pv-card.sel{outline:2px solid var(--accent); outline-offset:1px}

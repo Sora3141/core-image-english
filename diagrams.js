@@ -370,5 +370,384 @@ gDo: SVG(`
   <text x="160" y="100" text-anchor="middle" font-size="11" fill="var(--muted)">一般動詞は文の頭に出られない</text>`)
   + CAP('だから be動詞と助動詞には do が要らない')
 
+,
+
+/* ---------- 不変化詞（第2弾）のコア図 ---------- */
+
+/* of ── 全体から切り離された一部 */
+pOf: SVG(`
+  <path d="M96 62 m-42 0 a42 42 0 1 1 84 0 a42 42 0 1 1 -84 0" fill="none"
+        stroke="var(--muted)" stroke-width="2.5" opacity=".5"/>
+  <path d="M96 62 L96 20 A42 42 0 0 1 133 42 Z" fill="var(--bg)" stroke="var(--muted)"
+        stroke-width="2" stroke-dasharray="4 4" opacity=".7"/>
+  <path d="M224 62 L224 20 A42 42 0 0 1 261 42 Z" fill="var(--accent)"/>
+  <line x1="150" y1="40" x2="196" y2="40" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M208 40 l-14 6 v-12 z" fill="var(--accent)"/>
+  <text x="173" y="26" text-anchor="middle" font-size="11" fill="var(--accent)">切り離す</text>
+  <text x="96" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">全体</text>
+  <text x="240" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">a piece of cake</text>`)
+  + CAP('off と同語源。根っこは「分離」'),
+
+/* with ── そばに一緒にある */
+pWith: SVG(`
+  <path d="M60 24 h-16 v76 h16" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".5"/>
+  <path d="M260 24 h16 v76 h-16" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".5"/>
+  <circle cx="124" cy="62" r="24" fill="var(--accent)"/>
+  <circle cx="196" cy="62" r="18" fill="var(--accent)" opacity=".5"/>
+  <text x="160" y="24" text-anchor="middle" font-size="11.5" fill="var(--accent)">一緒にある</text>
+  <text x="160" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">同伴 ・ 持ち物 ・ 道具</text>`)
+  + CAP('向かい合って一緒なら「対立」にもなる'),
+
+/* by ── ぴったり横 */
+pBy: SVG(`
+  <rect x="96" y="36" width="52" height="52" rx="6" fill="var(--accent)"/>
+  <rect x="166" y="36" width="52" height="52" rx="6" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" opacity=".55"/>
+  <line x1="152" y1="30" x2="152" y2="94" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>
+  <line x1="162" y1="30" x2="162" y2="94" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/>
+  <text x="157" y="22" text-anchor="middle" font-size="10.5" fill="var(--accent)">すぐ横</text>
+  <text x="157" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">触れてはいないが、そば</text>`)
+  + CAP('そばを通れば「経由」、その時までのそばなら「期限」'),
+
+/* from ── 起点 */
+pFrom: SVG(`
+  <circle cx="46" cy="62" r="14" fill="var(--accent)"/>
+  <line x1="66" y1="62" x2="248" y2="62" stroke="var(--accent)" stroke-width="3" opacity=".45"/>
+  <path d="M262 62 l-16 7 v-14 z" fill="var(--accent)" opacity=".45"/>
+  <path d="M46 34 v-14" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="46" y="16" text-anchor="middle" font-size="11" fill="var(--accent)">ここが起点</text>
+  <text x="46" y="96" text-anchor="middle" font-size="11" fill="var(--muted)">from</text>
+  <text x="248" y="96" text-anchor="end" font-size="11" fill="var(--muted)">to</text>`)
+  + CAP('離れるからこそ「区別」「防ぐ」まで届く'),
+
+/* about ── まわりに */
+pAbout: SVG(`
+  <circle cx="160" cy="60" r="12" fill="var(--accent)"/>
+  <circle cx="160" cy="60" r="40" fill="none" stroke="var(--accent)" stroke-width="2.5"
+          stroke-dasharray="6 6" opacity=".8"/>
+  <text x="160" y="18" text-anchor="middle" font-size="11.5" fill="var(--accent)">まわり</text>
+  <text x="160" y="114" text-anchor="middle" font-size="11" fill="var(--muted)">中心ぴったりではない</text>`)
+  + CAP('数のまわりなら「およそ」、話題のまわりなら「について」'),
+
+/* through ── 中を貫く */
+pThrough: SVG(`
+  <rect x="112" y="28" width="96" height="68" rx="8" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" opacity=".55"/>
+  <line x1="28" y1="62" x2="266" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M280 62 l-16 7 v-14 z" fill="var(--accent)"/>
+  <text x="160" y="20" text-anchor="middle" font-size="11.5" fill="var(--accent)">中を貫く</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">入口から入って出口から出る</text>`)
+  + CAP('だから「最初から最後まで」「やり遂げる」'),
+
+/* across ── 表面を横切る */
+pAcross: SVG(`
+  <rect x="24" y="52" width="272" height="34" rx="4" fill="var(--muted)" opacity=".28"/>
+  <path d="M74 96 Q160 6 246 96" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M246 96 l-13 -7 l-1 14 z" fill="var(--accent)"/>
+  <text x="160" y="24" text-anchor="middle" font-size="11.5" fill="var(--accent)">面をまたぐ</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">橋は across、トンネルは through</text>`)
+  + CAP('中を貫くのではなく、表面を横切る'),
+
+/* along ── 線に沿って */
+pAlong: SVG(`
+  <path d="M20 90 Q100 40 160 66 Q222 92 300 40" fill="none" stroke="var(--muted)"
+        stroke-width="7" opacity=".3" stroke-linecap="round"/>
+  <path d="M20 90 Q100 40 160 66 Q222 92 286 42" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M298 36 l-16 1 l6 12 z" fill="var(--accent)"/>
+  <text x="150" y="26" text-anchor="middle" font-size="11.5" fill="var(--accent)">線に沿って進む</text>
+  <text x="150" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">道 ・ 川 ・ 壁</text>`)
+  + CAP('外れずに並んで進めれば「仲良くやる」'),
+
+/* around ── 周囲を */
+pAround: SVG(`
+  <circle cx="160" cy="62" r="13" fill="var(--accent)" opacity=".5"/>
+  <path d="M160 20 a42 42 0 1 1 -30 12" fill="none" stroke="var(--accent)" stroke-width="3.5"/>
+  <path d="M126 24 l15 -6 l3 15 z" fill="var(--accent)"/>
+  <text x="160" y="108" text-anchor="middle" font-size="11" fill="var(--muted)">ぐるりと取り巻く</text>`)
+  + CAP('一周すれば「まわりを」、半周すれば「向きが変わる」'),
+
+/* back ── 元の位置へ */
+pBack: SVG(`
+  <circle cx="52" cy="80" r="13" fill="var(--accent)"/>
+  <text x="52" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">元の位置</text>
+  <path d="M66 74 Q160 20 252 66" fill="none" stroke="var(--muted)" stroke-width="2.5"
+        stroke-dasharray="5 4" opacity=".55"/>
+  <path d="M252 78 Q160 108 70 88" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M58 86 l15 -6 l1 14 z" fill="var(--accent)"/>
+  <circle cx="258" cy="72" r="11" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+  <text x="160" y="22" text-anchor="middle" font-size="11" fill="var(--muted)">行って</text>
+  <text x="160" y="46" text-anchor="middle" font-size="11.5" fill="var(--accent)">戻ってくる</text>`)
+  + CAP('もとは「背中」。背中の方向＝後ろ、そして元へ'),
+
+/* away ── 離れていく */
+pAway: SVG(`
+  <circle cx="44" cy="62" r="20" fill="var(--accent)"/>
+  <circle cx="128" cy="62" r="15" fill="var(--accent)" opacity=".6"/>
+  <circle cx="200" cy="62" r="10" fill="var(--accent)" opacity=".35"/>
+  <circle cx="256" cy="62" r="6" fill="var(--accent)" opacity=".18"/>
+  <line x1="70" y1="36" x2="278" y2="36" stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+  <path d="M290 36 l-14 6 v-12 z" fill="var(--accent)" opacity=".5"/>
+  <text x="180" y="26" text-anchor="middle" font-size="11.5" fill="var(--accent)">どんどん離れる</text>
+  <text x="180" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">やがて見えなくなる</text>`)
+  + CAP('離れきれば「消える」「亡くなる」まで届く'),
+
+/* against ── 逆らって接触 */
+pAgainst: SVG(`
+  <rect x="152" y="22" width="14" height="78" rx="3" fill="var(--muted)" opacity=".5"/>
+  <line x1="52" y1="62" x2="134" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M148 62 l-15 7 v-14 z" fill="var(--accent)"/>
+  <line x1="268" y1="62" x2="186" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M172 62 l15 7 v-14 z" fill="var(--accent)"/>
+  <text x="160" y="16" text-anchor="middle" font-size="11.5" fill="var(--accent)">正面からぶつかる</text>
+  <text x="160" y="114" text-anchor="middle" font-size="11" fill="var(--muted)">for の正反対</text>`)
+  + CAP('押し当てれば「もたれる」、流れに逆らえば「反対」'),
+
+/* between ── 2つの間 */
+pBetween: SVG(`
+  <rect x="34" y="38" width="56" height="50" rx="6" fill="var(--accent)"/>
+  <rect x="230" y="38" width="56" height="50" rx="6" fill="var(--accent)"/>
+  <line x1="98" y1="63" x2="140" y2="63" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="180" y1="63" x2="222" y2="63" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="160" y="68" text-anchor="middle" font-size="12" fill="var(--accent)">間</text>
+  <text x="160" y="26" text-anchor="middle" font-size="11" fill="var(--muted)">2つに挟まれた場所</text>
+  <text x="160" y="108" text-anchor="middle" font-size="11" fill="var(--muted)">-tween は two と同語源</text>`)
+  + CAP('個々を意識していれば3つ以上でも between'),
+
+/* under ── 真下 */
+pUnder: SVG(`
+  <rect x="72" y="34" width="176" height="11" rx="3" fill="var(--muted)" opacity=".45"/>
+  <rect x="130" y="60" width="60" height="34" rx="6" fill="var(--accent)"/>
+  <line x1="160" y1="52" x2="160" y2="58" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M160 50 l6 10 h-12 z" fill="var(--accent)" transform="rotate(180 160 55)"/>
+  <text x="160" y="24" text-anchor="middle" font-size="11" fill="var(--muted)">覆っているもの</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11.5" fill="var(--accent)">その真下にある</text>`)
+  + CAP('over の正反対。押さえられていれば「支配下」'),
+
+/* into ── 外から中へ */
+pInto: SVG(`
+  <rect x="172" y="28" width="112" height="68" rx="8" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" opacity=".55"/>
+  <circle cx="44" cy="62" r="14" fill="var(--accent)" opacity=".4"/>
+  <line x1="66" y1="62" x2="212" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M226 62 l-16 7 v-14 z" fill="var(--accent)"/>
+  <circle cx="254" cy="62" r="14" fill="var(--accent)"/>
+  <text x="140" y="42" text-anchor="middle" font-size="11.5" fill="var(--accent)">in ＋ to</text>
+  <text x="140" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">外から中へ入って到達する</text>`)
+  + CAP('in が「状態」なら、into は「動き」')
+
+,
+
+/* ---------- 基本動詞（第2弾）のコア図 ---------- */
+
+vGive: SVG(`
+  <circle cx="52" cy="60" r="21" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".6"/>
+  <text x="52" y="65" text-anchor="middle" font-size="11" fill="var(--muted)">自分</text>
+  <rect x="88" y="46" width="34" height="28" rx="5" fill="var(--accent)"/>
+  <line x1="132" y1="60" x2="216" y2="60" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M230 60 l-16 7 v-14 z" fill="var(--accent)"/>
+  <circle cx="264" cy="60" r="21" fill="var(--accent)"/>
+  <text x="176" y="42" text-anchor="middle" font-size="11.5" fill="var(--accent)">手放して渡す</text>
+  <text x="264" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">相手</text>`)
+  + CAP('take（自分の方へ取る）のちょうど反対'),
+
+vKeep: SVG(`
+  ${[52,120,188,256].map(x=>`<rect x="${x-22}" y="42" width="44" height="40" rx="6"
+      fill="var(--accent)" opacity=".9"/>`).join('')}
+  <line x1="24" y1="100" x2="290" y2="100" stroke="var(--muted)" stroke-width="2" opacity=".4"/>
+  <path d="M296 100 l-12 5 v-10 z" fill="var(--muted)" opacity=".4"/>
+  <text x="160" y="26" text-anchor="middle" font-size="11.5" fill="var(--accent)">形を変えずに保ち続ける</text>
+  <text x="160" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">時間</text>`)
+  + CAP('だから keep + -ing は「し続ける」'),
+
+vHold: SVG(`
+  <circle cx="160" cy="60" r="26" fill="var(--accent)"/>
+  <path d="M104 34 q-14 26 0 52" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M216 34 q14 26 0 52" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  <line x1="60" y1="60" x2="96" y2="60" stroke="var(--accent)" stroke-width="2.5"/>
+  <line x1="224" y1="60" x2="260" y2="60" stroke="var(--accent)" stroke-width="2.5"/>
+  <text x="160" y="24" text-anchor="middle" font-size="11.5" fill="var(--accent)">つかんで動かさない</text>
+  <text x="160" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">Hold on. ＝ 掴んだまま待って</text>`)
+  + CAP('留める対象が場なら「開催する」'),
+
+vBreak: SVG(`
+  <line x1="24" y1="60" x2="134" y2="60" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+  <line x1="186" y1="60" x2="296" y2="60" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M152 30 l12 24 l-10 12 l14 24" fill="none" stroke="var(--accent)" stroke-width="2.5"
+        stroke-dasharray="3 4" opacity=".8"/>
+  <text x="160" y="22" text-anchor="middle" font-size="11.5" fill="var(--accent)">続いていたものが断たれる</text>
+  <text x="160" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">物 ・ 約束 ・ 記録 ・ 静けさ</text>`)
+  + CAP('だから「休憩」も break ── 作業の連続を切る'),
+
+vRun: SVG(`
+  <path d="M20 68 q28 -34 56 0 q28 34 56 0 q28 -34 56 0 q28 34 56 0 q14 -17 26 -9"
+        fill="none" stroke="var(--accent)" stroke-width="3.5"/>
+  <path d="M296 56 l-16 2 l5 12 z" fill="var(--accent)"/>
+  <text x="160" y="26" text-anchor="middle" font-size="11.5" fill="var(--accent)">なめらかに動き続ける</text>
+  <text x="160" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">人・水・機械・組織</text>`)
+  + CAP('止めずに動かし続けるから「経営する」'),
+
+vLook: SVG(`
+  <path d="M40 60 q26 -22 52 0 q-26 22 -52 0 z" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+  <circle cx="66" cy="60" r="8" fill="var(--accent)"/>
+  <line x1="104" y1="60" x2="214" y2="60" stroke="var(--accent)" stroke-width="3" stroke-dasharray="7 5"/>
+  <path d="M228 60 l-16 7 v-14 z" fill="var(--accent)"/>
+  <circle cx="256" cy="60" r="16" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+  <text x="166" y="40" text-anchor="middle" font-size="11.5" fill="var(--accent)">意識して目を向ける</text>
+  <text x="166" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">向ける先が要る → look at / for</text>`)
+  + CAP('see は目に入る、watch は追い続ける'),
+
+vBring: SVG(`
+  <circle cx="264" cy="60" r="21" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".6"/>
+  <text x="264" y="65" text-anchor="middle" font-size="11" fill="var(--muted)">自分</text>
+  <rect x="44" y="46" width="34" height="28" rx="5" fill="var(--accent)"/>
+  <line x1="228" y1="60" x2="96" y2="60" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M84 60 l16 7 v-14 z" fill="var(--accent)"/>
+  <text x="156" y="42" text-anchor="middle" font-size="11.5" fill="var(--accent)">こちらへ持ってくる</text>
+  <text x="156" y="98" text-anchor="middle" font-size="11" fill="var(--muted)">take は逆向き</text>`)
+  + CAP('向きを決めるのは、話し手がどこにいるか'),
+
+vSet: SVG(`
+  <rect x="54" y="20" width="52" height="38" rx="5" fill="var(--accent)"/>
+  <path d="M116 42 Q168 30 200 58" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <path d="M210 64 l-7 -14 l-8 9 z" fill="var(--accent)"/>
+  <rect x="192" y="64" width="52" height="38" rx="5" fill="var(--accent)"/>
+  <rect x="186" y="58" width="64" height="50" rx="7" fill="none" stroke="var(--accent)"
+        stroke-width="2.5" stroke-dasharray="4 4"/>
+  <text x="152" y="18" text-anchor="middle" font-size="11.5" fill="var(--accent)">定位置にきちんと据える</text>`)
+  + CAP('put より「置き場所が決まっている」'),
+
+vStand: SVG(`
+  <rect x="140" y="20" width="40" height="66" rx="6" fill="var(--accent)"/>
+  <rect x="106" y="88" width="108" height="9" rx="3" fill="var(--muted)" opacity=".45"/>
+  <line x1="88" y1="52" x2="128" y2="52" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M132 52 l-12 5 v-10 z" fill="var(--accent)"/>
+  <line x1="232" y1="52" x2="192" y2="52" stroke="var(--accent)" stroke-width="2.5"/>
+  <path d="M188 52 l12 5 v-10 z" fill="var(--accent)"/>
+  <text x="160" y="14" text-anchor="middle" font-size="11" fill="var(--accent)">押されても倒れない</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">I can’t stand it. ＝ 立っていられない</text>`)
+  + CAP('自分の力で垂直を保つ'),
+
+vLet: SVG(`
+  <rect x="140" y="14" width="10" height="34" rx="3" fill="var(--muted)" opacity=".5"/>
+  <rect x="140" y="76" width="10" height="34" rx="3" fill="var(--muted)" opacity=".5"/>
+  <line x1="36" y1="62" x2="228" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M242 62 l-16 7 v-14 z" fill="var(--accent)"/>
+  <circle cx="48" cy="62" r="11" fill="var(--accent)"/>
+  <text x="145" y="8" text-anchor="middle" font-size="10.5" fill="var(--muted)">門は開いたまま</text>
+  <text x="190" y="100" text-anchor="middle" font-size="11.5" fill="var(--accent)">止めないでおく</text>`)
+  + CAP('make は力を加える、let は何もしない'),
+
+vCall: SVG(`
+  <circle cx="70" cy="60" r="15" fill="var(--accent)"/>
+  ${[36,58,80].map((r,i)=>`<path d="M92 ${60-r*0.62} a${r} ${r} 0 0 1 0 ${r*1.24}" fill="none"
+      stroke="var(--accent)" stroke-width="2.5" opacity="${0.8-i*0.22}"/>`).join('')}
+  <circle cx="266" cy="60" r="15" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+  <text x="168" y="24" text-anchor="middle" font-size="11.5" fill="var(--accent)">声を届かせる</text>
+  <text x="168" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">呼ぶ ・ 電話 ・ 〜と呼ぶ</text>`)
+  + CAP('call back は元へ返す、call off は切り離す'),
+
+vCut: SVG(`
+  <rect x="44" y="34" width="96" height="56" rx="6" fill="var(--accent)"/>
+  <rect x="180" y="34" width="96" height="56" rx="6" fill="var(--accent)"/>
+  <line x1="160" y1="16" x2="160" y2="104" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <path d="M152 12 l8 -10 l8 10 z" fill="var(--accent)"/>
+  <text x="160" y="116" text-anchor="middle" font-size="11" fill="var(--muted)">刃で一気に分ける</text>`)
+  + CAP('break は壊れて断たれる、cut は意図して切る'),
+
+vPull: SVG(`
+  <circle cx="264" cy="60" r="21" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".6"/>
+  <text x="264" y="65" text-anchor="middle" font-size="11" fill="var(--muted)">自分</text>
+  <rect x="44" y="44" width="46" height="32" rx="5" fill="var(--accent)"/>
+  <line x1="228" y1="60" x2="106" y2="60" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M96 60 l16 7 v-14 z" fill="var(--accent)"/>
+  <text x="162" y="40" text-anchor="middle" font-size="11.5" fill="var(--accent)">自分の方へ引く</text>`)
+  + CAP('基準はいつも「自分」── push の正反対'),
+
+vPush: SVG(`
+  <circle cx="56" cy="60" r="21" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".6"/>
+  <text x="56" y="65" text-anchor="middle" font-size="11" fill="var(--muted)">自分</text>
+  <line x1="92" y1="60" x2="212" y2="60" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M226 60 l-16 7 v-14 z" fill="var(--accent)"/>
+  <rect x="234" y="44" width="46" height="32" rx="5" fill="var(--accent)"/>
+  <text x="158" y="40" text-anchor="middle" font-size="11.5" fill="var(--accent)">自分から離す方へ押す</text>`)
+  + CAP('ドアの PUSH / PULL は読む人が基準'),
+
+vCarry: SVG(`
+  <circle cx="86" cy="66" r="18" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity=".6"/>
+  <rect x="68" y="24" width="36" height="24" rx="4" fill="var(--accent)"/>
+  <line x1="86" y1="48" x2="86" y2="48" stroke="var(--accent)" stroke-width="2.5"/>
+  <line x1="120" y1="60" x2="240" y2="60" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M254 60 l-16 7 v-14 z" fill="var(--accent)"/>
+  <text x="188" y="42" text-anchor="middle" font-size="11.5" fill="var(--accent)">支えたまま移動する</text>
+  <text x="160" y="106" text-anchor="middle" font-size="11" fill="var(--muted)">重さを引き受けたまま進む</text>`)
+  + CAP('外へ運び出せば carry out ＝ 実行する'),
+
+vFall: SVG(`
+  <rect x="136" y="16" width="48" height="30" rx="5" fill="var(--accent)" opacity=".35"/>
+  <line x1="160" y1="52" x2="160" y2="80" stroke="var(--accent)" stroke-width="3" stroke-dasharray="5 4"/>
+  <path d="M160 92 l9 -16 h-18 z" fill="var(--accent)"/>
+  <rect x="106" y="96" width="108" height="9" rx="3" fill="var(--muted)" opacity=".45"/>
+  <text x="240" y="40" text-anchor="middle" font-size="11" fill="var(--muted)">支えを失って</text>
+  <text x="240" y="58" text-anchor="middle" font-size="11.5" fill="var(--accent)">落ちる</text>`)
+  + CAP('自分では止められない ── だから「恋に落ちる」'),
+
+vCatch: SVG(`
+  <circle cx="58" cy="34" r="11" fill="var(--accent)" opacity=".3"/>
+  <circle cx="110" cy="46" r="11" fill="var(--accent)" opacity=".55"/>
+  <circle cx="162" cy="58" r="12" fill="var(--accent)"/>
+  <path d="M196 30 q26 30 0 60" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M188 40 q16 20 0 40" fill="none" stroke="var(--accent)" stroke-width="2.5" opacity=".5"/>
+  <text x="160" y="20" text-anchor="middle" font-size="11.5" fill="var(--accent)">動いているものを捕らえる</text>
+  <text x="160" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">ボール ・ 電車 ・ 風邪 ・ 言葉</text>`)
+  + CAP('間に合ってつかまえる'),
+
+vLeave: SVG(`
+  <rect x="62" y="48" width="42" height="32" rx="5" fill="var(--accent)"/>
+  <text x="83" y="100" text-anchor="middle" font-size="11" fill="var(--muted)">残る</text>
+  <circle cx="150" cy="62" r="14" fill="var(--accent)" opacity=".35"/>
+  <line x1="172" y1="62" x2="250" y2="62" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M264 62 l-16 7 v-14 z" fill="var(--accent)"/>
+  <text x="212" y="42" text-anchor="middle" font-size="11.5" fill="var(--accent)">そのままにして離れる</text>`)
+  + CAP('自分が離れれば「去る」、物が残れば「置いていく」'),
+
+vPass: SVG(`
+  <rect x="152" y="18" width="12" height="84" rx="3" fill="var(--muted)" opacity=".45"/>
+  <circle cx="54" cy="60" r="12" fill="var(--accent)" opacity=".35"/>
+  <circle cx="158" cy="60" r="12" fill="var(--accent)" opacity=".7"/>
+  <circle cx="262" cy="60" r="12" fill="var(--accent)"/>
+  <line x1="74" y1="60" x2="240" y2="60" stroke="var(--accent)" stroke-width="2.5" opacity=".5"/>
+  <path d="M252 60 l-14 6 v-12 z" fill="var(--accent)" opacity=".5"/>
+  <text x="160" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">基準点を横切って向こうへ</text>`)
+  + CAP('人・時間・合格ライン・手から手へ'),
+
+vWork: SVG(`
+  <circle cx="86" cy="60" r="30" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  ${[0,60,120,180,240,300].map(a=>`<line x1="${86+26*Math.cos(a*Math.PI/180)}"
+      y1="${60+26*Math.sin(a*Math.PI/180)}" x2="${86+38*Math.cos(a*Math.PI/180)}"
+      y2="${60+38*Math.sin(a*Math.PI/180)}" stroke="var(--accent)" stroke-width="3.5"/>`).join('')}
+  <line x1="136" y1="60" x2="216" y2="60" stroke="var(--accent)" stroke-width="3"/>
+  <path d="M230 60 l-16 7 v-14 z" fill="var(--accent)"/>
+  <text x="264" y="65" text-anchor="middle" font-size="11.5" fill="var(--accent)">結果</text>
+  <text x="160" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">人・機械・方法、何が主語でもよい</text>`)
+  + CAP('コアは「働く」ではなく「ちゃんと機能する」'),
+
+vPlay: SVG(`
+  <rect x="44" y="24" width="232" height="66" rx="8" fill="none" stroke="var(--muted)"
+        stroke-width="2.5" opacity=".5"/>
+  <path d="M70 76 L112 36 L152 74 L196 34 L246 72" fill="none" stroke="var(--accent)" stroke-width="3"/>
+  ${[70,112,152,196,246].map((x,i)=>`<circle cx="${x}" cy="${[76,36,74,34,72][i]}" r="5" fill="var(--accent)"/>`).join('')}
+  <text x="160" y="16" text-anchor="middle" font-size="11" fill="var(--muted)">ルール・楽譜・台本という枠</text>
+  <text x="160" y="110" text-anchor="middle" font-size="11.5" fill="var(--accent)">その中で自由に動く</text>`)
+  + CAP('競技も、楽器も、演技も、再生も play'),
+
+vPick: SVG(`
+  ${[70,118,166].map((x,i)=>`<circle cx="${x}" cy="84" r="13" fill="var(--muted)" opacity=".35"/>`).join('')}
+  <circle cx="232" cy="34" r="15" fill="var(--accent)"/>
+  <path d="M214 76 Q222 52 230 44" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="4 4"/>
+  <circle cx="214" cy="84" r="13" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="3 3"/>
+  <text x="232" y="66" text-anchor="middle" font-size="11" fill="var(--accent)">これ1つ</text>
+  <text x="140" y="112" text-anchor="middle" font-size="11" fill="var(--muted)">指先で一つだけ選び取る</text>`)
+  + CAP('choose は比べて選ぶ、pick はぱっとつまむ')
+
 
 };

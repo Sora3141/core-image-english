@@ -538,3 +538,8 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
   background:var(--bg);
 }
 .sticky-next .btn{margin:0}
+
+/* 豆知識は「次へ」の下。読みたい人だけが下へ送る */
+.v-trivia{margin-top:14px; margin-bottom:4px}
+.v-trivia h4{font-size:0.875rem}
+.v-trivia p{font-size:0.875rem; line-height:1.85}

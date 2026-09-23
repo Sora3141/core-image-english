@@ -623,7 +623,20 @@ function viewVocab(){
     ${body}
     ${result}
     ${answered ? `<div class="sticky-next"><button class="btn primary" data-vnext>
-        ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button></div>` : ''}`;
+        ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button></div>` : ''}
+    ${answered ? vocabTrivia(w) : ''}`;
+}
+
+/* 豆知識は「次へ」の下に置く。
+   先へ進むための操作は常に画面内にあり、読み物は読みたい人だけが下へ送る。
+   スクロールの意味が「進むため」から「読むため」に変わる */
+function vocabTrivia(w){
+  const t = typeof VOCAB_TRIVIA !== 'undefined' ? VOCAB_TRIVIA[w[0]] : null;
+  if(!t) return '';
+  return `<div class="trivia v-trivia">
+    <h4>⚡ ${esc(t[0])}</h4>
+    <p>${esc(t[1])}</p>
+  </div>`;
 }
 
 /* 意味ごとの例文。意味が1つなら1つだけ、複数あればその数だけ並べる */

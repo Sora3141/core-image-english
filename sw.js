@@ -31,6 +31,7 @@ const ASSETS = [
   './data/words.js',
   './data/phrasals.js',
   './data/vocab.js',
+  './data/vocab-senses.js',
   './data/exercises.js',
   './manifest.webmanifest',
   './icons/icon-192.png',

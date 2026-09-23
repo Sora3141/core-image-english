@@ -208,7 +208,7 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 
 /* ---------- 演習 ---------- */
 .q-meta{display:flex; justify-content:space-between; align-items:center;
-  font-size:0.75rem; color:var(--muted); margin-bottom:10px}
+  font-size:0.75rem; color:var(--muted); margin-bottom:8px}
 .q-kind{background:var(--surface2); padding:3px 10px; border-radius:999px}
 .q-prompt{
   background:var(--surface); border:1px solid var(--line); border-radius:14px;
@@ -243,6 +243,8 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 }
 
 .progress{height:4px; background:var(--surface2); border-radius:2px; margin-bottom:16px}
+.q-meta + .q-prompt{margin-top:0}
+#view .progress:first-child{margin-bottom:12px}
 .progress i{display:block; height:100%; background:var(--accent); border-radius:2px;
   transition:width .25s}
 
@@ -507,3 +509,32 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
   border-bottom:1px solid transparent;
 }
 .seg.cats.stuck{border-bottom-color:var(--line)}
+
+/* ---------- 単語テストを1画面に収める ---------- */
+/* 4択は2×2。縦に4つ並べると答え合わせが画面から溢れる */
+.choices2{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.choices2 .choice{margin:0; min-height:50px; padding:9px 11px; gap:8px}
+.choices2 .choice[disabled]{min-height:44px; padding:7px 11px}
+.choices2 .choice .num{display:none}
+.choices2 .choice .txt{font-size:0.875rem; line-height:1.35}
+.choices2 .choice.mono .txt{font-family:Georgia,serif; font-size:1rem}
+
+.q-prompt.tight{padding:11px 16px}
+.v-result{margin-top:9px; padding:10px 14px}
+.v-result .v-ex{margin-top:7px; padding:9px 12px}
+
+/* 意味ごとの例文 */
+.v-senses{margin-top:6px}
+.v-sense{padding:6px 0; border-top:1px solid var(--line)}
+.v-sense:first-child{border-top:0; padding-top:0}
+.v-sense .m{font-size:0.75rem; color:var(--accent); font-weight:700; line-height:1.4}
+.v-sense .e{font-family:Georgia,serif; font-size:0.90625rem; line-height:1.4}
+.v-sense .j{font-size:0.75rem; color:var(--muted); line-height:1.4}
+
+/* 「次へ」は必ず押せる位置に置く。例文が増えても下まで探しに行かずに済む */
+.sticky-next{
+  position:sticky; bottom:0; z-index:8;
+  margin:10px -16px 0; padding:8px 16px calc(2px + var(--sab));
+  background:var(--bg);
+}
+.sticky-next .btn{margin:0}

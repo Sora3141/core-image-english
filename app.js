@@ -568,37 +568,50 @@ function viewVocab(){
     ? q.typed.trim().toLowerCase() === w[0].toLowerCase()
     : q.sel === w[0]);
 
-  /* 問題文 */
+  /* 問題文。答え合わせのあとは、同じ情報を二度出さないよう作り分ける */
   let prompt, body;
   if(mode === 'ja'){
     prompt = `<div class="v-word">${esc(w[0])}</div><div class="v-ipa">${esc(w[5])}</div>`;
-    body = q.choices.map(c => {
+    body = `<div class="choices2">${q.choices.map(c => {
       let cls = 'btn choice';
       if(answered && c[0] === w[0]) cls += ' correct';
       else if(answered && c[0] === q.sel) cls += ' wrong';
       return `<button class="${cls}" data-vpick="${esc(c[0])}" ${answered ? 'disabled' : ''}>
         <span class="txt">${esc(c[1])}</span></button>`;
-    }).join('');
+    }).join('')}</div>`;
   } else if(mode === 'en'){
     prompt = `<div class="v-ja">${esc(w[1])}</div>`;
-    body = q.choices.map(c => {
+    body = `<div class="choices2">${q.choices.map(c => {
       let cls = 'btn choice mono';
       if(answered && c[0] === w[0]) cls += ' correct';
       else if(answered && c[0] === q.sel) cls += ' wrong';
       return `<button class="${cls}" data-vpick="${esc(c[0])}" ${answered ? 'disabled' : ''}>
         <span class="txt">${esc(c[0])}</span></button>`;
-    }).join('');
+    }).join('')}</div>`;
   } else {
     const blank = '_'.repeat(Math.max(3, w[0].length));
     const masked = esc(w[3]).replace(new RegExp('\\b' + w[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b','ig'),
                                      `<span class="v-blank">${blank}</span>`);
-    prompt = `<div class="v-ja">${esc(w[1])}</div>
-      <div class="v-ex">${masked}<div class="ja">${esc(w[4])}</div></div>`;
+    prompt = `<div class="v-ja">${esc(w[1])}</div>`
+           + (answered ? '' : `<div class="v-ex">${masked}<div class="ja">${esc(w[4])}</div></div>`);
     body = `<input class="v-input ${answered ? (ok ? 'ok' : 'ng') : ''}" id="vin"
        type="text" inputmode="latin" autocapitalize="off" autocorrect="off" spellcheck="false"
        value="${esc(q.typed)}" placeholder="英語を入力" ${answered ? 'disabled' : ''}>
       ${answered ? '' : '<button class="btn primary" data-vcheck style="margin-top:10px">答え合わせ</button>'}`;
   }
+
+  /* 答え合わせ。英→日のときは問題文に単語が出ているので繰り返さない */
+  const showWord = mode !== 'ja';
+  const result = !answered ? '' : `
+    <div class="card v-result">
+      <div class="verdict ${ok ? 'ok' : 'ng'}" role="status" aria-live="polite">${
+        ok ? '◎ 正解' : '✗ 不正解'}</div>
+      ${showWord ? `<div class="v-word" style="font-size:1.375rem">${esc(w[0])}</div>
+                    <div class="v-ipa">${esc(w[5])}</div>` : ''}
+      ${vocabSenses(w)}
+      ${w[6] ? `<button class="linkto" data-goto="${w[6]}" data-sense=""
+          style="margin-top:10px">📖 この語はコアページがあります</button>` : ''}
+    </div>`;
 
   return `
     <div class="progress"><i style="width:${(q.i / q.list.length) * 100}%"></i></div>
@@ -606,22 +619,25 @@ function viewVocab(){
       <span class="q-kind">${V_MODES.find(m => m.id === mode).label}</span>
       <span>${q.i + 1} / ${q.list.length}　・　${w[2]}位</span>
     </div>
-    <div class="q-prompt">${prompt}</div>
+    <div class="q-prompt${answered ? ' tight' : ''}">${prompt}</div>
     ${body}
+    ${result}
+    ${answered ? `<div class="sticky-next"><button class="btn primary" data-vnext>
+        ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button></div>` : ''}`;
+}
 
-    ${answered ? `
-      <div class="card" style="margin-top:14px">
-        <div class="verdict ${ok ? 'ok' : 'ng'}" role="status" aria-live="polite">${
-          ok ? '◎ 正解' : '✗ 不正解'}</div>
-        <div class="v-word" style="font-size:1.625rem">${esc(w[0])}</div>
-        <div class="v-ipa">${esc(w[5])}</div>
-        <div class="v-ja" style="font-size:18px;margin-top:8px">${esc(w[1])}</div>
-        <div class="v-ex">${esc(w[3])}<div class="ja">${esc(w[4])}</div></div>
-        ${w[6] ? `<button class="linkto" data-goto="${w[6]}" data-sense=""
-            style="margin-top:12px">📖 この語はコアページがあります</button>` : ''}
-      </div>
-      <button class="btn primary" data-vnext style="margin-top:12px">
-        ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button>` : ''}`;
+/* 意味ごとの例文。意味が1つなら1つだけ、複数あればその数だけ並べる */
+function vocabSenses(w){
+  const extra = typeof VOCAB_SENSES !== 'undefined' ? VOCAB_SENSES[w[0]] : null;
+  if(!extra) return `
+    <div class="v-ja" style="font-size:1rem;margin-top:6px">${esc(w[1])}</div>
+    <div class="v-ex">${esc(w[3])}<div class="ja">${esc(w[4])}</div></div>`;
+  return `<div class="v-senses">${extra.map(s => `
+    <div class="v-sense">
+      <div class="m">${esc(s[0])}</div>
+      <div class="e">${esc(s[1])}</div>
+      <div class="j">${esc(s[2])}</div>
+    </div>`).join('')}</div>`;
 }
 
 /* ============================================================

@@ -9,6 +9,9 @@
   --ng:#b3352c; --ng-soft:#fceceb;
   --spark:#8a6d1f; --spark-soft:#fbf3dc;
   --tab-h:58px;
+  /* 端末のノッチ・ホームバーの領域。テストで上書きできるよう変数にしている */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
 }
 @media (prefers-color-scheme:dark){
   :root{
@@ -22,24 +25,37 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
+
+/* 画面の外側（ビューポートの外にはみ出した分）はタブバーと同じ色にしておく。
+   端末によってビューポートが画面いっぱいにならないことがあり、
+   そのときに下端へ別色の帯が出るのを防ぐ */
+html{height:100%; background:var(--surface)}
+
+/* アプリ全体を縦のフレックスにし、タブバーを最後の要素として置く。
+   position:fixed だと端末によって画面の下端まで届かないことがあるため、
+   固定配置に頼らずレイアウトの一部として最下段に置いている */
 body{
+  height:100dvh; min-height:100dvh;
+  display:flex; flex-direction:column;
+  padding-top:var(--sat);          /* ノッチ・ステータスバーの下から始める */
   background:var(--bg); color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
   font-size:16px; line-height:1.7;
   -webkit-text-size-adjust:100%;
+  overscroll-behavior:none;
 }
 #view{
-  max-width:600px; margin:0 auto;
-  padding:16px 16px calc(var(--tab-h) + env(safe-area-inset-bottom) + 24px);
+  flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  width:100%; max-width:600px; margin:0 auto;
+  padding:16px 16px 24px;
 }
 
 /* ---------- 下部タブ（親指が届く位置） ---------- */
 #tabs{
-  position:fixed; left:0; right:0; bottom:0; z-index:20;
+  flex:0 0 auto; z-index:20;
   display:flex; background:var(--surface);
   border-top:1px solid var(--line);
-  padding-bottom:env(safe-area-inset-bottom);
-  backdrop-filter:saturate(180%) blur(12px);
+  padding-bottom:var(--sab);       /* ホームバーの領域までタブバーの色で塗る */
 }
 #tabs button{
   flex:1; height:var(--tab-h); border:0; background:none; cursor:pointer;

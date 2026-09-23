@@ -550,7 +550,8 @@ function jumpTo(senseId){
 function watchSenses(){
   const chips = document.querySelectorAll('.chip');
   if(!chips.length) return;
-  const bar = document.getElementById('chips');
+  const bar  = document.getElementById('chips');
+  const view = document.getElementById('view');
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if(!e.isIntersecting) return;
@@ -559,10 +560,10 @@ function watchSenses(){
       const active = document.querySelector('.chip[aria-current="true"]');
       if(active && bar) bar.scrollTo({ left: active.offsetLeft - 60, behavior:'smooth' });
     });
-  }, { rootMargin:'-58px 0px -65% 0px' });
+  }, { root: view, rootMargin:'-58px 0px -65% 0px' });
   document.querySelectorAll('.sense').forEach(el => io.observe(el));
-  const onScroll = () => bar && bar.classList.toggle('stuck', window.scrollY > 0);
-  window.addEventListener('scroll', onScroll, { passive:true });
+  const onScroll = () => bar && bar.classList.toggle('stuck', view.scrollTop > 0);
+  view.addEventListener('scroll', onScroll, { passive:true });
   onScroll();
 }
 
@@ -578,7 +579,7 @@ function render(){
   document.querySelectorAll('#tabs button').forEach(b =>
     b.setAttribute('aria-selected', b.dataset.tab === state.tab));
 
-  window.scrollTo(0, 0);
+  $('#view').scrollTop = 0;
   const vin = document.getElementById('vin');
   if(vin && !vin.disabled) vin.focus();
   if(state.tab === 'book' && state.page && state.page !== MATRIX_ID){

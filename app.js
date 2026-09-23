@@ -12,13 +12,54 @@ const TEXTBOOK = [].concat(
 const KEY = 'coreEn.v1';
 const INTERVALS = [0, 1, 3, 7, 21, 60];   // SRS: box → 次回までの日数
 const DAY = 86400000;
-const SESSION_SIZE = 10;
+
+/* ---------- 設定 ---------- */
+const DEFAULTS = { theme:'auto', accent:'orange', fs:1, size:10, haptics:true };
+const THEMES  = [{id:'auto',label:'自動',note:'端末に合わせる'},
+                 {id:'light',label:'ライト',note:'明るい'},
+                 {id:'dark',label:'ダーク',note:'暗い'}];
+const FONTS   = [{id:0.9,label:'小'},{id:1,label:'標準'},{id:1.15,label:'大'},{id:1.3,label:'特大'}];
+const ACCENTS = [{id:'orange',label:'土'},{id:'blue',label:'藍'},{id:'green',label:'苔'},
+                 {id:'purple',label:'菫'},{id:'pink',label:'紅'}];
+const SIZES   = [5, 10, 20];
+
+const sessionSize = () => store.set.size;
 
 const store = load();
 function load(){
   try { const o = JSON.parse(localStorage.getItem(KEY)) || {};
-        return { rec:o.rec || {}, cells:o.cells || {} }; }
-  catch(e){ return { rec:{}, cells:{} }; }
+        return { rec:o.rec || {}, cells:o.cells || {},
+                 set:{ ...DEFAULTS, ...(o.set || {}) },
+                 last:o.last || null }; }
+  catch(e){ return { rec:{}, cells:{}, set:{ ...DEFAULTS }, last:null }; }
+}
+
+/* 設定を画面に反映する。CSS 側は data-theme / data-accent / --fs だけを見ている */
+function applySettings(){
+  const r = document.documentElement, s = store.set;
+  s.theme === 'auto'     ? r.removeAttribute('data-theme')  : r.setAttribute('data-theme', s.theme);
+  s.accent === 'orange'  ? r.removeAttribute('data-accent') : r.setAttribute('data-accent', s.accent);
+  r.style.setProperty('--fs', s.fs);
+  syncThemeColor();
+}
+
+/* スマホの上端（ステータスバー）の色を、いまの地の色に合わせる */
+function syncThemeColor(){
+  const meta = document.getElementById('tc');
+  if(!meta) return;
+  meta.setAttribute('content',
+    getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f6f5f2');
+}
+/* 「自動」のときは端末の設定が変わった瞬間に追従させる */
+if(window.matchMedia){
+  window.matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', () => { if(store.set.theme === 'auto') syncThemeColor(); });
+}
+
+/* 正誤が分かるよう、ごく短く振動させる。うるさくないよう長さは抑える */
+function buzz(ok){
+  if(!store.set.haptics || !navigator.vibrate) return;
+  navigator.vibrate(ok ? 12 : [10, 40, 10]);
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(store)); }
 function rec(id){
@@ -33,9 +74,20 @@ function grade(id, ok){
 }
 
 const state = { tab:'book', page:null, focusSense:null, quiz:null, cell:null, mxVerb:'get',
-                vocab:null, vBand:1, vMode:'ja' };
+                vocab:null, vBand:1, vMode:'ja', panel:null, q:'', scope:'all' };
 const MATRIX_ID = '__matrix';
 const $ = s => document.querySelector(s);
+
+/* どの画面からでも設定を開けるよう、見出し行の右端に置く */
+const searchBox = () => `<div class="searchbox">
+  <span class="mag" aria-hidden="true">🔍</span>
+  <input id="q" type="search" inputmode="search" autocapitalize="off" autocorrect="off"
+     placeholder="ページを探す（コアや例文からでも）" value="${esc(state.q)}">
+  ${state.q ? '<button class="clear" data-clearq aria-label="消す">✕</button>' : ''}
+</div>`;
+
+const headRow = title => `<div class="head"><h1>${title}</h1>
+  <button class="icon-btn" data-panel="settings" aria-label="設定">⚙</button></div>`;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const shuffle = a => a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
 
@@ -59,6 +111,43 @@ const pageGlyph = p => p.glyph || p.headword;
 /* 見出しは title があればそちら（文法ページの日本語名） */
 const pageName  = p => p.title || p.headword;
 
+/* ============================================================
+   検索
+   107ページから目当てのページを引けるようにする。
+   見出し語だけでなく、コア・派生・例文・豆知識まで見にいくので、
+   「接触」や「ほとんど〜ない」のような、意味の側からでも辿り着ける
+   ============================================================ */
+function pageHaystack(p){
+  if(p._hay) return p._hay;
+  const parts = [p.headword, p.title || '', p.core, p.coreNote];
+  p.senses.forEach(s => {
+    parts.push(s.chip, s.label, s.gloss);
+    s.examples.forEach(e => parts.push(e.en, e.ja, e.note || ''));
+  });
+  p.trivia.forEach(t => parts.push(t.title, t.body));
+  return (p._hay = parts.join('\n'));
+}
+
+/* 何にあたったかを短く見せる。探している手応えが出る */
+function matchHint(p, q){
+  const lower = q.toLowerCase();
+  if((p.headword + (p.title || '')).toLowerCase().includes(lower)) return '';
+  if(p.core.toLowerCase().includes(lower)) return 'コア：' + p.core;
+  for(const s of p.senses){
+    if((s.chip + s.label + s.gloss).toLowerCase().includes(lower)) return s.label;
+    for(const e of s.examples)
+      if((e.en + e.ja).toLowerCase().includes(lower)) return e.en + ' ' + e.ja;
+  }
+  for(const t of p.trivia) if((t.title + t.body).toLowerCase().includes(lower)) return '⚡ ' + t.title;
+  return '';
+}
+
+function searchPages(q){
+  const lower = q.trim().toLowerCase();
+  if(!lower) return null;
+  return TEXTBOOK.filter(p => pageHaystack(p).toLowerCase().includes(lower));
+}
+
 const TYPE_SECTION = [
   { type:'particle', label:'不変化詞のコア', note:'前置詞・副詞。ここが全体の土台' },
   { type:'verb',     label:'基本動詞のコア', note:'不変化詞と掛け算される側' },
@@ -66,32 +155,44 @@ const TYPE_SECTION = [
   { type:'word',     label:'紛らわしい語',   note:'日本語では同じ訳なのに、英語では別物' }
 ];
 
+function tocItem(p, hint){
+  const ex = EXERCISES.filter(e => e.ref === p.id);
+  const ok = ex.filter(e => (store.rec[e.id]||{}).r > 0).length;
+  const pct = ex.length ? Math.round(ok / ex.length * 100) : 0;
+  return `<button class="btn toc-item" data-open="${p.id}">
+    <span class="toc-glyph" style="font-size:${glyphSize(pageGlyph(p))}px">${esc(pageGlyph(p))}</span>
+    <span class="toc-body">
+      <b>${esc(pageName(p))} ── ${esc(p.core)}</b>
+      <span>${hint ? esc(hint) : `${p.senses.length}の派生 ・ 演習 ${ok}/${ex.length}`}</span>
+      ${hint ? '' : `<span class="toc-bar"><i style="width:${pct}%"></i></span>`}
+    </span>
+  </button>`;
+}
+
 function viewBookList(){
+  const hits = searchPages(state.q);
+  if(hits){
+    return `
+      ${headRow('教科書')}
+      ${searchBox()}
+      <p class="sub">${hits.length ? `${hits.length}件` : '見つかりません'}</p>
+      ${hits.map(p => tocItem(p, matchHint(p, state.q))).join('')}
+      ${hits.length ? '' : `<div class="empty"><span class="ic">🔍</span>
+        見出し語・コア・派生・例文・豆知識のどこにも見あたりませんでした。</div>`}`;
+  }
   const sections = TYPE_SECTION.map(sec => {
     const pages = TEXTBOOK.filter(p => p.type === sec.type);
     if(!pages.length) return '';
     return `<div class="sec-label">${sec.label}　<span style="font-weight:400;letter-spacing:0">${
-      esc(sec.note)}</span></div>` + pages.map(p => {
-      const ex = EXERCISES.filter(e => e.ref === p.id);
-      const ok = ex.filter(e => (store.rec[e.id]||{}).r > 0).length;
-      const pct = ex.length ? Math.round(ok / ex.length * 100) : 0;
-      return `<button class="btn toc-item" data-open="${p.id}">
-        <span class="toc-glyph" style="font-size:${glyphSize(pageGlyph(p))}px">${esc(pageGlyph(p))}</span>
-        <span class="toc-body">
-          <b>${esc(pageName(p))} ── ${esc(p.core)}</b>
-          <span>${p.senses.length}の派生 ・ 演習 ${ok}/${ex.length}</span>
-          <span class="toc-bar"><i style="width:${pct}%"></i></span>
-        </span>
-      </button>`;
-    }).join('');
+      esc(sec.note)}</span></div>` + pages.map(p => tocItem(p, '')).join('');
   }).join('');
 
   const revealed = Object.keys(store.cells).length;
   const totalEx = EXERCISES.length;
   const doneEx  = EXERCISES.filter(e => (store.rec[e.id]||{}).r > 0).length;
   return `
-    <h1>教科書</h1>
-    <p class="sub">コアのイメージを掴めば、派生は自分で導ける</p>
+    ${headRow('教科書')}
+    ${searchBox()}
     <div class="stat-row">
       <div class="stat"><b>${TEXTBOOK.length}</b><span>ページ</span></div>
       <div class="stat"><b>${doneEx}<span style="font-size:14px;color:var(--muted)">/${totalEx}</span></b><span>演習</span></div>
@@ -248,19 +349,27 @@ function viewMatrix(){
    ============================================================ */
 const KIND_LABEL = { core:'コア適用', fill:'用法穴埋め', meaning:'意味選択', spell:'スペル入力' };
 
+/* どのページに属する問題かで絞れるようにする。
+   「文法だけ集中的に」といった回し方ができると、学習の効率が変わる */
+const PAGE_TYPE = new Map(TEXTBOOK.map(p => [p.id, p.type]));
+const SCOPES = [{id:'all',label:'すべて'},{id:'particle',label:'不変化詞'},
+                {id:'verb',label:'基本動詞'},{id:'grammar',label:'文法'},
+                {id:'word',label:'紛らわしい語'}];
+const inScope = e => state.scope === 'all' || PAGE_TYPE.get(e.ref) === state.scope;
+
 function buildQueue(onlyWrong){
   const now = Date.now();
   let pool = EXERCISES.filter(e => {
     const t = store.rec[e.id];
-    if(onlyWrong) return t && t.w > 0 && t.due <= now;
-    return !t || t.due <= now;
+    if(onlyWrong) return t && t.w > 0 && t.due <= now;   // 復習は範囲をまたいで拾う
+    return inScope(e) && (!t || t.due <= now);
   });
-  return { list: shuffle(pool).slice(0, SESSION_SIZE), i:0, sel:null, right:0 };
+  return { list: shuffle(pool).slice(0, sessionSize()), i:0, sel:null, right:0 };
 }
 
 function startQuiz(ref, onlyWrong){
   state.quiz = buildQueue(onlyWrong);
-  if(ref) state.quiz.list = shuffle(EXERCISES.filter(e => e.ref === ref)).slice(0, SESSION_SIZE);
+  if(ref) state.quiz.list = shuffle(EXERCISES.filter(e => e.ref === ref)).slice(0, sessionSize());
   state.quiz.i = 0; state.quiz.sel = null; state.quiz.right = 0;
 }
 
@@ -299,7 +408,8 @@ function viewQuiz(){
 
     ${answered ? `
       <div class="card" style="margin-top:14px">
-        <div class="verdict ${ok ? 'ok' : 'ng'}">${ok ? '◎ 正解' : '✗ 不正解'}</div>
+        <div class="verdict ${ok ? 'ok' : 'ng'}" role="status" aria-live="polite">${
+          ok ? '◎ 正解' : '✗ 不正解'}</div>
         <p class="explain">${esc(e.explain)}</p>
         <button class="linkto" data-goto="${(e.jumpTo || e.ref + '/' + e.refSense).split('/')[0]}"
           data-sense="${(e.jumpTo || e.ref + '/' + e.refSense).split('/')[1]}">
@@ -311,19 +421,29 @@ function viewQuiz(){
 
 function viewQuizStart(){
   const now = Date.now();
-  const due = EXERCISES.filter(e => { const t = store.rec[e.id]; return !t || t.due <= now; }).length;
-  const learned = EXERCISES.filter(e => (store.rec[e.id]||{}).r > 0).length;
+  const scoped  = EXERCISES.filter(inScope);
+  const due     = scoped.filter(e => { const t = store.rec[e.id]; return !t || t.due <= now; }).length;
+  const learned = scoped.filter(e => (store.rec[e.id]||{}).r > 0).length;
+  const pct = scoped.length ? Math.round(learned / scoped.length * 100) : 0;
   return `
-    <h1>演習</h1>
+    ${headRow('演習')}
     <p class="sub">誤答は「コアを取り違えたら選ぶもの」だけを並べています</p>
+
+    <div class="seg scroll">${SCOPES.map(s => `<button data-scope="${s.id}"
+      aria-current="${s.id === state.scope}">${s.label}</button>`).join('')}</div>
+
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <p class="sub" style="margin:-10px 0 14px">${learned} / ${scoped.length} 問 正解済み</p>
+
     <div class="stat-row">
       <div class="stat"><b>${due}</b><span>いま出題できる</span></div>
       <div class="stat"><b>${learned}</b><span>正解済み</span></div>
-      <div class="stat"><b>${EXERCISES.length}</b><span>全問題</span></div>
+      <div class="stat"><b>${scoped.length}</b><span>この範囲</span></div>
     </div>
-    ${due ? `<button class="btn primary" data-start>${Math.min(due, SESSION_SIZE)}問はじめる</button>`
+    ${due ? `<button class="btn primary" data-start>${Math.min(due, sessionSize())}問はじめる</button>`
           : `<div class="empty"><span class="ic">✓</span>
-               いま出題できる問題はありません。<br>復習タブで間隔があくのを待ちます。</div>`}`;
+               この範囲でいま出題できる問題はありません。<br>
+               別の範囲を選ぶか、復習タブで間隔があくのを待ちます。</div>`}`;
 }
 
 function viewQuizDone(){
@@ -364,7 +484,7 @@ function buildVocabQueue(onlyWrong){
     if(onlyWrong) return t && t.w > 0 && t.due <= now;   // 復習タブから：帯をまたいで誤答だけ
     return bandOf(w) === state.vBand && (!t || t.due <= now);
   });
-  return { list: shuffle(pool).slice(0, SESSION_SIZE), i:0, sel:null, right:0, typed:'', judged:false };
+  return { list: shuffle(pool).slice(0, sessionSize()), i:0, sel:null, right:0, typed:'', judged:false };
 }
 
 /* 4択の誤答は同じ帯から引く（難易度をそろえるため） */
@@ -381,7 +501,7 @@ function viewVocabStart(){
   const learned = VOCAB.filter(w => (store.rec[vKey(w)]||{}).r > 0).length;
   const withPage = band.filter(w => w[6]).length;
   return `
-    <h1>単語</h1>
+    ${headRow('単語')}
     <p class="sub">NGSL 頻度順の上位1000語</p>
     <div class="stat-row">
       <div class="stat"><b>${learned}<span style="font-size:14px;color:var(--muted)">/1000</span></b><span>正解済み</span></div>
@@ -398,7 +518,7 @@ function viewVocabStart(){
       ${m.label}<small>${m.note}</small></button>`).join('')}</div>
 
     ${due ? `<button class="btn primary" data-vstart style="margin-top:6px">${
-        Math.min(due, SESSION_SIZE)}語はじめる</button>`
+        Math.min(due, sessionSize())}語はじめる</button>`
           : `<div class="empty"><span class="ic">✓</span>
                この帯でいま出題できる語はありません。<br>別の帯を選ぶか、間隔があくのを待ちます。</div>`}
 
@@ -475,8 +595,9 @@ function viewVocab(){
 
     ${answered ? `
       <div class="card" style="margin-top:14px">
-        <div class="verdict ${ok ? 'ok' : 'ng'}">${ok ? '◎ 正解' : '✗ 不正解'}</div>
-        <div class="v-word" style="font-size:26px">${esc(w[0])}</div>
+        <div class="verdict ${ok ? 'ok' : 'ng'}" role="status" aria-live="polite">${
+          ok ? '◎ 正解' : '✗ 不正解'}</div>
+        <div class="v-word" style="font-size:1.625rem">${esc(w[0])}</div>
         <div class="v-ipa">${esc(w[5])}</div>
         <div class="v-ja" style="font-size:18px;margin-top:8px">${esc(w[1])}</div>
         <div class="v-ex">${esc(w[3])}<div class="ja">${esc(w[4])}</div></div>
@@ -498,7 +619,7 @@ function viewReview(){
   const dueV    = wrongV.filter(w => store.rec[vKey(w)].due <= now);
 
   if(!wrongEx.length && !wrongV.length) return `
-    <h1>復習</h1>
+    ${headRow('復習')}
     <div class="empty"><span class="ic">🔁</span>
       間違えた問題と単語がここに溜まります。<br>正解するたびに次回の間隔が延びます。</div>`;
 
@@ -513,7 +634,7 @@ function viewReview(){
   };
 
   return `
-    <h1>復習</h1>
+    ${headRow('復習')}
     <p class="sub">間隔反復：0日 → 1 → 3 → 7 → 21 → 60日</p>
     <div class="stat-row">
       <div class="stat"><b>${wrongEx.length}</b><span>演習</span></div>
@@ -521,9 +642,9 @@ function viewReview(){
       <div class="stat"><b>${dueEx.length + dueV.length}</b><span>いま出せる</span></div>
     </div>
     ${dueEx.length ? `<button class="btn primary" data-startwrong style="margin-bottom:8px">
-      演習を ${Math.min(dueEx.length, SESSION_SIZE)}問 復習する</button>` : ''}
+      演習を ${Math.min(dueEx.length, sessionSize())}問 復習する</button>` : ''}
     ${dueV.length ? `<button class="btn primary" data-vstartwrong style="margin-bottom:16px">
-      単語を ${Math.min(dueV.length, SESSION_SIZE)}語 復習する</button>` : ''}
+      単語を ${Math.min(dueV.length, sessionSize())}語 復習する</button>` : ''}
 
     ${wrongEx.length ? `<div class="sec-label">演習</div>` : ''}
     ${wrongEx.map(e => row(renderSentence(e), KIND_LABEL[e.kind], store.rec[e.id])).join('')}
@@ -531,6 +652,93 @@ function viewReview(){
     ${wrongV.length ? `<div class="sec-label">単語</div>` : ''}
     ${wrongV.map(w => row(esc(w[0]) + ' <span style="font-family:inherit;font-size:13px;color:var(--muted)">'
         + esc(w[1]) + '</span>', w[2] + '位', store.rec[vKey(w)])).join('')}`;
+}
+
+/* ============================================================
+   設定
+   見た目（テーマ・文字の大きさ・色）と、学習の進め方をここで変える。
+   変更はすぐ画面に反映し、保存もその場で行う
+   ============================================================ */
+function viewSettings(){
+  const s = store.set;
+  const seg = (name, items, cur, key) => `<div class="seg">${items.map(it => `
+    <button data-set="${key}" data-val="${it.id}" aria-current="${String(it.id) === String(cur)}">
+      ${it.label}${it.note ? `<small>${it.note}</small>` : ''}</button>`).join('')}</div>`;
+
+  const doneEx = EXERCISES.filter(e => (store.rec[e.id]||{}).r > 0).length;
+  const doneV  = VOCAB.filter(w => (store.rec[vKey(w)]||{}).r > 0).length;
+  const doneC  = Object.keys(store.cells).length;
+
+  return `<div class="overlay" data-close>
+    <div class="sheet" role="dialog" aria-label="設定">
+      <div class="sheet-head">
+        <h2>設定</h2>
+        <button class="icon-btn" data-close aria-label="閉じる">✕</button>
+      </div>
+
+      <div class="set-group">
+        <div class="set-label">明るさ</div>
+        ${seg('theme', THEMES, s.theme, 'theme')}
+      </div>
+
+      <div class="set-group">
+        <div class="set-label">文字の大きさ</div>
+        ${seg('fs', FONTS, s.fs, 'fs')}
+      </div>
+
+      <div class="set-group">
+        <div class="set-label">色</div>
+        <div class="swatches">${ACCENTS.map(c => `
+          <button class="swatch" data-set="accent" data-val="${c.id}"
+            aria-current="${c.id === s.accent}" aria-label="${c.label}">
+            <i style="background:${ACCENT_HEX[c.id][isDark() ? 1 : 0]}"></i></button>`).join('')}</div>
+        <div class="set-preview">
+          <div class="en">a picture <em>on</em> the wall</div>
+          <div class="ja">壁にかかった絵</div>
+          <span class="tag">コア：接触</span>
+        </div>
+      </div>
+
+      <div class="set-group">
+        <div class="set-label">1回に出す数　<b>${s.size}問／語</b></div>
+        ${seg('size', SIZES.map(n => ({ id:n, label:n + '問' })), s.size, 'size')}
+      </div>
+
+      <div class="set-group">
+        <div class="set-label">正解・不正解のときに震わせる</div>
+        ${seg('haptics', [{id:'on',label:'オン'},{id:'off',label:'オフ'}],
+              s.haptics ? 'on' : 'off', 'haptics')}
+      </div>
+
+      <div class="set-group">
+        <div class="set-label">学習の記録</div>
+        <div class="stat-row">
+          <div class="stat"><b>${doneEx}</b><span>解いた問題</span></div>
+          <div class="stat"><b>${doneV}</b><span>覚えた単語</span></div>
+          <div class="stat"><b>${doneC}</b><span>開いたマス</span></div>
+        </div>
+        <button class="btn danger" data-reset>記録をすべて消す</button>
+      </div>
+    </div></div>`;
+}
+
+/* 見本の色玉に出す実際の色。CSS 側の定義と合わせてある（明るい側, 暗い側） */
+const ACCENT_HEX = {
+  orange:['#b4531f','#ff9a5c'], blue:['#1f62b4','#6aa9ff'], green:['#2c7a53','#5fd39a'],
+  purple:['#6b46b0','#b18aff'], pink:['#b33a72','#ff86b4']
+};
+const isDark = () => store.set.theme === 'dark' ||
+  (store.set.theme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+
+function viewConfirmReset(){
+  return `<div class="overlay" data-close>
+    <div class="sheet" role="dialog" aria-label="確認">
+      <div class="sheet-head"><h2>記録をすべて消しますか</h2></div>
+      <p class="explain">解いた問題、覚えた単語、開いたマス、復習の予定が
+        すべて消えます。元には戻せません。設定（明るさ・文字の大きさ・色）は残ります。</p>
+      <button class="btn danger" data-reset-yes>消す</button>
+      <button class="btn" data-close style="margin-top:9px">やめる</button>
+    </div></div>`;
 }
 
 /* ============================================================
@@ -567,6 +775,13 @@ function watchSenses(){
   onScroll();
 }
 
+/* 次に開いたとき、前に見ていたところから始められるようにする。
+   演習や単語の途中の1問までは覚えない（途中再開はかえって迷う） */
+function rememberPlace(){
+  const l = { tab: state.tab, page: state.page };
+  if(JSON.stringify(l) !== JSON.stringify(store.last)){ store.last = l; save(); }
+}
+
 function render(){
   let html;
   if(state.tab === 'book')        html = state.page === MATRIX_ID ? viewMatrix()
@@ -575,28 +790,73 @@ function render(){
   else if(state.tab === 'vocab')  html = viewVocab();
   else                            html = viewReview();
   $('#view').innerHTML = html;
+  $('#panel').innerHTML = state.panel === 'settings' ? viewSettings()
+                        : state.panel === 'reset'    ? viewConfirmReset() : '';
 
   document.querySelectorAll('#tabs button').forEach(b =>
     b.setAttribute('aria-selected', b.dataset.tab === state.tab));
+  rememberPlace();
 
   $('#view').scrollTop = 0;
   const vin = document.getElementById('vin');
   if(vin && !vin.disabled) vin.focus();
+
+  /* 検索欄は描き直すと中身ごと作り直されるので、入力位置を戻しておく */
+  const q = document.getElementById('q');
+  if(q && state.qFocus){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
   if(state.tab === 'book' && state.page && state.page !== MATRIX_ID){
     watchSenses();
     if(state.focusSense){ jumpTo(state.focusSense); state.focusSense = null; }
   }
 }
 
+/* 検索は打つたびに絞り込む。変換中（日本語入力の途中）は反応させない */
+document.addEventListener('input', ev => {
+  if(ev.target.id !== 'q') return;
+  if(ev.isComposing) return;
+  state.q = ev.target.value;
+  state.qFocus = true;
+  render();
+});
+document.addEventListener('compositionend', ev => {
+  if(ev.target.id !== 'q') return;
+  state.q = ev.target.value; state.qFocus = true; render();
+});
+
 document.addEventListener('click', ev => {
   const t = ev.target.closest('[data-tab],[data-open],[data-back],[data-pick],[data-next],' +
     '[data-start],[data-startover],[data-startwrong],[data-goto],[data-quizref],[data-jump],'+
     '[data-cell],[data-verb],[data-vband],[data-vmode],[data-vstart],[data-vpick],'+
-    '[data-vcheck],[data-vnext],[data-vstartwrong],[data-install]');
+    '[data-vcheck],[data-vnext],[data-vstartwrong],[data-install],'+
+    '[data-panel],[data-close],[data-set],[data-reset],[data-reset-yes],[data-clearq],'+
+    '[data-scope]');
   if(!t) return;
   const d = t.dataset;
 
   if(d.jump){ jumpTo(d.jump); return; }   // 再描画するとスクロール位置が飛ぶ
+
+  if(d.clearq !== undefined){ state.q = ''; state.qFocus = true; render(); return; }
+  if(d.panel){ state.panel = d.panel; render(); return; }
+  if(d.close !== undefined){
+    /* 背景を押したときだけ閉じる。シートの中を押しても閉じないようにする */
+    if(t.classList.contains('overlay') && ev.target !== t) return;
+    state.panel = state.panel === 'reset' ? 'settings' : null; render(); return;
+  }
+  if(d.set){
+    const v = d.val;
+    if(d.set === 'theme')   store.set.theme  = v;
+    if(d.set === 'accent')  store.set.accent = v;
+    if(d.set === 'fs')      store.set.fs     = +v;
+    if(d.set === 'size')    store.set.size   = +v;
+    if(d.set === 'haptics'){ store.set.haptics = v === 'on'; buzz(true); }
+    save(); applySettings(); render(); return;
+  }
+  if(d.reset !== undefined){ state.panel = 'reset'; render(); return; }
+  if(d.resetYes !== undefined){
+    store.rec = {}; store.cells = {}; store.last = null; save();
+    state.panel = null; state.quiz = null; state.vocab = null;
+    state.tab = 'book'; state.page = null; render(); return;
+  }
 
   if(d.install !== undefined){
     const p = window.__installPrompt;
@@ -606,7 +866,7 @@ document.addEventListener('click', ev => {
 
   if(d.tab !== undefined){ state.tab = d.tab; state.page = null;
                            if(d.tab === 'vocab') state.vocab = null; }
-  else if(d.open)         { state.page = d.open; state.cell = null; }
+  else if(d.open)         { state.page = d.open; state.cell = null; state.qFocus = false; }
   else if(d.back !== undefined){ state.page = null; }
   else if(d.quizref)      { state.tab = 'quiz'; state.page = null; startQuiz(d.quizref); }
   else if(d.start !== undefined || d.startover !== undefined){ startQuiz(null, false); }
@@ -618,11 +878,12 @@ document.addEventListener('click', ev => {
     q.sel = +d.pick;
     const ok = q.sel === e.answer;
     if(ok) q.right++;
-    grade(e.id, ok);
+    grade(e.id, ok); buzz(ok);
   }
   else if(d.next !== undefined){ state.quiz.i++; state.quiz.sel = null; }
   else if(d.cell)         { state.cell = d.cell; store.cells[d.cell] = 1; save(); }
   else if(d.verb)         { state.mxVerb = d.verb; state.cell = null; }
+  else if(d.scope)        { state.scope = d.scope; state.quiz = null; }
   else if(d.vband)        { state.vBand = +d.vband; state.vocab = null; }
   else if(d.vmode)        { state.vMode = d.vmode;  state.vocab = null; }
   else if(d.vstart !== undefined || d.vstartwrong !== undefined){
@@ -636,7 +897,7 @@ document.addEventListener('click', ev => {
     q.sel = d.vpick; q.judged = true;
     const w = q.list[q.i], ok = q.sel === w[0];
     if(ok) q.right++;
-    grade(vKey(w), ok);
+    grade(vKey(w), ok); buzz(ok);
   }
   else if(d.vcheck !== undefined){
     const q = state.vocab; if(q.judged) return;
@@ -646,7 +907,7 @@ document.addEventListener('click', ev => {
     const w = q.list[q.i];
     const ok = q.typed.trim().toLowerCase() === w[0].toLowerCase();
     if(ok) q.right++;
-    grade(vKey(w), ok);
+    grade(vKey(w), ok); buzz(ok);
   }
   else if(d.vnext !== undefined){
     const q = state.vocab;
@@ -657,4 +918,12 @@ document.addEventListener('click', ev => {
   render();
 });
 
+applySettings();
+
+/* 前回の続きから開く。ページが消えている場合もあるので存在を確かめる */
+if(store.last){
+  const { tab, page } = store.last;
+  if(['book','quiz','vocab','review'].includes(tab)) state.tab = tab;
+  if(page && (page === MATRIX_ID || TEXTBOOK.some(p => p.id === page))) state.page = page;
+}
 render();

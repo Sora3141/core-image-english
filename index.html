@@ -7,8 +7,7 @@
 
 <!-- アプリとしてインストールするための設定 -->
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#16151a" media="(prefers-color-scheme: dark)">
+<meta id="tc" name="theme-color" content="#f6f5f2">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -17,10 +16,23 @@
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 
+<script>
+/* 最初の描画より前に設定を反映する。あとから当てると一瞬もとの見た目が出る */
+(function(){
+  try{
+    var o = JSON.parse(localStorage.getItem('coreEn.v1') || '{}').set || {};
+    var r = document.documentElement;
+    if(o.theme && o.theme !== 'auto')   r.setAttribute('data-theme', o.theme);
+    if(o.accent && o.accent !== 'orange') r.setAttribute('data-accent', o.accent);
+    if(o.fs) r.style.setProperty('--fs', o.fs);
+  }catch(e){}
+})();
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main id="view"></main>
+<div id="panel"></div>
 <nav id="tabs">
   <button data-tab="book"   aria-selected="true"><span class="ic">📖</span>教科書</button>
   <button data-tab="quiz"   aria-selected="false"><span class="ic">✍️</span>演習</button>

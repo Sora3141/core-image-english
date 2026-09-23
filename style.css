@@ -1,30 +1,79 @@
 /* ============================================================
    コアイメージ英語 — スマホ縦持ち・片手操作前提
+
+   配色は「明るい側」をここに全部書き、
+   暗い側は必要な変数だけを上書きする。
+   暗くするかどうかの決め方は3通り。
+     自動        端末の設定に従う（data-theme を付けない）
+     ライト固定  html[data-theme="light"]
+     ダーク固定  html[data-theme="dark"]
    ============================================================ */
 :root{
+  /* 明るい側の配色 */
   --bg:#f6f5f2; --surface:#fff; --surface2:#f0eee9;
   --text:#1c1b19; --muted:#6b6862; --line:#e0ddd6;
-  --accent:#b4531f; --accent-soft:#fbeee4;
+  --accent:#b4531f;
   --ok:#2f7d4f; --ok-soft:#e6f3ea;
   --ng:#b3352c; --ng-soft:#fceceb;
   --spark:#8a6d1f; --spark-soft:#fbf3dc;
+
   --tab-h:58px;
+  /* 文字の大きさの倍率。設定から 0.9〜1.3 の間で変える */
+  --fs:1;
   /* 端末のノッチ・ホームバーの領域。テストで上書きできるよう変数にしている */
   --sat: env(safe-area-inset-top, 0px);
   --sab: env(safe-area-inset-bottom, 0px);
 }
+
+/* アクセント色を薄く敷いた面。アクセントを変えるだけで一緒に付いてくるよう、
+   地の色と混ぜて作る。混色が使えない環境のために既定値も置いておく */
+:root{ --accent-soft:#f6ebe3; }
+@supports (color: color-mix(in srgb, red 50%, blue)){
+  :root{ --accent-soft: color-mix(in srgb, var(--accent) 13%, var(--bg)); }
+}
+
+/* 暗い側。自動（端末の設定がダーク）と、ダーク固定の両方で当てる */
 @media (prefers-color-scheme:dark){
-  :root{
+  :root:not([data-theme="light"]){
     --bg:#16151a; --surface:#1f1e24; --surface2:#26252c;
     --text:#eceaf2; --muted:#9a96a5; --line:#33313b;
-    --accent:#ff9a5c; --accent-soft:#33241a;
+    --accent:#ff9a5c;
     --ok:#6fd398; --ok-soft:#1b2d22;
     --ng:#ff8078; --ng-soft:#2e1d1c;
     --spark:#e4c55f; --spark-soft:#2b2617;
   }
 }
+:root[data-theme="dark"]{
+  --bg:#16151a; --surface:#1f1e24; --surface2:#26252c;
+  --text:#eceaf2; --muted:#9a96a5; --line:#33313b;
+  --accent:#ff9a5c;
+  --ok:#6fd398; --ok-soft:#1b2d22;
+  --ng:#ff8078; --ng-soft:#2e1d1c;
+  --spark:#e4c55f; --spark-soft:#2b2617;
+}
+
+/* アクセント色。既定は土の色。落ち着いていて、明暗どちらでも沈まない */
+:root[data-accent="blue"]  { --accent:#1f62b4; }
+:root[data-accent="green"] { --accent:#2c7a53; }
+:root[data-accent="purple"]{ --accent:#6b46b0; }
+:root[data-accent="pink"]  { --accent:#b33a72; }
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"])[data-accent="blue"]  { --accent:#6aa9ff; }
+  :root:not([data-theme="light"])[data-accent="green"] { --accent:#5fd39a; }
+  :root:not([data-theme="light"])[data-accent="purple"]{ --accent:#b18aff; }
+  :root:not([data-theme="light"])[data-accent="pink"]  { --accent:#ff86b4; }
+}
+:root[data-theme="dark"][data-accent="blue"]  { --accent:#6aa9ff; }
+:root[data-theme="dark"][data-accent="green"] { --accent:#5fd39a; }
+:root[data-theme="dark"][data-accent="purple"]{ --accent:#b18aff; }
+:root[data-theme="dark"][data-accent="pink"]  { --accent:#ff86b4; }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
+
+/* 文字の大きさはここ一か所で決まる。
+   以下の font-size はすべて rem なので、この値に比例して動く。
+   余白は px のままにしてあるので、レイアウトは崩れず文字だけ大きくなる */
+html{ font-size: calc(16px * var(--fs)); }
 
 /* 画面の外側（ビューポートの外にはみ出した分）はタブバーと同じ色にしておく。
    端末によってビューポートが画面いっぱいにならないことがあり、
@@ -40,7 +89,7 @@ body{
   padding-top:var(--sat);          /* ノッチ・ステータスバーの下から始める */
   background:var(--bg); color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
-  font-size:16px; line-height:1.7;
+  font-size:1rem; line-height:1.7;
   -webkit-text-size-adjust:100%;
   overscroll-behavior:none;
 }
@@ -66,14 +115,14 @@ body{
 #tabs button[aria-selected="true"]{color:var(--accent); font-weight:700}
 #tabs .badge{
   position:absolute; transform:translate(14px,-12px);
-  background:var(--ng); color:#fff; font-size:10px; font-weight:700;
+  background:var(--ng); color:#fff; font-size:0.625rem; font-weight:700;
   min-width:17px; height:17px; border-radius:9px; padding:0 4px;
   display:flex; align-items:center; justify-content:center;
 }
 
 /* ---------- 共通 ---------- */
-h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
-.sub{color:var(--muted); font-size:13px; margin:-8px 0 18px}
+h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
+.sub{color:var(--muted); font-size:0.8125rem; margin:-8px 0 18px}
 .card{
   background:var(--surface); border:1px solid var(--line);
   border-radius:14px; padding:16px; margin-bottom:12px;
@@ -81,7 +130,7 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .btn{
   display:block; width:100%; padding:15px; border-radius:12px;
   border:1px solid var(--line); background:var(--surface);
-  color:var(--text); font:inherit; font-size:15px; cursor:pointer;
+  color:var(--text); font:inherit; font-size:0.9375rem; cursor:pointer;
   text-align:left;
 }
 .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff;
@@ -94,29 +143,29 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
   flex:0 0 52px; height:52px; border-radius:13px;
   background:var(--accent-soft); color:var(--accent);
   display:flex; align-items:center; justify-content:center;
-  font-size:22px; font-weight:700; font-family:Georgia,serif;
+  font-size:1.375rem; font-weight:700; font-family:Georgia,serif;
 }
 .toc-body{flex:1; min-width:0}
-.toc-body b{display:block; font-size:16px}
-.toc-body span{color:var(--muted); font-size:13px}
+.toc-body b{display:block; font-size:1rem}
+.toc-body span{color:var(--muted); font-size:0.8125rem}
 
 /* ---------- 教科書：ページ ---------- */
 .hero{
   background:var(--surface); border:1px solid var(--line);
   border-radius:16px; padding:22px 18px; margin-bottom:14px; text-align:center;
 }
-.hero .word{font-family:Georgia,serif; font-size:46px; line-height:1; letter-spacing:.01em}
+.hero .word{font-family:Georgia,serif; font-size:2.875rem; line-height:1; letter-spacing:.01em}
 .hero .corelabel{
   display:inline-block; margin-top:12px; padding:5px 16px; border-radius:999px;
-  background:var(--accent); color:#fff; font-size:15px; font-weight:700;
+  background:var(--accent); color:#fff; font-size:0.9375rem; font-weight:700;
 }
 .hero .corenote{
-  margin:14px 0 0; font-size:14px; color:var(--muted); text-align:left; line-height:1.75;
+  margin:14px 0 0; font-size:0.875rem; color:var(--muted); text-align:left; line-height:1.75;
 }
 .diagram{margin:18px auto 4px; display:block; max-width:100%}
 
 .sec-label{
-  font-size:12px; font-weight:700; color:var(--muted);
+  font-size:0.75rem; font-weight:700; color:var(--muted);
   letter-spacing:.16em; margin:24px 0 10px;
 }
 .chips{
@@ -130,7 +179,7 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .chip{
   flex:0 0 auto; padding:6px 13px; border-radius:999px;
   border:1px solid var(--line); background:var(--surface);
-  color:var(--muted); font:inherit; font-size:13px; cursor:pointer; white-space:nowrap;
+  color:var(--muted); font:inherit; font-size:0.8125rem; cursor:pointer; white-space:nowrap;
 }
 .chip[aria-current="true"]{
   background:var(--accent); border-color:var(--accent); color:#fff; font-weight:700;
@@ -142,40 +191,40 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
   transition:background .5s;
 }
 .sense.focus{background:var(--accent-soft); padding:10px 13px; margin-left:0}
-.sense h3{margin:0; font-size:15.5px; font-weight:700}
-.sense .gloss{margin:2px 0 10px; font-size:13px; color:var(--muted)}
+.sense h3{margin:0; font-size:0.96875rem; font-weight:700}
+.sense .gloss{margin:2px 0 10px; font-size:0.8125rem; color:var(--muted)}
 .ex{margin-bottom:9px}
-.ex .en{font-family:Georgia,serif; font-size:16px}
+.ex .en{font-family:Georgia,serif; font-size:1rem}
 .ex .en em{font-style:normal; color:var(--accent); font-weight:700}
-.ex .ja{font-size:13px; color:var(--muted)}
-.ex .note{font-size:12.5px; color:var(--accent); opacity:.85}
+.ex .ja{font-size:0.8125rem; color:var(--muted)}
+.ex .note{font-size:0.78125rem; color:var(--accent); opacity:.85}
 
 .trivia{
   background:var(--spark-soft); border:1px solid transparent;
   border-radius:14px; padding:15px 16px; margin-bottom:11px;
 }
-.trivia h4{margin:0 0 7px; font-size:14.5px; color:var(--spark)}
-.trivia p{margin:0; font-size:14px; white-space:pre-line; line-height:1.8}
+.trivia h4{margin:0 0 7px; font-size:0.90625rem; color:var(--spark)}
+.trivia p{margin:0; font-size:0.875rem; white-space:pre-line; line-height:1.8}
 
 /* ---------- 演習 ---------- */
 .q-meta{display:flex; justify-content:space-between; align-items:center;
-  font-size:12px; color:var(--muted); margin-bottom:10px}
+  font-size:0.75rem; color:var(--muted); margin-bottom:10px}
 .q-kind{background:var(--surface2); padding:3px 10px; border-radius:999px}
 .q-prompt{
   background:var(--surface); border:1px solid var(--line); border-radius:14px;
   padding:24px 18px; text-align:center; margin-bottom:12px;
 }
-.q-prompt .sent{font-family:Georgia,serif; font-size:21px; line-height:1.55}
+.q-prompt .sent{font-family:Georgia,serif; font-size:1.3125rem; line-height:1.55}
 .q-prompt .sent .blank{color:var(--accent); font-weight:700; letter-spacing:.08em}
-.q-ask{font-size:14px; color:var(--muted); margin-bottom:12px; text-align:center}
+.q-ask{font-size:0.875rem; color:var(--muted); margin-bottom:12px; text-align:center}
 
 .choice{margin-bottom:9px; display:flex; gap:11px; align-items:flex-start}
 .choice .num{
   flex:0 0 25px; height:25px; border-radius:7px; background:var(--surface2);
-  color:var(--muted); font-size:12.5px; font-weight:700;
+  color:var(--muted); font-size:0.78125rem; font-weight:700;
   display:flex; align-items:center; justify-content:center; margin-top:1px;
 }
-.choice.mono .txt{font-family:Georgia,serif; font-size:17px}
+.choice.mono .txt{font-family:Georgia,serif; font-size:1.0625rem}
 .choice.correct{border-color:var(--ok); background:var(--ok-soft)}
 .choice.correct .num{background:var(--ok); color:#fff}
 .choice.wrong{border-color:var(--ng); background:var(--ng-soft)}
@@ -183,12 +232,12 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .choice[disabled]{opacity:.55}
 .choice.correct[disabled],.choice.wrong[disabled]{opacity:1}
 
-.verdict{font-size:16px; font-weight:700; margin-bottom:8px}
+.verdict{font-size:1rem; font-weight:700; margin-bottom:8px}
 .verdict.ok{color:var(--ok)} .verdict.ng{color:var(--ng)}
-.explain{font-size:14.5px; line-height:1.8; margin:0 0 14px}
+.explain{font-size:0.90625rem; line-height:1.8; margin:0 0 14px}
 .linkto{
   display:inline-flex; align-items:center; gap:7px;
-  color:var(--accent); font-size:13.5px; font-weight:700;
+  color:var(--accent); font-size:0.84375rem; font-weight:700;
   text-decoration:none; border:1px solid var(--accent); border-radius:999px;
   padding:7px 15px; background:none; font-family:inherit; cursor:pointer;
 }
@@ -198,24 +247,24 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
   transition:width .25s}
 
 /* ---------- 結果 / 空状態 ---------- */
-.big{font-size:44px; text-align:center; margin:22px 0 6px}
+.big{font-size:2.75rem; text-align:center; margin:22px 0 6px}
 .center{text-align:center}
-.empty{text-align:center; color:var(--muted); padding:56px 20px; font-size:14px}
-.empty .ic{font-size:40px; display:block; margin-bottom:12px; opacity:.5}
+.empty{text-align:center; color:var(--muted); padding:56px 20px; font-size:0.875rem}
+.empty .ic{font-size:2.5rem; display:block; margin-bottom:12px; opacity:.5}
 
 .stat-row{display:flex; gap:10px; margin-bottom:14px}
 .stat{flex:1; background:var(--surface); border:1px solid var(--line);
   border-radius:12px; padding:13px 10px; text-align:center}
-.stat b{display:block; font-size:24px; line-height:1.2}
-.stat span{font-size:11.5px; color:var(--muted)}
+.stat b{display:block; font-size:1.5rem; line-height:1.2}
+.stat span{font-size:0.71875rem; color:var(--muted)}
 
 .backlink{
-  background:none; border:0; color:var(--accent); font:inherit; font-size:14px;
+  background:none; border:0; color:var(--accent); font:inherit; font-size:0.875rem;
   padding:6px 0; margin-bottom:6px; cursor:pointer;
 }
 
 /* 図のキャプション */
-.dia-cap{font-size:12.5px; color:var(--muted); margin:2px 0 0}
+.dia-cap{font-size:0.78125rem; color:var(--muted); margin:2px 0 0}
 
 /* 目次の進捗バー */
 .toc-bar{display:block; height:3px; background:var(--surface2); border-radius:2px; margin-top:6px}
@@ -227,47 +276,47 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
   padding:16px; border-radius:14px; margin-bottom:12px; cursor:pointer; font:inherit;
   background:var(--accent-soft); border:1px solid var(--accent); color:var(--text);
 }
-.mx-entry .ic{font-size:26px; flex:0 0 auto}
-.mx-entry b{display:block; font-size:16px}
-.mx-entry span{font-size:12.5px; color:var(--muted)}
+.mx-entry .ic{font-size:1.625rem; flex:0 0 auto}
+.mx-entry b{display:block; font-size:1rem}
+.mx-entry span{font-size:0.78125rem; color:var(--muted)}
 
 .mx-wrap{overflow-x:auto; margin:0 -16px; padding:0 16px 6px; scrollbar-width:none}
 .mx-wrap::-webkit-scrollbar{display:none}
 .mx{display:grid; grid-template-columns:52px repeat(10, 50px); gap:3px; width:max-content}
 .mx-h, .mx-v{
-  font-size:13px; font-family:Georgia,serif; color:var(--accent);
+  font-size:0.8125rem; font-family:Georgia,serif; color:var(--accent);
   display:flex; align-items:center; justify-content:center; height:40px;
 }
-.mx-v{position:sticky; left:0; z-index:2; background:var(--bg); height:46px; font-size:12.5px}
+.mx-v{position:sticky; left:0; z-index:2; background:var(--bg); height:46px; font-size:0.78125rem}
 .mx-corner{position:sticky; left:0; z-index:3; background:var(--bg)}
 .mx-cell{
   height:46px; border-radius:7px; border:1px solid var(--line); background:var(--surface);
-  color:var(--text); font:inherit; font-size:10.5px; line-height:1.15; cursor:pointer;
+  color:var(--text); font:inherit; font-size:0.65625rem; line-height:1.15; cursor:pointer;
   display:flex; align-items:center; justify-content:center; text-align:center; padding:2px;
 }
-.mx-cell.hidden{color:var(--muted); font-size:15px; background:var(--surface2); border-style:dashed}
+.mx-cell.hidden{color:var(--muted); font-size:0.9375rem; background:var(--surface2); border-style:dashed}
 .mx-cell.none{background:none; border-color:transparent; cursor:default}
 .mx-cell.done{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:700}
 .mx-cell.sel{outline:2px solid var(--accent); outline-offset:1px}
 
 .mx-detail{margin-top:14px}
 .mx-detail .formula{
-  font-family:Georgia,serif; font-size:17px; text-align:center; margin-bottom:4px;
+  font-family:Georgia,serif; font-size:1.0625rem; text-align:center; margin-bottom:4px;
 }
 .mx-detail .formula b{color:var(--accent)}
-.mx-detail .cores{font-size:12px; color:var(--muted); text-align:center; margin-bottom:14px}
-.mx-detail .mean{font-size:19px; font-weight:700; text-align:center; margin-bottom:6px}
-.mx-detail .note{font-size:13px; color:var(--accent); text-align:center; margin-bottom:14px}
+.mx-detail .cores{font-size:0.75rem; color:var(--muted); text-align:center; margin-bottom:14px}
+.mx-detail .mean{font-size:1.1875rem; font-weight:700; text-align:center; margin-bottom:6px}
+.mx-detail .note{font-size:0.8125rem; color:var(--accent); text-align:center; margin-bottom:14px}
 .mx-detail .sample{
-  font-family:Georgia,serif; font-size:16px; text-align:center;
+  font-family:Georgia,serif; font-size:1rem; text-align:center;
   padding:12px; background:var(--surface2); border-radius:10px; margin-bottom:14px;
 }
 .mx-links{display:flex; gap:9px}
-.mx-links button{flex:1; font-size:13px; padding:10px; justify-content:center}
+.mx-links button{flex:1; font-size:0.8125rem; padding:10px; justify-content:center}
 
 /* 文法ページ：見出し語が長いので少し小さく、日本語名を添える */
 .hero .word{overflow-wrap:anywhere}
-.hero .wordname{font-size:14px; color:var(--muted); margin-top:6px; letter-spacing:.04em}
+.hero .wordname{font-size:0.875rem; color:var(--muted); margin-top:6px; letter-spacing:.04em}
 
 
 /* ---------- 句動詞マトリクス（750マス対応） ---------- */
@@ -300,23 +349,23 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .vchips::-webkit-scrollbar{display:none}
 .vchip{
   flex:0 0 auto; padding:7px 14px; border-radius:999px; border:1px solid var(--line);
-  background:var(--surface); color:var(--muted); font:inherit; font-size:14px;
+  background:var(--surface); color:var(--muted); font:inherit; font-size:0.875rem;
   font-family:Georgia,serif; cursor:pointer; white-space:nowrap;
 }
 .vchip[aria-current="true"]{background:var(--accent); border-color:var(--accent);
   color:#fff; font-weight:700}
-.vchip .n{font-size:10px; opacity:.7; margin-left:4px; font-family:inherit}
+.vchip .n{font-size:0.625rem; opacity:.7; margin-left:4px; font-family:inherit}
 
-.pv-head{font-size:13px; color:var(--muted); margin:6px 0 10px}
-.pv-head b{color:var(--text); font-family:Georgia,serif; font-size:16px}
+.pv-head{font-size:0.8125rem; color:var(--muted); margin:6px 0 10px}
+.pv-head b{color:var(--text); font-family:Georgia,serif; font-size:1rem}
 .pv-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
 .pv-card{
   border:1px solid var(--line); background:var(--surface); border-radius:11px;
   padding:9px 10px; text-align:left; font:inherit; cursor:pointer; color:var(--text);
   min-height:58px; display:flex; flex-direction:column; justify-content:center; gap:2px;
 }
-.pv-card .p{font-family:Georgia,serif; font-size:15px; color:var(--accent)}
-.pv-card .m{font-size:12.5px; color:var(--muted); line-height:1.3}
+.pv-card .p{font-family:Georgia,serif; font-size:0.9375rem; color:var(--accent)}
+.pv-card .m{font-size:0.78125rem; color:var(--muted); line-height:1.3}
 .pv-card.hidden{border-style:dashed}
 .pv-card.hidden .m{color:var(--muted); opacity:.6}
 .pv-card.done{background:var(--accent-soft); border-color:var(--accent)}
@@ -327,24 +376,24 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .seg{display:flex; gap:6px; margin-bottom:12px}
 .seg button{
   flex:1; padding:10px 6px; border-radius:10px; border:1px solid var(--line);
-  background:var(--surface); color:var(--muted); font:inherit; font-size:13px; cursor:pointer;
+  background:var(--surface); color:var(--muted); font:inherit; font-size:0.8125rem; cursor:pointer;
   text-align:center; line-height:1.35;
 }
 .seg button[aria-current="true"]{background:var(--accent); border-color:var(--accent);
   color:#fff; font-weight:700}
-.seg button small{display:block; font-size:10.5px; opacity:.75; font-weight:400}
+.seg button small{display:block; font-size:0.65625rem; opacity:.75; font-weight:400}
 
 .v-word{
-  font-family:Georgia,serif; font-size:34px; text-align:center; line-height:1.2;
+  font-family:Georgia,serif; font-size:2.125rem; text-align:center; line-height:1.2;
   overflow-wrap:anywhere;
 }
-.v-ipa{font-size:13px; color:var(--muted); text-align:center; margin-top:4px}
-.v-rank{font-size:11px; color:var(--muted); text-align:center; margin-top:6px}
-.v-ja{font-size:24px; font-weight:700; text-align:center; line-height:1.35}
+.v-ipa{font-size:0.8125rem; color:var(--muted); text-align:center; margin-top:4px}
+.v-rank{font-size:0.6875rem; color:var(--muted); text-align:center; margin-top:6px}
+.v-ja{font-size:1.5rem; font-weight:700; text-align:center; line-height:1.35}
 
 .v-input{
   width:100%; padding:14px; border-radius:12px; border:1px solid var(--line);
-  background:var(--surface); color:var(--text); font:inherit; font-size:20px;
+  background:var(--surface); color:var(--text); font:inherit; font-size:1.25rem;
   font-family:Georgia,serif; text-align:center;
 }
 .v-input:focus{outline:2px solid var(--accent); outline-offset:-1px}
@@ -352,10 +401,10 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
 .v-input.ng{border-color:var(--ng); background:var(--ng-soft)}
 
 .v-ex{
-  font-family:Georgia,serif; font-size:15.5px; line-height:1.6; text-align:center;
+  font-family:Georgia,serif; font-size:0.96875rem; line-height:1.6; text-align:center;
   padding:12px; background:var(--surface2); border-radius:10px; margin-top:10px;
 }
-.v-ex .ja{font-family:inherit; font-size:13px; color:var(--muted); margin-top:5px}
+.v-ex .ja{font-family:inherit; font-size:0.8125rem; color:var(--muted); margin-top:5px}
 .v-ex b{color:var(--accent)}
 .v-blank{color:var(--accent); letter-spacing:.1em}
 
@@ -364,6 +413,85 @@ h1{font-size:19px; margin:4px 0 14px; letter-spacing:.02em}
   display:flex; align-items:center; gap:14px; margin-bottom:12px;
   background:var(--surface2); border-color:var(--line);
 }
-.btn.install .ic{font-size:24px; flex:0 0 auto}
-.btn.install b{display:block; font-size:15px}
-.btn.install span span{font-size:12.5px; color:var(--muted)}
+.btn.install .ic{font-size:1.5rem; flex:0 0 auto}
+.btn.install b{display:block; font-size:0.9375rem}
+.btn.install span span{font-size:0.78125rem; color:var(--muted)}
+
+/* ---------- 画面の見出し行（右端に設定） ---------- */
+.head{display:flex; align-items:center; gap:10px; margin:4px 0 14px}
+.head h1{margin:0; flex:1 1 auto; min-width:0}
+.icon-btn{
+  flex:0 0 auto; width:40px; height:40px; border-radius:11px;
+  border:1px solid var(--line); background:var(--surface); color:var(--muted);
+  font:inherit; font-size:1.125rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+.icon-btn:active{transform:scale(.96)}
+
+/* ---------- 設定・確認のシート ---------- */
+.overlay{
+  position:fixed; inset:0; z-index:60; display:flex; align-items:flex-end; justify-content:center;
+  background:rgba(0,0,0,.42);
+  padding:calc(16px + var(--sat)) 12px calc(12px + var(--sab));
+  animation:ov-in .16s ease-out;
+}
+@keyframes ov-in{from{opacity:0}to{opacity:1}}
+.sheet{
+  width:100%; max-width:560px; max-height:100%; overflow-y:auto;
+  background:var(--bg); border:1px solid var(--line); border-radius:18px;
+  padding:18px 16px calc(18px + var(--sab));
+  animation:sh-in .2s cubic-bezier(.2,.9,.3,1);
+}
+@keyframes sh-in{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.sheet-head{display:flex; align-items:center; gap:10px; margin-bottom:6px}
+.sheet-head h2{margin:0; flex:1; font-size:1.125rem}
+.set-group{margin-top:18px}
+.set-label{font-size:0.8125rem; color:var(--muted); margin-bottom:8px}
+.set-label b{color:var(--text); font-weight:400}
+
+.swatches{display:flex; gap:10px}
+.swatch{
+  width:44px; height:44px; border-radius:50%; border:2px solid transparent;
+  cursor:pointer; padding:3px; background:none;
+  display:flex; align-items:center; justify-content:center;
+}
+.swatch i{display:block; width:100%; height:100%; border-radius:50%}
+.swatch[aria-current="true"]{border-color:var(--text)}
+.swatch span{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+
+.set-preview{
+  margin-top:8px; padding:12px 14px; border-radius:12px;
+  background:var(--surface); border:1px solid var(--line);
+}
+.set-preview .en{font-family:Georgia,serif; font-size:1rem}
+.set-preview .en em{font-style:normal; color:var(--accent); font-weight:700}
+.set-preview .ja{font-size:0.8125rem; color:var(--muted)}
+.set-preview .tag{
+  display:inline-block; margin-top:8px; padding:4px 12px; border-radius:999px;
+  background:var(--accent); color:var(--bg); font-size:0.75rem; font-weight:700;
+}
+.btn.danger{border-color:var(--ng); color:var(--ng); text-align:center}
+
+/* ---------- 検索 ---------- */
+.searchbox{position:relative; margin:0 0 16px}
+.searchbox .mag{
+  position:absolute; left:13px; top:50%; transform:translateY(-50%);
+  font-size:0.875rem; opacity:.55; pointer-events:none;
+}
+.searchbox input{
+  width:100%; padding:12px 38px; border-radius:12px;
+  border:1px solid var(--line); background:var(--surface); color:var(--text);
+  font:inherit; font-size:0.9375rem;
+}
+.searchbox input:focus{outline:2px solid var(--accent); outline-offset:-1px}
+.searchbox input::-webkit-search-cancel-button{display:none}
+.searchbox .clear{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  width:32px; height:32px; border:0; border-radius:8px; background:none;
+  color:var(--muted); font:inherit; font-size:0.875rem; cursor:pointer;
+}
+
+/* セグメントが多いときは横に流す */
+.seg.scroll{overflow-x:auto; scrollbar-width:none; margin:0 -16px 12px; padding:0 16px}
+.seg.scroll::-webkit-scrollbar{display:none}
+.seg.scroll button{flex:0 0 auto; padding:9px 15px}

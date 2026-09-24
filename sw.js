@@ -17,7 +17,8 @@
    名前を変えると全ファイルを取り直すので、
    「どうも古いままだ」というときの最終手段として日付を上げてもよい。
    ============================================================ */
-const CACHE = 'core-image-english-v1';
+const PREFIX = 'core-image-english-';
+const CACHE = PREFIX + 'v1';
 
 const ASSETS = [
   './',
@@ -54,8 +55,10 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
+    /* 同じオリジン（sora3141.github.io）の他のアプリもキャッシュを持っているので、
+       自分の接頭辞のものだけを消す */
     const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
+    await Promise.all(keys.filter(k => k.startsWith(PREFIX) && k !== CACHE).map(k => caches.delete(k)));
     await self.clients.claim();
   })());
 });

@@ -938,7 +938,7 @@ function viewSettings(){
         <button class="btn danger" data-reset>記録をすべて消す</button>
       </div>
 
-      <p class="set-credit"><a href="/">T.OFO のアプリ</a></p>
+      <p class="set-credit"><a href="/">T.OF... のアプリ</a></p>
     </div></div>`;
 }
 

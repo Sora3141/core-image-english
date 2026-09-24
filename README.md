@@ -4,7 +4,7 @@
 
 ### ▶ https://sora3141.github.io/core-image-english/
 
-制作: [T.OFO](https://sora3141.github.io/)
+制作: [T.OF...](https://sora3141.github.io/)
 
 スマホのブラウザでそのまま使えます。進捗は端末内に保存されます。
 

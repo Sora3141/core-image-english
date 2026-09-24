@@ -419,6 +419,24 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 .btn.install b{display:block; font-size:0.9375rem}
 .btn.install span span{font-size:0.78125rem; color:var(--muted)}
 
+/* ---------- 共有（設定の中） ---------- */
+.btn.share{display:flex; align-items:center; justify-content:center; gap:8px}
+.btn.share .ic{font-size:1.0625rem}
+
+/* ---------- webapp-kit（追加の手順・コピーしました）を
+   アプリの配色に合わせる。変数を参照しているのでライト／ダークの両方に付いてくる ---------- */
+:root{
+  --wak-bg: var(--bg);
+  --wak-fg: var(--text);
+  --wak-muted: var(--muted);
+  --wak-line: var(--line);
+  --wak-accent: var(--accent);
+  --wak-accent-fg: var(--bg);
+  --wak-radius: 18px;
+}
+/* 「コピーしました」は下のタブバーに重ならない高さに出す */
+.wak-toast{bottom:calc(var(--tab-h) + var(--sab) + 12px)}
+
 /* ---------- 画面の見出し行（右端に設定） ---------- */
 .head{display:flex; align-items:center; gap:10px; margin:4px 0 14px}
 .head h1{margin:0; flex:1 1 auto; min-width:0}
@@ -580,3 +598,11 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 
 /* テストの答え合わせで「次へ」の下に出す絵 */
 .v-figure{margin-top:14px; margin-bottom:0}
+
+/* 動きを減らす設定の端末では、画面の出入りのアニメーションを止める */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.01ms !important; animation-iteration-count:1 !important;
+    transition-duration:.01ms !important; scroll-behavior:auto !important;
+  }
+}

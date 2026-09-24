@@ -112,7 +112,8 @@ function play(kind){
 /* 震えと音は必ず一緒に出す。片方だけ呼ぶと、設定を切ったときに
    手ごたえが半分だけ残って、壊れたように感じる */
 function feedback(ok){ buzz(ok); play(ok ? 'ok' : 'ng'); }
-function save(){ localStorage.setItem(KEY, JSON.stringify(store)); }
+/* プライベートモードや容量超過で書けなくても、学習は止めない */
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(store)); } catch(e){} }
 function rec(id){
   return store.rec[id] || (store.rec[id] = { r:0, w:0, box:0, due:0 });
 }
@@ -246,6 +247,11 @@ function viewBookList(){
   return `
     ${headRow('教科書')}
     ${searchBox()}
+    <button class="btn install" data-wak="install"${window.WebAppKit && WebAppKit.canInstall() ? '' : ' hidden'}>
+      <span class="ic">📲</span>
+      <span><b>アプリとして追加</b>
+      <span>ホーム画面から開けて、電波がなくても使えます</span></span>
+    </button>
 
     <button class="mx-entry" data-open="${MATRIX_ID}">
       <span class="ic">▦</span>
@@ -938,6 +944,12 @@ function viewSettings(){
         <button class="btn danger" data-reset>記録をすべて消す</button>
       </div>
 
+      <div class="set-group">
+        <div class="set-label">このアプリを人に教える</div>
+        <button class="btn share" data-wak="share">
+          <span class="ic">🔗</span><span>共有する</span></button>
+      </div>
+
       <p class="set-credit"><a href="/">T.OF... のアプリ</a></p>
     </div></div>`;
 }
@@ -1102,7 +1114,7 @@ document.addEventListener('click', ev => {
     '[data-start],[data-startover],[data-startwrong],[data-goto],[data-quizref],[data-jump],'+
     '[data-quizphrasal],'+
     '[data-cell],[data-verb],[data-vband],[data-vmode],[data-vstart],[data-vpick],'+
-    '[data-vcheck],[data-vnext],[data-vstartwrong],[data-install],'+
+    '[data-vcheck],[data-vnext],[data-vstartwrong],'+
     '[data-panel],[data-close],[data-set],[data-reset],[data-reset-yes],[data-clearq],'+
     '[data-scope],[data-cat],[data-vtab],[data-word],[data-vfilter],[data-clearvq]');
   if(!t) return;
@@ -1132,12 +1144,6 @@ document.addEventListener('click', ev => {
     store.rec = {}; store.cells = {}; store.last = null; save();
     state.panel = null; state.quiz = null; state.vocab = null;
     state.tab = 'book'; state.page = null; render(); return;
-  }
-
-  if(d.install !== undefined){
-    const p = window.__installPrompt;
-    if(p){ window.__installPrompt = null; p.prompt(); }
-    render(); return;
   }
 
   if(d.tab !== undefined){ state.tab = d.tab; state.page = null;

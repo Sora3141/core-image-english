@@ -3,17 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>コアイメージ英語</title>
+<meta name="description" content="英単語・中学英文法・句動詞を、丸暗記ではなくコアイメージから学ぶスマホ向け学習アプリ。on は「上」ではなく【接触】。電波がなくても使えます。">
+<title>コアイメージ英語 — イメージでつかむ英単語・文法・句動詞</title>
+
+<!-- 共有したときのカード（OGP） -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="コアイメージ英語">
+<meta property="og:title" content="コアイメージ英語 — イメージでつかむ英単語・文法・句動詞">
+<meta property="og:description" content="英単語・中学英文法・句動詞を、丸暗記ではなくコアイメージから学ぶスマホ向け学習アプリ。on は「上」ではなく【接触】。">
+<meta property="og:url" content="https://sora3141.github.io/core-image-english/">
+<meta property="og:image" content="https://sora3141.github.io/core-image-english/icons/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
 
 <!-- アプリとしてインストールするための設定 -->
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" href="./manifest.webmanifest">
 <meta id="tc" name="theme-color" content="#f6f5f2">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="コア英語">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
 
 <script>
 /* 最初の描画より前に設定を反映する。あとから当てると一瞬もとの見た目が出る */
@@ -27,7 +40,8 @@
   }catch(e){}
 })();
 </script>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="./webapp-kit/webapp-kit.css">
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main id="view"></main>
@@ -38,31 +52,32 @@
   <button data-tab="vocab"  aria-selected="false"><span class="ic">🔤</span>単語</button>
   <button data-tab="review" aria-selected="false"><span class="ic">🔁</span>復習</button>
 </nav>
-<script src="diagrams.js"></script>
-<script src="data/particles.js"></script>
-<script src="data/verbs.js"></script>
-<script src="data/grammar.js"></script>
-<script src="data/words.js"></script>
-<script src="data/phrasals.js"></script>
-<script src="data/vocab.js"></script>
-<script src="data/vocab-senses.js"></script>
-<script src="data/vocab-art.js"></script>
-<script src="data/exercises.js"></script>
-<script src="app.js"></script>
+<script src="./diagrams.js"></script>
+<script src="./data/particles.js"></script>
+<script src="./data/verbs.js"></script>
+<script src="./data/grammar.js"></script>
+<script src="./data/words.js"></script>
+<script src="./data/phrasals.js"></script>
+<script src="./data/vocab.js"></script>
+<script src="./data/vocab-senses.js"></script>
+<script src="./data/vocab-art.js"></script>
+<script src="./data/exercises.js"></script>
+<script src="./webapp-kit/webapp-kit.js"></script>
+<script src="./app.js"></script>
 <script>
 /* オフラインでも学習を続けられるように Service Worker を登録する */
 if('serviceWorker' in navigator){
-  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
 }
-/* Chrome がインストール可能と判断したら、教科書タブに追加ボタンを出す */
-addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  window.__installPrompt = e;
-  if(typeof render === 'function' && state.tab === 'book' && !state.page) render();
+/* 「アプリにする」「共有」は webapp-kit に任せる。
+   Chrome ではインストール画面、iPhone / Mac の Safari では追加の手順を出す。
+   インストールできる状態が変わったら、教科書の目次にある追加ボタンを出し直す */
+WebAppKit.init({
+  title: 'コアイメージ英語',
+  text: '英単語・文法・句動詞を、丸暗記ではなくコアイメージから学べるアプリ'
 });
-addEventListener('appinstalled', () => {
-  window.__installPrompt = null;
-  if(typeof render === 'function') render();
+WebAppKit.onChange(() => {
+  if(typeof render === 'function' && state.tab === 'book' && !state.page) render();
 });
 </script>
 </body>

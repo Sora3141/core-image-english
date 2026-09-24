@@ -960,6 +960,9 @@ function viewSettings(){
           <span class="ic">🔗</span><span>共有する</span></button>
       </div>
 
+      <p class="set-src">単語リストと頻度順：<a href="https://www.newgeneralservicelist.com/" target="_blank" rel="noopener">New General Service List</a>（Browne, C., Culligan, B. &amp; Phillips, J.）<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ja" target="_blank" rel="noopener">CC BY-SA 4.0</a>。上位1000語を抜き出し、訳・例文・発音記号を加えた単語データも CC BY-SA 4.0 です。<br>
+        発音記号：<a href="https://github.com/open-dict-data/ipa-dict" target="_blank" rel="noopener">ipa-dict</a>（MIT）</p>
+
       <p class="set-credit"><a href="/">T.OF... のアプリ</a></p>
     </div></div>`;
 }

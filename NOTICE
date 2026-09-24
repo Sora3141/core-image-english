@@ -1,22 +1,26 @@
 コアイメージ英語 ── 第三者データの表示
 
 本リポジトリのコード、および本プロジェクトが書いたテキスト（教科書ページ・演習・
-句動詞・日本語訳・例文）は MIT License（LICENSE を参照）で提供されます。
+句動詞・data/vocab-senses.js の例文と豆知識）は MIT License（LICENSE を参照）で
+提供されます。
 
-これに加えて、data/vocab.js には以下の第三者データが含まれます。
+data/vocab.js は以下の第三者データをもとに作ったもので、ファイル全体を
+Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) で
+提供します。https://creativecommons.org/licenses/by-sa/4.0/
 
 1. 単語リストと頻度順位
-   New General Service List (NGSL)
-   Browne, C., Culligan, B. & Phillips, J.
+   New General Service List by Browne, C., Culligan, B., and Phillips, J. is
+   licensed under a Creative Commons Attribution-ShareAlike 4.0 International
+   License.
    https://www.newgeneralservicelist.com/
-   Licensed under Creative Commons Attribution 3.0 (CC BY 3.0)
-   https://creativecommons.org/licenses/by/3.0/
 
-   本プロジェクトでは NGSL 2801語のうち、頻度順の上位1000語を抜き出して
-   使用しています。日本語訳と例文は本プロジェクトで付与したものであり、
-   NGSL の原著作者によるものではありません。
+   本プロジェクトでは NGSL 2801語のうち、頻度順の上位1000語を抜き出し、
+   日本語訳・例文・例文訳・発音記号・コアページ id を加えています。
+   日本語訳と例文は本プロジェクトで付与したものであり、NGSL の原著作者による
+   ものではありません。NGSL の各行と同じ配列に入っているため、これらも
+   CC BY-SA 4.0 で提供します。
 
-2. 発音記号（IPA）
+2. 発音記号（IPA、en_US）
    open-dict-data/ipa-dict
    https://github.com/open-dict-data/ipa-dict
-   Licensed under the MIT License
+   Licensed under the MIT License. Copyright (c) 2016 dohliam

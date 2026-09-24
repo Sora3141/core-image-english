@@ -2,11 +2,18 @@
    語彙 1000 ── NGSL（New General Service List）頻度順の上位1000語
    [word, 訳, 順位, 例文, 例文訳, IPA, コアページid（無ければ 0）]
 
-   出典
-   - 単語リストと頻度順: NGSL by Browne, C., Culligan, B. & Phillips, J.
-     https://www.newgeneralservicelist.com/  ── CC BY 3.0
-   - 発音記号: open-dict-data/ipa-dict ── MIT
-   - 日本語訳・例文: ../ngsl-vocab-quiz より（本プロジェクトで付与したもの）
+   出典とライセンス ── このファイル全体を CC BY-SA 4.0 とする
+   - 単語リストと頻度順: New General Service List by Browne, C., Culligan, B.,
+     and Phillips, J. is licensed under a Creative Commons Attribution-ShareAlike
+     4.0 International License.
+     https://www.newgeneralservicelist.com/
+     https://creativecommons.org/licenses/by-sa/4.0/
+   - 発音記号: open-dict-data/ipa-dict（en_US）── MIT, Copyright (c) 2016 dohliam
+     https://github.com/open-dict-data/ipa-dict
+   - 変更点: NGSL の上位1000語を抜き出し、日本語訳・例文・例文訳・発音記号・
+     コアページ id を加えた。訳と例文は ../ngsl-vocab-quiz より（本プロジェクトで
+     付与したもの）。NGSL の各行と同じ配列に入っているので、これらも
+     CC BY-SA 4.0 で提供する。
 
    教科書にコアページを持つ語には、その id を最後に入れてある。
    丸暗記ではなくコアから入れるようにするため。

@@ -325,10 +325,20 @@ DESIGN.md           設計メモ（決定事項・見送った案の記録）
 
 | 対象 | 出典 | ライセンス |
 |---|---|---|
-| 単語リストと頻度順（`data/vocab.js`） | [NGSL](https://www.newgeneralservicelist.com/) — Browne, C., Culligan, B. & Phillips, J. | CC BY 3.0 |
-| 発音記号（`data/vocab.js`） | [open-dict-data/ipa-dict](https://github.com/open-dict-data/ipa-dict) | MIT |
-| 日本語訳・例文（`data/vocab.js`） | 本プロジェクトで付与 | MIT |
+| 単語リストと頻度順（`data/vocab.js`） | [New General Service List](https://www.newgeneralservicelist.com/new-general-service-list) — Browne, C., Culligan, B. & Phillips, J. | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| 発音記号（`data/vocab.js`） | [open-dict-data/ipa-dict](https://github.com/open-dict-data/ipa-dict)（en_US）— Copyright (c) 2016 dohliam | MIT |
+| 日本語訳・例文（`data/vocab.js`） | 本プロジェクトで付与 | CC BY-SA 4.0（下記） |
+| 意味ごとの例文・豆知識（`data/vocab-senses.js`）、単語図（`data/vocab-art.js`） | 本プロジェクトで作成 | MIT |
 | 教科書・演習・句動詞の全テキスト | 本プロジェクトで作成 | MIT |
+
+NGSL の表記（公式サイトのとおり）:
+New General Service List by Browne, C., Culligan, B., and Phillips, J. is licensed under a
+[Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).
+
+**ShareAlike の範囲:** `data/vocab.js` は NGSL の各行に訳・例文・例文訳・発音記号・コアページ id を
+同じ配列で足したものなので、**ファイル全体を CC BY-SA 4.0** とします（訳と例文も含む）。
+別のファイルにある `data/vocab-senses.js`・`data/vocab-art.js` と、アプリのコードは NGSL を含まないので MIT のままです。
+アプリの設定画面のいちばん下にも、この出典を出しています。
 
 `data/vocab.js` は NGSL の上位1000語を抜き出したものです。
 元データの並びには2つの癖があります（`the` が1位ではなく1000位に置かれ、`I` が収録されていない）。
@@ -345,6 +355,6 @@ DESIGN.md           設計メモ（決定事項・見送った案の記録）
 
 ## License
 
-コードと、本プロジェクトが書いたテキスト（教科書・演習・句動詞・日本語訳・例文）は **MIT**。
-`data/vocab.js` に含まれる単語リストと頻度順は **CC BY 3.0**（NGSL）、
-発音記号は **MIT**（ipa-dict）です。上の表を参照してください。
+コードと、本プロジェクトが書いたテキスト（教科書・演習・句動詞・`data/vocab-senses.js`・`data/vocab-art.js`）は **MIT**（`LICENSE`）。
+`data/vocab.js` は NGSL をもとにしたデータなので、訳・例文を含めてファイル全体が **CC BY-SA 4.0** です。
+その中の発音記号は ipa-dict（**MIT**）から取っています。上の表と `NOTICE` を参照してください。

@@ -470,6 +470,9 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 .set-label b{color:var(--text); font-weight:400}
 /* 設定の補足。ラベルより弱く、次の項目とくっつかない程度に離す */
 .set-note{font-size:0.75rem; color:var(--muted); opacity:.75; margin:8px 0 0}
+/* 単語データの出典。表示の義務を満たせば十分なので、補足よりさらに控えめにする */
+.set-src{margin:26px 0 0; font-size:0.6875rem; line-height:1.7; color:var(--muted)}
+.set-src a{color:inherit}
 .set-credit{margin:22px 0 0; text-align:center; font-size:0.75rem}
 .set-credit a{color:var(--muted); text-decoration:none; display:inline-block; padding:10px 12px}
 .set-credit a:active{opacity:.6}

@@ -57,7 +57,7 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil((async () => {
-    /* 同じオリジン（sora3141.github.io）の他のアプリもキャッシュを持っているので、
+    /* 同じオリジン（t-of.github.io）の他のアプリもキャッシュを持っているので、
        自分の接頭辞のものだけを消す */
     const keys = await caches.keys();
     await Promise.all(keys.filter(k => k.startsWith(PREFIX) && k !== CACHE).map(k => caches.delete(k)));

@@ -4,9 +4,9 @@
 
 ## 🔗 リンク
 
-### ▶ https://sora3141.github.io/core-image-english/
+### ▶ https://t-of.github.io/core-image-english/
 
-制作: [T.OF...](https://sora3141.github.io/)
+制作: [T.OF...](https://t-of.github.io/)
 
 ## 遊び方
 

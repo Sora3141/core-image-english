@@ -40,6 +40,7 @@ function applySettings(){
   s.theme === 'auto'     ? r.removeAttribute('data-theme')  : r.setAttribute('data-theme', s.theme);
   s.accent === 'orange'  ? r.removeAttribute('data-accent') : r.setAttribute('data-accent', s.accent);
   r.style.setProperty('--fs', s.fs);
+  setAudioSession(s.sound);
   syncThemeColor();
 }
 
@@ -81,6 +82,14 @@ const TONES = {
                                   [783.99, .14, .12, .12], [1046.5, .21, .3, .13]] }
 };
 
+/* iPhone のマナーモードでも鳴らす（Safari 16.4 以降）。
+   何もしないと Web Audio は着信音と同じ扱いになり、マナーモードで消える。
+   'playback' にすると音楽アプリの曲が止まるので、音がオンのときだけにする */
+function setAudioSession(soundOn){
+  try { if(navigator.audioSession) navigator.audioSession.type = soundOn ? 'playback' : 'auto'; }
+  catch(e){ /* 対応していない */ }
+}
+
 let actx = null;
 function play(kind){
   if(!store.set.sound) return;
@@ -91,6 +100,7 @@ function play(kind){
     if(!AC) return;
     /* 鳴らす瞬間まで作らない。iOS は操作の中でしか音を出せないので、
        ここ（タップの処理の中）で作って起こすのがちょうどいい */
+    setAudioSession(true);
     actx = actx || new AC();
     if(actx.state === 'suspended') actx.resume();
     const now = actx.currentTime;

@@ -1093,6 +1093,10 @@ function render(){
   else if(state.tab === 'vocab')  html = state.vocab ? viewVocab()
                                        : state.vTab === 'book' ? viewWordbook() : viewVocab();
   else                            html = viewReview();
+  /* 別の画面に移るときは #view を作り直す。iPhone の Safari では、スクロールした要素の中身を
+     入れ替えて scrollTop を戻すと、押せる位置が前のスクロール分ずれたまま残り、
+     下のほうのボタン（演習の 4 つ目など）が押せなくなることがあるため */
+  if(screenKey() !== prevKey && viewEl) viewEl.replaceWith(viewEl.cloneNode(false));
   $('#view').innerHTML = html;
   $('#panel').innerHTML = state.panel === 'settings' ? viewSettings()
                         : state.panel === 'reset'    ? viewConfirmReset() : '';

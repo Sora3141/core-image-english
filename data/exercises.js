@@ -515,7 +515,7 @@ const EXERCISES = [
  choices:['went','got','came','took'], answer:1,
  explain:'良くなる変化は get。go は「正常から離れる」なので、良い方向には使えない。'},
 {id:'go-q6', kind:'fill', ref:'go', refSense:'go-leave', jumpTo:'off/off-cut',
- prompt:'My alarm ___ off at six every morning.', question:'空欄に入るのは?',
+ prompt:'My alarm ___ off at six this morning.', question:'空欄に入るのは?',
  choices:['came','went','took','put'], answer:1,
  explain:'go off は「分離して勢いよく出る」＝鳴り出す・爆発する。静かな状態から離れる感覚。'},
 {id:'go-q7', kind:'meaning', ref:'go', refSense:'go-proceed', jumpTo:'on/on-continue',

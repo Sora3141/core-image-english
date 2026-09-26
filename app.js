@@ -476,6 +476,17 @@ function renderSentence(e){
   return esc(e.prompt).replace('___', '<span class="blank">____</span>');
 }
 
+/* 間違えた答えでも別の意味の文として成り立つときは、正解の文と並べて意味を見せる（data/exercise-alts.js） */
+function compareMeaning(e, sel){
+  const a = EX_ALT[e.id];
+  if(!a || !a.alt[sel]) return '';
+  const fill = c => esc(e.prompt).replace('___', '<b>' + esc(c) + '</b>');
+  return `<div class="compare">
+    <p><span class="tag ok">正解</span><span class="en">${fill(e.choices[e.answer])}</span><span class="ja">${esc(a.ja)}</span></p>
+    <p><span class="tag ng">選んだ答え</span><span class="en">${fill(e.choices[sel])}</span><span class="ja">${esc(a.alt[sel])}</span></p>
+  </div>`;
+}
+
 function viewQuiz(){
   const q = state.quiz;
   if(!q) return viewQuizStart();
@@ -509,6 +520,7 @@ function viewQuiz(){
       <div class="card" style="margin-top:14px">
         <div class="verdict ${ok ? 'ok' : 'ng'}" role="status" aria-live="polite">${
           ok ? '◎ 正解' : '✗ 不正解'}</div>
+        ${!ok ? compareMeaning(e, q.sel) : ''}
         <p class="explain">${esc(e.explain)}</p>
         <button class="linkto" data-goto="${(e.jumpTo || e.ref + '/' + e.refSense).split('/')[0]}"
           data-sense="${(e.jumpTo || e.ref + '/' + e.refSense).split('/')[1]}">
@@ -518,12 +530,33 @@ function viewQuiz(){
         ${q.i + 1 < q.list.length ? '次へ' : '結果を見る'}</button></div>` : ''}`;
 }
 
+/* 達成度の小さなドーナツ。parts は [数, 色の変数, ラベル]、先頭を真ん中の % にする */
+function donut(parts){
+  const total = parts.reduce((n, p) => n + p[0], 0) || 1;
+  const live = parts.filter(p => p[0]);
+  let at = 0;
+  const stops = live.map(([n, c]) => {
+    const a = at, b = at += n / total * 360, g = live.length > 1 ? 2 : 0;
+    return `var(${c}) ${a}deg ${b - g}deg, var(--surface) ${b - g}deg ${b}deg`;
+  }).join(',') || 'var(--line) 0deg 360deg';
+  return `<div class="donut-card">
+    <div class="donut" style="background:conic-gradient(${stops})" role="img"
+      aria-label="${parts.map(p => p[2] + ' ' + p[0]).join('、')}">
+      <b>${Math.round(parts[0][0] / total * 100)}<small>%</small></b></div>
+    <ul class="donut-legend">${parts.map(([n, c, l]) =>
+      `<li><i style="background:var(${c})"></i>${l}<b>${n}</b></li>`).join('')}</ul>
+  </div>`;
+}
+const recParts = ids => {
+  const t = ids.map(id => store.rec[id] || {});
+  const ok = t.filter(r => r.r > 0).length, ng = t.filter(r => !(r.r > 0) && r.w > 0).length;
+  return [[ok, '--ok', '正解済み'], [ng, '--ng', '間違えたまま'], [ids.length - ok - ng, '--line', 'まだ解いていない']];
+};
+
 function viewQuizStart(){
   const now = Date.now();
   const scoped  = EXERCISES.filter(inScope);
   const due     = scoped.filter(e => { const t = store.rec[e.id]; return !t || t.due <= now; }).length;
-  const learned = scoped.filter(e => (store.rec[e.id]||{}).r > 0).length;
-  const pct = scoped.length ? Math.round(learned / scoped.length * 100) : 0;
   return `
     ${headRow('演習')}
     <p class="sub">誤答は「コアを取り違えたら選ぶもの」だけを並べています</p>
@@ -531,12 +564,10 @@ function viewQuizStart(){
     <div class="seg scroll">${SCOPES.map(s => `<button data-scope="${s.id}"
       aria-current="${s.id === state.scope}">${s.label}</button>`).join('')}</div>
 
-    <div class="progress"><i style="width:${pct}%"></i></div>
-    <p class="sub" style="margin:-10px 0 14px">${learned} / ${scoped.length} 問 正解済み</p>
+    ${donut(recParts(scoped.map(e => e.id)))}
 
     <div class="stat-row">
       <div class="stat"><b>${due}</b><span>いま出題できる</span></div>
-      <div class="stat"><b>${learned}</b><span>正解済み</span></div>
       <div class="stat"><b>${scoped.length}</b><span>この範囲</span></div>
     </div>
     ${due ? `<button class="btn primary" data-start>${Math.min(due, sessionSize())}問はじめる</button>`
@@ -597,14 +628,13 @@ function viewVocabStart(){
   const now = Date.now();
   const band = VOCAB.filter(w => bandOf(w) === state.vBand);
   const due  = band.filter(w => { const t = store.rec[vKey(w)]; return !t || t.due <= now; }).length;
-  const learned = VOCAB.filter(w => (store.rec[vKey(w)]||{}).r > 0).length;
   const withPage = band.filter(w => w[6]).length;
   return `
     ${headRow('単語')}
     ${vocabTabs()}
     <p class="sub">NGSL 頻度順の上位1000語</p>
+    ${donut(recParts(VOCAB.map(vKey)))}
     <div class="stat-row">
-      <div class="stat"><b>${learned}<span style="font-size:14px;color:var(--muted)">/1000</span></b><span>正解済み</span></div>
       <div class="stat"><b>${due}</b><span>出題できる</span></div>
       <div class="stat"><b>${withPage}</b><span>コアページあり</span></div>
     </div>

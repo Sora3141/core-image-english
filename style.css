@@ -235,6 +235,13 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 .verdict{font-size:1rem; font-weight:700; margin-bottom:8px}
 .verdict.ok{color:var(--ok)} .verdict.ng{color:var(--ng)}
 .explain{font-size:0.90625rem; line-height:1.8; margin:0 0 14px}
+.compare{margin:0 0 12px; padding:10px 12px; background:var(--surface2); border-radius:10px}
+.compare p{margin:0; display:flex; flex-direction:column; gap:2px}
+.compare p + p{margin-top:10px}
+.compare .tag{font-size:0.75rem; font-weight:700}
+.compare .tag.ok{color:var(--ok)} .compare .tag.ng{color:var(--ng)}
+.compare .en{font-family:Georgia,serif; font-size:1rem}
+.compare .ja{font-size:0.875rem; color:var(--muted)}
 .linkto{
   display:inline-flex; align-items:center; gap:7px;
   color:var(--accent); font-size:0.84375rem; font-weight:700;
@@ -254,6 +261,17 @@ h1{font-size:1.1875rem; margin:4px 0 14px; letter-spacing:.02em}
 .empty{text-align:center; color:var(--muted); padding:56px 20px; font-size:0.875rem}
 .empty .ic{font-size:2.5rem; display:block; margin-bottom:12px; opacity:.5}
 
+.donut-card{display:flex; align-items:center; gap:18px; margin-bottom:14px; padding:14px 16px;
+  background:var(--surface); border:1px solid var(--line); border-radius:14px}
+.donut{flex:none; position:relative; width:84px; height:84px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center}
+.donut::before{content:''; position:absolute; inset:12px; border-radius:50%; background:var(--surface)}
+.donut b{position:relative; font-size:1.25rem}
+.donut b small{font-size:0.75rem; color:var(--muted); margin-left:1px}
+.donut-legend{list-style:none; margin:0; padding:0; flex:1; min-width:0; font-size:0.8125rem}
+.donut-legend li{display:flex; align-items:center; gap:8px; padding:3px 0}
+.donut-legend i{flex:none; width:10px; height:10px; border-radius:3px}
+.donut-legend b{margin-left:auto; font-variant-numeric:tabular-nums}
 .stat-row{display:flex; gap:10px; margin-bottom:14px}
 .stat{flex:1; background:var(--surface); border:1px solid var(--line);
   border-radius:12px; padding:13px 10px; text-align:center}
